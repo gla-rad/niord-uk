@@ -1,9 +1,12 @@
 /wildfly-*
 target/
+niord-dk-web/overlays/
 .settings
 .project
 .classpath
+private/
 *~
 .DS_Store
 .idea
 *.iml
+/org.niord.core.aton.AtonNode/
