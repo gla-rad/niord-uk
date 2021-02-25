@@ -2,7 +2,7 @@
   {
     "key"         : "niord.home",
     "description" : "The root directory for the Niord application",
-    "value"       : "${user.home}/.niord-dk",
+    "value"       : "${NIORD_HOME}",
     "web"         : false,
     "editable"    : true
   },
