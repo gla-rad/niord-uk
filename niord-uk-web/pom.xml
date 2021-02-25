@@ -18,7 +18,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd-MM-yyyy HH:mm 'UTC'</maven.build.timestamp.format>
         <niord-core.jar>niord-core-${project.version}.jar</niord-core.jar>
-        <niord-dk-promulgation.jar>niord-dk-promulgation-${project.version}.jar</niord-dk-promulgation.jar>
+        <niord-uk-promulgation.jar>niord-uk-promulgation-${project.version}.jar</niord-uk-promulgation.jar>
     </properties>
 
     <dependencies>
@@ -48,6 +48,11 @@
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-nw-import</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-eureka</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
 

@@ -21,6 +21,7 @@
         <module>niord-uk-promulgation</module>
         <module>niord-uk-aton-import</module>
         <module>niord-uk-nw-import</module>
+        <module>niord-uk-eureka</module>
     </modules>
 
 </project>
