@@ -4,13 +4,13 @@
 
     <parent>
         <groupId>org.niord</groupId>
-        <artifactId>niord-dk-parent</artifactId>
+        <artifactId>niord-uk-parent</artifactId>
         <version>2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>niord-dk-web</artifactId>
-    <name>Niord DK web application</name>
+    <artifactId>niord-uk-web</artifactId>
+    <name>Niord UK web application</name>
     <packaging>war</packaging>
 
     <properties>
@@ -37,17 +37,17 @@
         <!-- DK dependencies -->
         <dependency>
             <groupId>org.niord</groupId>
-            <artifactId>niord-dk-promulgation</artifactId>
+            <artifactId>niord-uk-promulgation</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
-            <artifactId>niord-dk-aton-import</artifactId>
+            <artifactId>niord-uk-aton-import</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
-            <artifactId>niord-dk-nw-import</artifactId>
+            <artifactId>niord-uk-nw-import</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
 

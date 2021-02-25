@@ -31,9 +31,9 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Unit tests for the light character parser service in Danish
+ * Unit tests for the light character parser service in English
  */
-public class DkLightCharacterTest {
+public class EnLightCharacterTest {
 
     private List<String> lights = Arrays.asList(
             "Fl(2) 20m 10s 12M ",
@@ -53,18 +53,18 @@ public class DkLightCharacterTest {
     public void parseLightCharacterFormatting() throws Exception {
         Configuration cfg = new Configuration(Configuration.getVersion());
         cfg.setLocalizedLookup(true);
-        cfg.setClassForTemplateLoading(DkLightCharacterTest.class, "/templates/aton/");
+        cfg.setClassForTemplateLoading(EnLightCharacterTest.class, "/templates/aton/");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setLocale(Locale.US);
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
-        Template template = cfg.getTemplate("light-character_da.ftl");
+        Template template = cfg.getTemplate("light-character_en.ftl");
         for (String l : lights) {
             Map<String, Object> data = new HashMap<>();
             data.put("lightModel", parser.parse(l));
             StringWriter result = new StringWriter();
             template.process(data, result);
-            System.out.println("*** DK " + l + "\t\t->\t\t" + LightCharacterService.trimResult(result.toString()));
+            System.out.println("*** UK " + l + "\t\t->\t\t" + LightCharacterService.trimResult(result.toString()));
         }
     }
 

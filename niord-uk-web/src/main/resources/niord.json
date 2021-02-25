@@ -30,7 +30,7 @@
   {
     "key"         : "modelLanguages",
     "description" : "The default message model languages",
-    "value"       : [ "da", "en" ],
+    "value"       : [ "en" ],
     "type"        : "json",
     "web"         : true,
     "editable"    : true
@@ -38,7 +38,7 @@
   {
     "key"         : "siteLanguages",
     "description" : "The languages of the website",
-    "value"       : [ "da", "en" ],
+    "value"       : [ "en" ],
     "type"        : "json",
     "web"         : true,
     "editable"    : true
@@ -46,7 +46,7 @@
   {
     "key"         : "numeralLanguages",
     "description" : "A mapping from the site languages to the corresponding Numeral.js language code",
-    "value"       : { "da" : "da-dk", "en": "en" },
+    "value"       : { "en": "en" },
     "type"        : "json",
     "web"         : true,
     "editable"    : true

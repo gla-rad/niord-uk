@@ -36,7 +36,7 @@ import static org.niord.core.util.NavWarnDateFormatter.Format.PLAIN;
  * Test formatting navigational warning dates
  */
 @SuppressWarnings("all")
-public class DkNavWarnDateFormatterTest {
+public class EnNavWarnDateFormatterTest {
 
     public List<DateIntervalVo> getDateIntervals() throws ParseException {
         List<DateIntervalVo> dateIntervals = new ArrayList<>();
@@ -60,7 +60,7 @@ public class DkNavWarnDateFormatterTest {
     @Test
     public void testDateFormatter() throws ParseException {
 
-        Locale locale = new Locale("da");
+        Locale locale = new Locale("en");
 
         // Replace positions with audio format
         ResourceBundle bundle = ResourceBundle.getBundle("template", locale);
