@@ -18,11 +18,20 @@ package org.niord.s125.services;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.niord.core.NiordApp;
-import org.niord.core.message.MessageService;
+import org.niord.core.aton.AtonNode;
+import org.niord.core.aton.AtonService;
+import org.niord.core.aton.vo.AtonNodeVo;
+import org.niord.core.geojson.GeoJsonUtils;
+import org.niord.core.geojson.JtsConverter;
+import org.niord.model.geojson.GeometryVo;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The S-125 Service
@@ -33,10 +42,11 @@ import java.io.StringWriter;
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
+@Stateless
 public class S125Service {
 
     @Inject
-    MessageService messageService;
+    AtonService atonService;
 
     @Inject
     NiordApp app;
@@ -48,10 +58,38 @@ public class S125Service {
      * @return the generated GML
      */
     public String generateGML(String atonUID, String language) throws Exception {
+
+        AtonNode atonNode = this.atonService.findByAtonUid(atonUID);
+
+        // Validate the AtoN
+        if (atonNode == null) {
+            throw new IllegalArgumentException("AtoN not found " + atonUID);
+        }
+
+        // Ensure we use a valid language
+        language = app.getLanguage(language);
+
+        // And get the AtoN node VO object
+        AtonNodeVo aton = atonNode.toVo();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("atonUID", atonUID);
+        data.put("aton", aton);
+        data.put("language", language);
+
+        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{JtsConverter.fromJts(atonNode.getGeometry())});
+        if (bbox != null) {
+            data.put("bbox", bbox);
+        }
+
         Configuration cfg = new Configuration(Configuration.getVersion());
         cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates/gml"));
 
         StringWriter result = new StringWriter();
+        Template fmTemplate = cfg.getTemplate("generate-s125.ftl");
+
+        fmTemplate.process(data, result);
         return result.toString();
     }
+
 }

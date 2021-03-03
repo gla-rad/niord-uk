@@ -59,24 +59,49 @@
     <!-- ============================================================ -->
     <!-- complex attributes, feature, and information types           -->
     <!-- ============================================================ -->
+    <xs:element name="S125_NavAidStructure" type="S125_NavAidStructureType" substitutionGroup="S125_FeatureType"/>
+    <xs:complexType name="S125_NavAidStructureType">
+        <xs:annotation>
+            <xs:documentation>The Basic NAvigation Aid Structure Type</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="S125_FeatureTypeType">
+                <xs:sequence>
+                    <xs:element name="maritimeResourceName" type="MRN" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="fixedDateRange" type="S125_fixedDateRangeType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="atonType" type="S125_atonType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="deploymentType" type="S125_deploymentType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="typeOfVDEMessage" type="S125_VDEMessageType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="typeOfEPDF" type="S125_EPFDType" minOccurs="0"/>
+                    <xs:element name="raimFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="vatonFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="S125_StructureFeature" type="S125_StructureFeatureType" abstract="true" substitutionGroup="S125_FeatureType"/>
+    <xs:complexType name="S125_StructureFeatureType">
+        <xs:annotation>
+            <xs:documentation>Generalized  structure feature type which carries all the common attributes</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="S125_FeatureTypeType">
+                <xs:sequence>
+                    <xs:element name="geometry" type="PointCurveSurface" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
     <xs:element name="S125_FeatureType" type="S125_FeatureTypeType" abstract="true" substitutionGroup="gml:AbstractFeature"/>
     <xs:complexType name="S125_FeatureTypeType" abstract="true">
         <xs:annotation>
-            <xs:documentation>Generalized feature type which carry all the common attributes</xs:documentation>
+            <xs:documentation>Generalized feature type which carries all the common attributes</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="S100:AbstractFeatureType">
                 <xs:sequence>
-                    <xs:element name="maritimeResourceName" type="MRN" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="S125_featureName" type="S125_featureNameType" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="geometry" type="PointCurveSurface" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="S125_fixedDateRange" type="S125_fixedDateRangeType" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="S125_atonType" type="S125_atonType" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="S125_deploymentType" type="S125_deploymentType" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="S125_typeOfVDEMessage" type="S125_VDEMessageType" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="S125_typeOfEPDF" type="S125_EPFDType" minOccurs="0"/>
-                    <xs:element name="raimFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="vatonFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="featureName" type="S125_featureNameType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="currentStatus" type="S125_currentStatus" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -127,6 +152,85 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="S125_currentStatus">
+        <xs:annotation>
+            <xs:documentation>Describes the status report for an S-125 feature type.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="statusReport" type="S125_statusReport" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="statusReportedDate" type="xs:time" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="alternativePosition" type="PointCurveSurface" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="S125_statusReport">
+        <xs:annotation>
+            <xs:documentation>Describes the status report for an S-125 feature type.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="reportStatus" type="S125_reportedStatus" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="reportType" type="S125_reportedStatusType" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="S125_reportedStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="discrepancy">
+            </xs:enumeration>
+            <xs:enumeration value="temporary">
+            </xs:enumeration>
+            <xs:enumeration value="preliminary">
+            </xs:enumeration>
+            <xs:enumeration value="proposed">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="S125_reportedStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="adrift">
+            </xs:enumeration>
+            <xs:enumeration value="defaced">
+            </xs:enumeration>
+            <xs:enumeration value="destroyed">
+            </xs:enumeration>
+            <xs:enumeration value="discontinued">
+            </xs:enumeration>
+            <xs:enumeration value="damaged">
+            </xs:enumeration>
+            <xs:enumeration value="extinguished">
+            </xs:enumeration>
+            <xs:enumeration value="interrupted">
+            </xs:enumeration>
+            <xs:enumeration value="improperCharacteristic">
+            </xs:enumeration>
+            <xs:enumeration value="notOperating">
+            </xs:enumeration>
+            <xs:enumeration value="missing">
+            </xs:enumeration>
+            <xs:enumeration value="misleading">
+            </xs:enumeration>
+            <xs:enumeration value="notCharted">
+            </xs:enumeration>
+            <xs:enumeration value="rebuilt">
+            </xs:enumeration>
+            <xs:enumeration value="recovered">
+            </xs:enumeration>
+            <xs:enumeration value="aidRelit">
+            </xs:enumeration>
+            <xs:enumeration value="relocated">
+            </xs:enumeration>
+            <xs:enumeration value="resetOnStation">
+            </xs:enumeration>
+            <xs:enumeration value="silent">
+            </xs:enumeration>
+            <xs:enumeration value="temporaryAidChange">
+            </xs:enumeration>
+            <xs:enumeration value="temporaryReplaceByLightBuoy">
+            </xs:enumeration>
+            <xs:enumeration value="temporaryReplaceByLight">
+            </xs:enumeration>
+            <xs:enumeration value="temporaryReplaceByOnlitBuoy">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="MRN">
         <xs:annotation>
             <xs:documentation>Marine Resource Name identifier, based on URN. Note that the NID, including the mrn: prefix can be no more than 31 characters long</xs:documentation>

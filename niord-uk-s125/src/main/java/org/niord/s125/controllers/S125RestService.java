@@ -60,7 +60,7 @@ public class S125RestService {
             value = "Returns S-125 GML representation for the aton." +
                     "NB: Only use this service for test purposes, not for production.",
             response = String.class,
-            tags = {"S-124"}
+            tags = {"S-125"}
     )
     @GET
     @Path("/atons/{atonUID}")
