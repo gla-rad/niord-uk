@@ -5,7 +5,7 @@
            targetNamespace="http://www.iho.int/S125/gml/1.0"
            elementFormDefault="unqualified" version="0.0.0">
     <!-- ============================================================================================= -->
-    <!-- S100 XML/GML Schema for S-124 (Navigational Warnings).                                       -->
+    <!-- S100 XML/GML Schema for S-125 (Aids to Navigation).                                       -->
     <!-- ============================================================================================= -->
     <xs:annotation>
         <xs:documentation>Application schema for Navigational warnings sample dataset</xs:documentation>
