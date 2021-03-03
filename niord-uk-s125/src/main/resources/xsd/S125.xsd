@@ -1,0 +1,237 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:S100="http://www.iho.int/s100gml/1.0"
+           xmlns:s100_profile="http://www.iho.int/S-100/profile/s100_gmlProfile"
+           xmlns:gml="http://www.opengis.net/gml/3.2" xmlns="http://www.iho.int/S125/gml/1.0"
+           targetNamespace="http://www.iho.int/S125/gml/1.0"
+           elementFormDefault="unqualified" version="0.0.0">
+    <!-- ============================================================================================= -->
+    <!-- S100 XML/GML Schema for S-124 (Navigational Warnings).                                       -->
+    <!-- ============================================================================================= -->
+    <xs:annotation>
+        <xs:documentation>Application schema for Navigational warnings sample dataset</xs:documentation>
+    </xs:annotation>
+    <xs:import namespace="http://www.iho.int/s100gml/1.0" schemaLocation="s100gmlbase.xsd"/>
+    <xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="S100_gmlProfile.xsd"/>
+    <xs:import namespace="http://www.iho.int/S-100/profile/s100_gmlProfile" schemaLocation="S100_gmlProfileLevels.xsd"/>
+    <!-- =============================================== -->
+    <!-- spatial property convenience types    -->
+    <!-- =============================================== -->
+    <xs:complexType name="PointOrSurface">
+        <xs:choice>
+            <xs:element ref="S100:pointProperty"/>
+            <xs:element ref="S100:surfaceProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="CurveOrSurface">
+        <xs:choice>
+            <xs:element ref="S100:curveProperty"/>
+            <xs:element ref="S100:surfaceProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="PointCurveSurface">
+        <xs:choice>
+            <xs:element ref="S100:pointProperty"/>
+            <xs:element ref="S100:curveProperty"/>
+            <xs:element ref="S100:surfaceProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="PointOrCurve">
+        <xs:choice>
+            <xs:element ref="S100:pointProperty"/>
+            <xs:element ref="S100:curveProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="GM_Point">
+        <xs:choice>
+            <xs:element ref="S100:pointProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="GM_Curve">
+        <xs:choice>
+            <xs:element ref="S100:curveProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="GM_Surface">
+        <xs:choice>
+            <xs:element ref="S100:surfaceProperty"/>
+        </xs:choice>
+    </xs:complexType>
+    <!-- ============================================================ -->
+    <!-- complex attributes, feature, and information types           -->
+    <!-- ============================================================ -->
+    <xs:simpleType name="MRN">
+        <xs:annotation>
+            <xs:documentation>Marine Resource Name identifier, based on URN. Note that the NID, including the mrn: prefix can be no more than 31 characters long</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="urn:mrn:[A-Za-z0-9][A-Za-z0-9-]{0,27}:[A-Za-z0-9()+,\-.:=@;$_!*'%/?#]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="S125_deploymentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Shore">
+            </xs:enumeration>
+            <xs:enumeration value="Ship">
+            </xs:enumeration>
+            <xs:enumeration value="Mobile">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="S125_atonType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Default">
+            </xs:enumeration>
+            <xs:enumeration value="Reference Point">
+            </xs:enumeration>
+            <xs:enumeration value="RACON">
+            </xs:enumeration>
+            <xs:enumeration value="Fixed Off Shore">
+            </xs:enumeration>
+            <xs:enumeration value="Emergency Wreck Marking Buoy">
+            </xs:enumeration>
+            <xs:enumeration value="Light, Without sectors">
+            </xs:enumeration>
+            <xs:enumeration value="Light, With sectors">
+            </xs:enumeration>
+            <xs:enumeration value="Leading Light Front">
+            </xs:enumeration>
+            <xs:enumeration value="Leading Light Rear">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Cardinal N">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Cardinal E">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Cardinal S">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Cardinal W">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Port hand">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Starboard hand">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Preferred Channel port hand">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Preferred Channel starboard hand">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Isolated danger">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Safe water">
+            </xs:enumeration>
+            <xs:enumeration value="Beacon, Special mark">
+            </xs:enumeration>
+            <xs:enumeration value="Cardinal Mark N">
+            </xs:enumeration>
+            <xs:enumeration value="Cardinal Mark E">
+            </xs:enumeration>
+            <xs:enumeration value="Cardinal Mark S">
+            </xs:enumeration>
+            <xs:enumeration value="Cardinal Mark W">
+            </xs:enumeration>
+            <xs:enumeration value="Port hand Mark">
+            </xs:enumeration>
+            <xs:enumeration value="Starboard hand Mark">
+            </xs:enumeration>
+            <xs:enumeration value="Preferred Channel Port hand">
+            </xs:enumeration>
+            <xs:enumeration value="Preferred Channel Starboard hand">
+            </xs:enumeration>
+            <xs:enumeration value="Isolated danger">
+            </xs:enumeration>
+            <xs:enumeration value="Safe Water">
+            </xs:enumeration>
+            <xs:enumeration value="Special Mark">
+            </xs:enumeration>
+            <xs:enumeration value="Light Vessel/LANBY/Rigs">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="S125_VDEMessageType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="G-Message">
+            </xs:enumeration>
+            <xs:enumeration value="G-Message">
+            </xs:enumeration>
+            <xs:enumeration value="M-Message">
+            </xs:enumeration>
+            <xs:enumeration value="U-Message">
+            </xs:enumeration>
+            <xs:enumeration value="B-Message">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="S125_EPFDType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="undefined">
+            </xs:enumeration>
+            <xs:enumeration value="GPS">
+            </xs:enumeration>
+            <xs:enumeration value="GLONASS">
+            </xs:enumeration>
+            <xs:enumeration value="Combined GPS/GLONASS">
+            </xs:enumeration>
+            <xs:enumeration value="Loran-C">
+            </xs:enumeration>
+            <xs:enumeration value="Chayka">
+            </xs:enumeration>
+            <xs:enumeration value="Integrated Navigation System">
+            </xs:enumeration>
+            <xs:enumeration value="Surveyed">
+            </xs:enumeration>
+            <xs:enumeration value="Galileo">
+            </xs:enumeration>
+            <xs:enumeration value="Internal GNSS">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- ============================================= -->
+    <!-- types and elements for the dataset definition -->
+    <!-- ============================================= -->
+    <xs:complexType name="DatasetType">
+        <xs:annotation>
+            <xs:documentation>Dataset element for Navigational Warnings dataset as "GML document"</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gml:AbstractFeatureType">
+                <xs:sequence>
+                    <xs:element name="DatasetIdentificationInformation" type="S100:DataSetIdentificationType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Dataset identification information</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="DatasetStructureInformation" type="S100:DataSetStructureInformationType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Dataset structure information</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:group ref="S100:Geometry" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Allows spatial objects to be located outside feature objects (for references, and compatibility with ISO 8211 encoding)</xs:documentation>
+                        </xs:annotation>
+                    </xs:group>
+                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="member" minOccurs="0" maxOccurs="unbounded" type="MemberType">
+                            <xs:annotation>
+                                <xs:documentation>intended for technical GML 3.2 requirement for making the dataset a "GML document" and clause 21.3 of the OGC GML standard</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <!-- treatment of S-100 Information types is provisional, because GML does not have the concept, and they must be modeled as AbstractGML -->
+    <xs:complexType name="MemberType">
+        <xs:annotation>
+            <xs:documentation>dataset member</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gml:AbstractFeatureMemberType">
+                <xs:sequence>
+                    <xs:element ref="gml:AbstractFeature"/>
+                </xs:sequence>
+                <xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="DataSet" type="DatasetType"/>
+</xs:schema>
