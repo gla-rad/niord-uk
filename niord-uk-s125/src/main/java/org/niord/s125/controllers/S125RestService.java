@@ -21,21 +21,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.IOUtils;
 import org.niord.s125.services.S125Service;
+import org.niord.s125.utils.XmlUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
 
 /**
  * A public REST API for accessing messages as S-125 GML.
@@ -44,6 +37,8 @@ import java.io.StringWriter;
  * <pre>
  *     xmllint --noout --schema http://localhost:8080/rest/S-125/S125.xsd http://localhost:8080/rest/S-125/aton-001.gml
  * </pre>
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @Api(value = "/S-125",
         description = "Public API for accessing messages as S-125 GML. " +
@@ -59,7 +54,7 @@ public class S125RestService {
     S125Service s125Service;
 
     /**
-     * Returns the S-125 GML representation for the given aton
+     * Returns the S-125 GML representation for the given AtoN.
      */
     @ApiOperation(
             value = "Returns S-125 GML representation for the aton." +
@@ -76,8 +71,7 @@ public class S125RestService {
 
             @ApiParam(value = "Two-letter ISO 639-1 language code", example = "en")
             @QueryParam("lang") @DefaultValue("en") String language
-
-    ) throws Exception {
+    ) {
 
         long t0 = System.currentTimeMillis();
 
@@ -85,7 +79,7 @@ public class S125RestService {
             String result = s125Service.generateGML(atonUID, language);
 
             // Pretty print the result
-            //result = prettyPrint(result);
+            result = XmlUtils.xmlPrettyPrint(result);
 
             log.info("Generated GML for aton " + atonUID + " in " + (System.currentTimeMillis() - t0) + " ms");
             return Response.ok(result)
@@ -107,38 +101,21 @@ public class S125RestService {
         }
     }
 
-
-    /** Arghh, for some insane reason, this function does not work properly :-( **/
-    protected static String prettyPrint(String input) {
-        try {
-            Source xmlInput = new StreamSource(new StringReader(input));
-            StringWriter stringWriter = new StringWriter();
-            StreamResult xmlOutput = new StreamResult(stringWriter);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            transformer.transform(xmlInput, xmlOutput);
-            return stringWriter.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e); // simple exception handling, please review it
-        }
-    }
-
-
     /**
-     * {@inheritDoc}
+     * Allows users to have access to the S-125 product XSD definition files.
+     * These include the S-100 product definition, as well as the GRAD version
+     * of S-125.
+     *
+     * @param file          The name of the file to be retrieved
+     * @return The requested XSD file
+     * @throws Exception
      */
     @GET
     @Path("/xsds/{file}")
     @Produces({"text/xml;charset=UTF-8"})
     public Response xsdFile(
             @PathParam("file") String file
-
-    ) throws Exception {
+    ) {
 
         String xsdFile = file + ".xsd";
 
@@ -160,4 +137,5 @@ public class S125RestService {
                     .build();
         }
     }
+
 }

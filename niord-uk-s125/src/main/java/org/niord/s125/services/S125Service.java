@@ -24,6 +24,15 @@ import org.niord.core.message.MessageService;
 import javax.inject.Inject;
 import java.io.StringWriter;
 
+/**
+ * The S-125 Service
+ *
+ * This is the basic implementation of the S-125 (GRAD Version of course)
+ * service. It basically just calls the associated ftl freemarker scripts
+ * from the module's resources and returns the populated output.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
+ */
 public class S125Service {
 
     @Inject
