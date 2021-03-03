@@ -59,22 +59,80 @@
     <!-- ============================================================ -->
     <!-- complex attributes, feature, and information types           -->
     <!-- ============================================================ -->
+    <xs:element name="S125_FeatureType" type="S125_FeatureTypeType" abstract="true" substitutionGroup="gml:AbstractFeature"/>
+    <xs:complexType name="S125_FeatureTypeType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Generalized feature type which carry all the common attributes</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="S100:AbstractFeatureType">
+                <xs:sequence>
+                    <xs:element name="maritimeResourceName" type="MRN" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="S125_featureName" type="S125_featureNameType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="geometry" type="PointCurveSurface" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="S125_fixedDateRange" type="S125_fixedDateRangeType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="S125_atonType" type="S125_atonType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="S125_deploymentType" type="S125_deploymentType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="S125_typeOfVDEMessage" type="S125_VDEMessageType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="S125_typeOfEPDF" type="S125_EPFDType" minOccurs="0"/>
+                    <xs:element name="raimFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="vatonFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="S125_featureNameType">
+        <xs:annotation>
+            <xs:documentation>Generalised name of an S-125 feature carrying all common attributes </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="displayName" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>A statement expressing if a feature name is to be displayed in certain display settings or not.</xs:documentation>
+                    <xs:documentation>Indication: Boolean. A True value is an indication that the name is intended to be displayed.</xs:documentation>
+                    <xs:documentation>Remarks:</xs:documentation>
+                    <xs:documentation>Where it is allowable to encode multiple instances of feature name for a single feature instance, only one feature name instance can indicate that the name is to be displayed (display name set to True) </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="language" type="ISO639-3" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The language is encoded by a character code following ISO 639-3</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The individual name of a feature.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="S125_fixedDateRangeType">
+        <xs:annotation>
+            <xs:documentation>Describes a single fixed period, as the date range between its sub-attributes.
+                Remarks: Sub-attributes date end and date start must have the calendar year encoded using 4 digits for the calendar year (CCYY). Month (MM) and day (DD) are optional.
+                (This definition merges the planned S-100 temporal model with the current S-101 DCEG definition of fixed date range.)</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="timeOfDayStart" type="xs:time" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="timeOfDayEnd" type="xs:time" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="dateStart" type="S100_TruncatedDate" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The start date or time of the interval.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="dateEnd" type="S100_TruncatedDate" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The end date or time of the interval.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
     <xs:simpleType name="MRN">
         <xs:annotation>
             <xs:documentation>Marine Resource Name identifier, based on URN. Note that the NID, including the mrn: prefix can be no more than 31 characters long</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="urn:mrn:[A-Za-z0-9][A-Za-z0-9-]{0,27}:[A-Za-z0-9()+,\-.:=@;$_!*'%/?#]+"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="S125_deploymentType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Shore">
-            </xs:enumeration>
-            <xs:enumeration value="Ship">
-            </xs:enumeration>
-            <xs:enumeration value="Mobile">
-            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="S125_atonType">
@@ -145,6 +203,16 @@
             </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="S125_deploymentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Shore">
+            </xs:enumeration>
+            <xs:enumeration value="Ship">
+            </xs:enumeration>
+            <xs:enumeration value="Mobile">
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="S125_VDEMessageType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="G-Message">
@@ -181,6 +249,46 @@
             </xs:enumeration>
             <xs:enumeration value="Internal GNSS">
             </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- =============================================== -->
+    <!-- common types - consider defining a common -->
+    <!-- =============================================== -->
+    <xs:complexType name="S100_TruncatedDate">
+        <xs:annotation>
+            <xs:documentation>built in date types from W3C XML schema, implementing S-100 truncated date</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="gDay" type="xs:gDay"/>
+            <xs:element name="gMonth" type="xs:gMonth"/>
+            <xs:element name="gYear" type="xs:gYear"/>
+            <xs:element name="gMonthDay" type="xs:gMonthDay"/>
+            <xs:element name="gYearMonth" type="xs:gYearMonth"/>
+            <xs:element name="date" type="xs:date"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:simpleType name="ISO639-3">
+        <xs:annotation>
+            <xs:documentation>stub for ISO 639-3 language codes</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ISO639-2">
+        <xs:annotation>
+            <xs:documentation>stub for ISO 639-2 language codes</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ISO3166-alpha2">
+        <xs:annotation>
+            <xs:documentation>stub for ISO 3166 alpha2 country codes</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w{2}"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- ============================================= -->
@@ -227,7 +335,7 @@
         <xs:complexContent>
             <xs:extension base="gml:AbstractFeatureMemberType">
                 <xs:sequence>
-                    <xs:element ref="gml:AbstractFeature"/>
+                    <xs:element ref="gml:AbstractFeature" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
                 <xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
             </xs:extension>
