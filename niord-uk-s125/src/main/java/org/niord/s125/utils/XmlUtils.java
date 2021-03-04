@@ -6,6 +6,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.BufferedReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -42,6 +43,27 @@ public class XmlUtils {
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             transformer.transform(xmlInput, xmlOutput);
             return stringWriter.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e); // simple exception handling, please review it
+        }
+    }
+
+    /**
+     * An string processor to try and minity the input XML into something
+     * more compact.
+     *
+     * @param input     The XML string input
+     * @return The minified output
+     */
+    public static String xmlMinifiedPrint(String input) {
+        try {
+            BufferedReader br = new BufferedReader(new StringReader(input));
+            String line;
+            StringBuilder stringBuilder = new StringBuilder();
+            while((line=br.readLine())!= null){
+                stringBuilder.append(line.trim());
+            }
+            return stringBuilder.toString();
         } catch (Exception e) {
             throw new RuntimeException(e); // simple exception handling, please review it
         }
