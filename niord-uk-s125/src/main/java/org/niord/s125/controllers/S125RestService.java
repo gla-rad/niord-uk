@@ -81,13 +81,13 @@ public class S125RestService {
             // Pretty print the result
             result = XmlUtils.xmlPrettyPrint(result);
 
-            log.info("Generated GML for aton " + atonUID + " in " + (System.currentTimeMillis() - t0) + " ms");
+            log.info("Generated GML for AtoN " + atonUID + " in " + (System.currentTimeMillis() - t0) + " ms");
             return Response.ok(result)
                     .type("application/gml+xml;charset=UTF-8")
                     .build();
 
         } catch (IllegalArgumentException e) {
-            log.error("Aton does not exist: " + atonUID);
+            log.error("AtoN does not exist: " + atonUID);
             return Response
                     .status(Response.Status.NOT_FOUND)
                     .entity("No aton found with UID: " + atonUID)

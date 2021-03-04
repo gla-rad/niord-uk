@@ -69,15 +69,18 @@ public class S125Service {
         // Ensure we use a valid language
         language = app.getLanguage(language);
 
-        // And get the AtoN node VO object
+        // And get the geometry and the AtoN node VO object
+        GeometryVo geometry = JtsConverter.fromJts(atonNode.getGeometry());
         AtonNodeVo aton = atonNode.toVo();
 
+        // Pass down all the parameters to the freemarker script
         Map<String, Object> data = new HashMap<>();
-        data.put("atonUID", atonUID);
         data.put("aton", aton);
+        data.put("atonUID", atonUID);
+        data.put("geometry", geometry);
         data.put("language", language);
 
-        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{JtsConverter.fromJts(atonNode.getGeometry())});
+        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{geometry});
         if (bbox != null) {
             data.put("bbox", bbox);
         }
