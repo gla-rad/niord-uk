@@ -75,6 +75,7 @@
                     <xs:element name="typeOfEPDF" type="S125_EPFDType" minOccurs="0"/>
                     <xs:element name="raimFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="vatonFlag" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="supported" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -111,7 +112,7 @@
             <xs:documentation>Defines any type of light equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
         </xs:annotation>
     </xs:complexType>
-    <xs:element name="S125_EquipmentFeature" type="S125_EquipmentFeatureType" abstract="true" substitutionGroup="S125_Feature"/>
+    <xs:element name="S125_EquipmentFeature" type="S125_EquipmentFeatureType" abstract="true"/>
     <xs:complexType name="S125_EquipmentFeatureType">
         <xs:annotation>
             <xs:documentation>Defines the type of equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
@@ -120,6 +121,7 @@
             <xs:extension base="S125_FeatureType">
                 <xs:sequence>
                     <xs:element name="uniqueEquipmentId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="supports" type="gml:ReferenceType" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -458,6 +460,11 @@
                                 <xs:documentation>intended for technical GML 3.2 requirement for making the dataset a "GML document" and clause 21.3 of the OGC GML standard</xs:documentation>
                             </xs:annotation>
                         </xs:element>
+                        <xs:element name="imember" minOccurs="0" maxOccurs="unbounded" type="IMemberType">
+                            <xs:annotation>
+                                <xs:documentation>intended for S100 information types. Extension of GML practice, not addressed by ISO 19136.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
                     </xs:choice>
                 </xs:sequence>
             </xs:extension>
@@ -477,5 +484,19 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:complexType name="IMemberType">
+        <xs:annotation>
+            <xs:documentation>dataset member S-100 infotmation types</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gml:AbstractFeatureMemberType">
+                <xs:sequence>
+                    <xs:element ref="S125_EquipmentFeature"/>
+                </xs:sequence>
+                <xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:element name="DataSet" type="DatasetType"/>
 </xs:schema>
