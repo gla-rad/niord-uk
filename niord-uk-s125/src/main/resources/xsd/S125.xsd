@@ -59,13 +59,13 @@
     <!-- ============================================================ -->
     <!-- complex attributes, feature, and information types           -->
     <!-- ============================================================ -->
-    <xs:element name="S125_NavAidStructure" type="S125_NavAidStructureType" substitutionGroup="S125_FeatureType"/>
+    <xs:element name="S125_NavAidStructure" type="S125_NavAidStructureType" substitutionGroup="S125_StructureFeature"/>
     <xs:complexType name="S125_NavAidStructureType">
         <xs:annotation>
-            <xs:documentation>The Basic NAvigation Aid Structure Type</xs:documentation>
+            <xs:documentation>The Basic Navigation Aid Structure Type.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="S125_FeatureTypeType">
+            <xs:extension base="S125_StructureFeatureType">
                 <xs:sequence>
                     <xs:element name="maritimeResourceName" type="MRN" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="fixedDateRange" type="S125_fixedDateRangeType" minOccurs="0" maxOccurs="unbounded"/>
@@ -79,21 +79,53 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:element name="S125_StructureFeature" type="S125_StructureFeatureType" abstract="true" substitutionGroup="S125_FeatureType"/>
+    <xs:element name="S125_StructureFeature" type="S125_StructureFeatureType" abstract="true" substitutionGroup="S125_Feature"/>
     <xs:complexType name="S125_StructureFeatureType">
         <xs:annotation>
-            <xs:documentation>Generalized  structure feature type which carries all the common attributes</xs:documentation>
+            <xs:documentation>Generalized structure feature type which carries all the common attributes.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="S125_FeatureTypeType">
+            <xs:extension base="S125_FeatureType">
                 <xs:sequence>
                     <xs:element name="geometry" type="PointCurveSurface" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:element name="S125_FeatureType" type="S125_FeatureTypeType" abstract="true" substitutionGroup="gml:AbstractFeature"/>
-    <xs:complexType name="S125_FeatureTypeType" abstract="true">
+    <xs:element name="S125_RadioEquipment" type="S125_RadioEquipmentType" substitutionGroup="S125_EquipmentFeature"/>
+    <xs:complexType name="S125_RadioEquipmentType">
+        <xs:annotation>
+            <xs:documentation>Defines any type of radio equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="S125_FeatureType">
+                <xs:sequence>
+                    <xs:element name="mmsiNumber" type="xs:int" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="S125_LightEquipment" type="S125_LightEquipmentType" substitutionGroup="S125_EquipmentFeature"/>
+    <xs:complexType name="S125_LightEquipmentType">
+        <xs:annotation>
+            <xs:documentation>Defines any type of light equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
+        </xs:annotation>
+    </xs:complexType>
+    <xs:element name="S125_EquipmentFeature" type="S125_EquipmentFeatureType" abstract="true" substitutionGroup="S125_Feature"/>
+    <xs:complexType name="S125_EquipmentFeatureType">
+        <xs:annotation>
+            <xs:documentation>Defines the type of equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="S125_FeatureType">
+                <xs:sequence>
+                    <xs:element name="uniqueEquipmentId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="S125_Feature" type="S125_FeatureType" abstract="true" substitutionGroup="gml:AbstractFeature"/>
+    <xs:complexType name="S125_FeatureType" abstract="true">
         <xs:annotation>
             <xs:documentation>Generalized feature type which carries all the common attributes</xs:documentation>
         </xs:annotation>
@@ -108,7 +140,7 @@
     </xs:complexType>
     <xs:complexType name="S125_featureNameType">
         <xs:annotation>
-            <xs:documentation>Generalised name of an S-125 feature carrying all common attributes </xs:documentation>
+            <xs:documentation>Generalised name of an S-125 feature carrying all common attributes.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="displayName" type="xs:boolean" minOccurs="0" maxOccurs="1">
