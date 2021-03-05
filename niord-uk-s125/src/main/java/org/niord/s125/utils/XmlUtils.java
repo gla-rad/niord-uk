@@ -1,13 +1,20 @@
 package org.niord.s125.utils;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import java.io.BufferedReader;
-import java.io.StringReader;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 
 /**
@@ -24,48 +31,49 @@ public class XmlUtils {
      * An string processor to try and prettify the input XML into something
      * more easily readable.
      *
-     * Arghh, for some insane reason, this function does not work properly :-(
+     * The original Niord version wasn't working due to existing while spaces
+     * inte the DOM. Based on the DOM specification, whitespaces outside the t
+     * ags are perfectly valid and they are properly preserved. To remove them,
+     * we can use XPath’s normalize-space to locate all the whitespace nodes
+     * and remove them first.
      *
      * @param input     The XML string input
+     * @param indent    The XML indentation, 0 will minify the output
      * @return The prettified output
      */
-    public static String xmlPrettyPrint(String input) {
+    public static String xmlPrettyPrint(String input, int indent) {
         try {
-            Source xmlInput = new StreamSource(new StringReader(input));
-            StringWriter stringWriter = new StringWriter();
-            StreamResult xmlOutput = new StreamResult(stringWriter);
+            // Turn xml string into a document
+            Document document = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(new InputSource(new ByteArrayInputStream(input.getBytes("utf-8"))));
+
+            // Remove whitespaces outside tags
+            document.normalize();
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']",
+                    document,
+                    XPathConstants.NODESET);
+
+            for (int i = 0; i < nodeList.getLength(); ++i) {
+                Node node = nodeList.item(i);
+                node.getParentNode().removeChild(node);
+            }
+
+            // Setup pretty print options
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", indent);
             Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            transformer.transform(xmlInput, xmlOutput);
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            transformer.setOutputProperty(OutputKeys.INDENT, indent > 0 ? "yes" : "no");
+
+            // Return pretty print xml string
+            StringWriter stringWriter = new StringWriter();
+            transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
             return stringWriter.toString();
         } catch (Exception e) {
-            throw new RuntimeException(e); // simple exception handling, please review it
-        }
-    }
-
-    /**
-     * An string processor to try and minity the input XML into something
-     * more compact.
-     *
-     * @param input     The XML string input
-     * @return The minified output
-     */
-    public static String xmlMinifiedPrint(String input) {
-        try {
-            BufferedReader br = new BufferedReader(new StringReader(input));
-            String line;
-            StringBuilder stringBuilder = new StringBuilder();
-            while((line=br.readLine())!= null){
-                stringBuilder.append(line.trim());
-            }
-            return stringBuilder.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e); // simple exception handling, please review it
+            throw new RuntimeException(e);
         }
     }
 

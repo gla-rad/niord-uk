@@ -70,6 +70,7 @@ public class S125RestService {
             @PathParam("atonUID") String atonUID,
 
             @ApiParam(value = "Two-letter ISO 639-1 language code", example = "en")
+            @QueryParam("indent") @DefaultValue("4") Integer indent,
             @QueryParam("lang") @DefaultValue("en") String language
     ) {
 
@@ -79,7 +80,7 @@ public class S125RestService {
             String result = s125Service.generateGML(atonUID, language);
 
             // Pretty print the result
-            result = XmlUtils.xmlPrettyPrint(result);
+            result = XmlUtils.xmlPrettyPrint(result, indent);
 
             log.info("Generated GML for AtoN " + atonUID + " in " + (System.currentTimeMillis() - t0) + " ms");
             return Response.ok(result)
