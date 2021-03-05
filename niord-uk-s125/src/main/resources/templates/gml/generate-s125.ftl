@@ -92,14 +92,14 @@
 
 
 <#macro generateNavAidStructure aton>
-    <@generateFeatureName aton=aton></@generateFeatureName>
-    <@generateGeometry g=geometry></@generateGeometry>
-    <@generateDateRange aton=aton></@generateDateRange>
-    <@generateAtonType aton=aton></@generateAtonType>
-    <@generateTypeOfVDEMessage aton=aton></@generateTypeOfVDEMessage>
-    <@generateTypeOfEPDF aton=aton></@generateTypeOfEPDF>
-    <@generateRAIMFlag aton=aton></@generateRAIMFlag>
-    <@generateVAtoNFlag aton=aton></@generateVAtoNFlag>
+    <@generateFeatureName aton=aton />
+    <@generateGeometry g=geometry />
+    <@generateDateRange aton=aton />
+    <@generateAtonType aton=aton />
+    <@generateTypeOfVDEMessage aton=aton />
+    <@generateTypeOfEPDF aton=aton />
+    <@generateRAIMFlag aton=aton />
+    <@generateVAtoNFlag aton=aton />
 </#macro>
 
 
@@ -460,33 +460,12 @@
 </#macro>
 
 
-<#macro generateReference ref index>
-    <S124:S124_References gml:id="${id}.${index + 1}">
-        <id>${mrn}.${index + 1}</id>
-        <#switch ref.type>
-            <#case "CANCELLATION">
-                <referenceType>cancellation</referenceType>
-                <#break>
-            <#default>
-                <referenceType>source reference</referenceType>
-                <#break>
-        </#switch>
-        <messageReference>
-            <@generateMessageSeries msg=ref.msg></@generateMessageSeries>
-        </messageReference>
-        <header xlink:href="#PR.${id}"></header>
-    </S124:S124_References>
-</#macro>
-
-
 <#macro generatePoint coords>
     <#if coords?? && coords?size gt 1>
         <geometry>
             <S100:pointProperty>
                 <S100:Point gml:id="${nextGeomId()}" srsName="EPSG:4326">
-                    <gml:pos>
-                        <@generateCoordinates coords=[coords]></@generateCoordinates>
-                    </gml:pos>
+                    <gml:pos><@generateCoordinates coords=[coords] /></gml:pos>
                 </S100:Point>
             </S100:pointProperty>
         </geometry>
@@ -501,9 +480,7 @@
                 <S100:Curve gml:id="${nextGeomId()}" srsName="EPSG:4326">
                     <gml:segments>
                         <gml:LineStringSegment>
-                            <gml:posList>
-                                <@generateCoordinates coords=coords></@generateCoordinates>
-                            </gml:posList>
+                            <gml:posList><@generateCoordinates coords=coords /></gml:posList>
                         </gml:LineStringSegment>
                     </gml:segments>
                 </S100:Curve>
@@ -524,17 +501,13 @@
                                 <#if linearRing?is_first>
                                     <gml:exterior>
                                         <gml:LinearRing>
-                                            <gml:posList>
-                                                <@generateCoordinates coords=linearRing></@generateCoordinates>
-                                            </gml:posList>
+                                            <gml:posList><@generateCoordinates coords=linearRing /></gml:posList>
                                         </gml:LinearRing>
                                     </gml:exterior>
                                 <#else>
                                     <gml:interior>
                                         <gml:LinearRing>
-                                            <gml:posList>
-                                                <@generateCoordinates coords=linearRing></@generateCoordinates>
-                                            </gml:posList>
+                                            <gml:posList><@generateCoordinates coords=linearRing /></gml:posList>
                                         </gml:LinearRing>
                                     </gml:interior>
                                 </#if>
@@ -550,6 +523,6 @@
 
 <#macro generateCoordinates coords>
     <#list coords as lonLat>
-        ${lonLat[1]?trim} ${lonLat[0]?trim}
+        ${lonLat[1]?trim} ${lonLat[0]?trim}<#t>
     </#list>
 </#macro>
