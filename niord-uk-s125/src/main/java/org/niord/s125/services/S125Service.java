@@ -85,7 +85,8 @@ public class S125Service {
             data.put("bbox", bbox);
         }
 
-        Configuration cfg = new Configuration(Configuration.getVersion());
+        // We need to set an incompatible version in our initial configuration
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
         cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates/gml"));
 
         StringWriter result = new StringWriter();
