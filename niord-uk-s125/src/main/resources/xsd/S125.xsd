@@ -2,8 +2,8 @@
            xmlns:gml="http://www.opengis.net/gml/3.2"
            xmlns:S100="http://www.iho.int/s100gml/1.0"
            xmlns:s100_profile="http://www.iho.int/S-100/profile/s100_gmlProfile"
-           xmlns="http://www.iho.int/s125gml/1.0"
-           targetNamespace="http://www.iho.int/s125gml/1.0"
+           xmlns="http://www.iho.int/S125/gml/1.0"
+           targetNamespace="http://www.iho.int/S125/gml/1.0"
            elementFormDefault="unqualified" version="0.0.0">
     <!-- ============================================================================================= -->
     <!-- S100 XML/GML Schema for S-125 (Aids to Navigation).                                       -->
