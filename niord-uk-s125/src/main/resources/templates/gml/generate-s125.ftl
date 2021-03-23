@@ -6,11 +6,11 @@
 <#assign geomId=0>
 <#setting time_zone="UTC">
 
-<S125:DataSet xmlns:S125="http://www.iho.int/S125/gml/1.0"
+<S125:DataSet xmlns:S125="http://www.iho.int/s100gml/1.0"
               xsi:schemaLocation="http://www.iho.int/S125/gml/1.0 S125.xsd"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xmlns:gml="http://www.opengis.net/gml/3.2"
               xmlns:S100="http://www.iho.int/s100gml/1.0"
+              xmlns:gml="http://www.opengis.net/gml/3.2"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xmlns:xlink="http://www.w3.org/1999/xlink"
               gml:id="${id}">
 

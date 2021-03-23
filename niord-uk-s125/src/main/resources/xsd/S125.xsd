@@ -1,8 +1,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:gml="http://www.opengis.net/gml/3.2"
            xmlns:S100="http://www.iho.int/s100gml/1.0"
            xmlns:s100_profile="http://www.iho.int/S-100/profile/s100_gmlProfile"
-           xmlns:gml="http://www.opengis.net/gml/3.2" xmlns="http://www.iho.int/S125/gml/1.0"
-           targetNamespace="http://www.iho.int/S125/gml/1.0"
+           xmlns="http://www.iho.int/s125gml/1.0"
+           targetNamespace="http://www.iho.int/s125gml/1.0"
            elementFormDefault="unqualified" version="0.0.0">
     <!-- ============================================================================================= -->
     <!-- S100 XML/GML Schema for S-125 (Aids to Navigation).                                       -->
@@ -99,7 +100,7 @@
             <xs:documentation>Defines any type of radio equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="S125_FeatureType">
+            <xs:extension base="S125_EquipmentFeatureType">
                 <xs:sequence>
                     <xs:element name="mmsiNumber" type="xs:int" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
@@ -111,8 +112,12 @@
         <xs:annotation>
             <xs:documentation>Defines any type of light equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
         </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="S125_EquipmentFeatureType">
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
-    <xs:element name="S125_EquipmentFeature" type="S125_EquipmentFeatureType" abstract="true"/>
+    <xs:element name="S125_EquipmentFeature" type="S125_EquipmentFeatureType" abstract="true" substitutionGroup="S125_Feature"/>
     <xs:complexType name="S125_EquipmentFeatureType">
         <xs:annotation>
             <xs:documentation>Defines the type of equipment that can be installed into a Navigation Aid Structure.</xs:documentation>
