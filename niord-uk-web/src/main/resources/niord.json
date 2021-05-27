@@ -16,7 +16,7 @@
   {
     "key"         : "authServerUrl",
     "description" : "The Keycloak URL",
-    "value"       : "http://nva-elitebook.local:8090/auth",
+    "value"       : "http://palatia.grad-rrnav.pub:8090/auth",
     "web"         : false,
     "editable"    : true
   },
