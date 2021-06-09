@@ -2,11 +2,9 @@
            xmlns:gml="http://www.opengis.net/gml/3.2"
            xmlns:S100="http://www.iho.int/s100gml/1.0"
            xmlns:s100_profile="http://www.iho.int/S-100/profile/s100_gmlProfile"
-           xmlns="http://www.iho.int/S125/gml/1.0"
-           targetNamespace="http://www.iho.int/S125/gml/1.0"
-           elementFormDefault="unqualified" version="0.0.0">
+           xmlns="http://www.iho.int/S125/gml/0.1" targetNamespace="http://www.iho.int/S125/gml/0.1" elementFormDefault="unqualified" version="0.0.1">
     <!-- ============================================================================================= -->
-    <!-- S100 XML/GML Schema for S-125 (Aids to Navigation).                                       -->
+    <!-- S100 XML/GML Schema for S-125 (Aids to Navigation).                                           -->
     <!-- ============================================================================================= -->
     <xs:annotation>
         <xs:documentation>Application schema for Navigational warnings sample dataset</xs:documentation>
@@ -15,7 +13,7 @@
     <xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="S100_gmlProfile.xsd"/>
     <xs:import namespace="http://www.iho.int/S-100/profile/s100_gmlProfile" schemaLocation="S100_gmlProfileLevels.xsd"/>
     <!-- =============================================== -->
-    <!-- spatial property convenience types    -->
+    <!-- spatial property convenience types              -->
     <!-- =============================================== -->
     <xs:complexType name="PointOrSurface">
         <xs:choice>
@@ -502,6 +500,5 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
     <xs:element name="DataSet" type="DatasetType"/>
 </xs:schema>

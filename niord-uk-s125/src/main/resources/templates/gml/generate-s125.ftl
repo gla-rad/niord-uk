@@ -6,7 +6,7 @@
 <#assign geomId=0>
 <#setting time_zone="UTC">
 
-<S125:DataSet xmlns:S125="http://www.iho.int/s100gml/1.0"
+<S125:DataSet xmlns:S125="http://www.iho.int/S125/gml/0.1"
               xsi:schemaLocation="http://www.iho.int/S125/gml/1.0 S125.xsd"
               xmlns:S100="http://www.iho.int/s100gml/1.0"
               xmlns:gml="http://www.opengis.net/gml/3.2"
