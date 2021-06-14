@@ -95,6 +95,7 @@
     <@generateFeatureName aton=aton />
     <@generateGeometry g=geometry />
     <@generateDateRange aton=aton />
+    <@generateMmsi aton=aton />
     <@generateAtonType aton=aton />
     <@generateTypeOfVDEMessage aton=aton />
     <@generateTypeOfEPDF aton=aton />
@@ -183,6 +184,13 @@
     </#if>
 </#macro>
 
+
+<#macro generateMmsi aton>
+    <#if aton?? && aton.tags?? && aton.tags?has_content>
+        <#assign mmsi=getTag(aton, "seamark:virtual_aton:mmsi")!>
+        <mmsi>${mmsi}</mmsi>
+    </#if>
+</#macro>
 
 <#macro generateAtonType aton>
     <#if aton?? && aton.tags?? && aton.tags?has_content>
@@ -401,11 +409,11 @@
                         <deploymentType>Mobile</deploymentType>
                         <#break>
                     <#case "isolated_danger">
-                        <atonType>Isolated danger</atonType>
+                        <atonType>Isolated Danger</atonType>
                         <deploymentType>Mobile</deploymentType>
                         <#break>
                     <#case "safe_water">
-                        <atonType>Safe Water"</atonType>
+                        <atonType>Safe Water</atonType>
                         <deploymentType>Mobile</deploymentType>
                         <#break>
                     <#case "special_purpose">
