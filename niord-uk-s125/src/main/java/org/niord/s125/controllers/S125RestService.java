@@ -24,6 +24,7 @@ import org.niord.s125.services.S125Service;
 import org.niord.s125.utils.XmlUtils;
 import org.slf4j.Logger;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -44,6 +45,7 @@ import java.io.InputStream;
         description = "Public API for accessing messages as S-125 GML. " +
                 "NB: Only use this service for test purposes, not for production.",
         tags = {"S-125" })
+@RequestScoped
 @Path("/S-125")
 public class S125RestService {
 

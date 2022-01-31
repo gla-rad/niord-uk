@@ -31,14 +31,14 @@ import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 /**
  * The Eureka Client Implementation.
  */
-@Singleton
+@ApplicationScoped
 @Startup
 public class EurekaClientService {
 

@@ -30,8 +30,8 @@ import org.niord.model.message.MessagePartType;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ResourceBundle;
 
@@ -41,7 +41,7 @@ import java.util.ResourceBundle;
  * Audio promulgations are verbose textual versions of the messages suitable for being read up on the radio
  * and sent to the radio station via e-mail.
  */
-@Singleton
+@ApplicationScoped
 @Startup
 @Lock(LockType.READ)
 @SuppressWarnings("unused")

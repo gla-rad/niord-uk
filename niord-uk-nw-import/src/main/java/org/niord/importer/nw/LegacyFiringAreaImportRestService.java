@@ -17,11 +17,10 @@
 package org.niord.importer.nw;
 
 import org.jboss.resteasy.annotations.cache.NoCache;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import org.niord.core.area.Area;
-import org.niord.core.schedule.FiringPeriod;
 import org.niord.core.batch.BatchService;
 import org.niord.core.message.vo.SystemMessageVo;
+import org.niord.core.schedule.FiringPeriod;
 import org.niord.core.user.Roles;
 import org.niord.model.DataFilter;
 import org.niord.model.IJsonSerializable;
@@ -29,15 +28,9 @@ import org.slf4j.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +41,7 @@ import java.util.stream.Collectors;
  * and creation of firing area message templates (which area actually created as NM's).
  */
 @Path("/import/fa")
-@Stateless
-@SecurityDomain("keycloak")
+@RequestScoped
 @RolesAllowed(Roles.ADMIN)
 @SuppressWarnings("unused")
 public class LegacyFiringAreaImportRestService {

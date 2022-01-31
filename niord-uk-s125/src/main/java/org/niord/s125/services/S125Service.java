@@ -27,7 +27,7 @@ import org.niord.core.geojson.GeoJsonUtils;
 import org.niord.core.geojson.JtsConverter;
 import org.niord.model.geojson.GeometryVo;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ import java.util.Map;
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
-@Stateless
+@RequestScoped
 public class S125Service {
 
     @Inject

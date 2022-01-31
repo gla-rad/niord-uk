@@ -20,24 +20,14 @@ import org.niord.core.settings.Setting;
 import org.niord.core.settings.SettingsService;
 import org.slf4j.Logger;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 
@@ -49,7 +39,7 @@ import static org.niord.core.settings.Setting.Type.Password;
  * Note to hackers: The database dump that is fetched from http://msi.dma.dk/msi-safe-dump.sql.gz
  * contains no sensitive data and everybody is welcome to download it...
  */
-@Stateless
+@RequestScoped
 @SuppressWarnings("unused")
 public class LegacyNwDatabase {
 

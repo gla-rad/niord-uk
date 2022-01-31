@@ -5,13 +5,12 @@
     <parent>
         <groupId>org.niord</groupId>
         <artifactId>niord-uk-parent</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>niord-uk-web</artifactId>
     <name>Niord UK web application</name>
-    <packaging>war</packaging>
 
     <properties>
         <tika.version>1.11</tika.version>
@@ -25,40 +24,76 @@
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-core</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-web</artifactId>
-            <version>2.0-SNAPSHOT</version>
-            <type>war</type>
+            <version>3.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- DK dependencies -->
+        <!-- UK dependencies -->
+<!--        <dependency>-->
+<!--            <groupId>org.niord</groupId>-->
+<!--            <artifactId>niord-uk-promulgation</artifactId>-->
+<!--            <version>3.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.niord</groupId>-->
+<!--            <artifactId>niord-uk-aton-import</artifactId>-->
+<!--            <version>3.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.niord</groupId>-->
+<!--            <artifactId>niord-uk-nw-import</artifactId>-->
+<!--            <version>3.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.niord</groupId>-->
+<!--            <artifactId>niord-uk-eureka</artifactId>-->
+<!--            <version>3.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.niord</groupId>-->
+<!--            <artifactId>niord-uk-s125</artifactId>-->
+<!--            <version>3.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-promulgation</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-keycloak-authorization</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-artemis-jms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-postgresql</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-aton-import</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <groupId>net.postgis</groupId>
+            <artifactId>postgis-jdbc</artifactId>
+            <version>2.2.1</version>
         </dependency>
+
         <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-nw-import</artifactId>
-            <version>2.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-eureka</artifactId>
-            <version>2.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-s125</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <groupId>stax</groupId>
+            <artifactId>stax</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
     </dependencies>
@@ -89,9 +124,33 @@
 
         <plugins>
             <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>2.1.0.Beta1</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${io.quarkus.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>generate-code</goal>
+                            <goal>generate-code-tests</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jboss.jandex</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>make-index</id>
+                        <goals>
+                            <goal>jandex</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -241,7 +300,7 @@
                                 <configuration>
                                     <target>
                                         <delete>
-                                            <dirset dir="${project.build.directory}" includes="${project.build.finalName}.war" />
+                                            <dirset dir="${project.build.directory}" includes="${project.build.finalName}.jar" />
                                         </delete>
                                         <zip basedir="${project.build.directory}/${project.build.finalName}"
                                              destfile="${project.build.directory}/${project.build.finalName}.war">
@@ -259,5 +318,15 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

@@ -17,7 +17,6 @@ package org.niord.importer.nw;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.resteasy.annotations.cache.NoCache;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import org.niord.core.batch.BatchService;
 import org.niord.core.user.Roles;
 import org.niord.model.IJsonSerializable;
@@ -25,13 +24,9 @@ import org.slf4j.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +36,7 @@ import java.util.Map;
  * Imports legacy NW from an "oldmsi" database.
  */
 @Path("/import/nw")
-@Stateless
-@SecurityDomain("keycloak")
+@RequestScoped
 @RolesAllowed(Roles.ADMIN)
 @SuppressWarnings("unused")
 public class LegacyNwImportRestService {

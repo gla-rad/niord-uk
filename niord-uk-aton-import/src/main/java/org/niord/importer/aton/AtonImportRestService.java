@@ -16,7 +16,6 @@
 package org.niord.importer.aton;
 
 import org.apache.commons.fileupload.FileItem;
-import org.jboss.ejb3.annotation.SecurityDomain;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.vo.AtonNodeVo;
 import org.niord.core.aton.vo.AtonOsmVo;
@@ -32,7 +31,7 @@ import org.slf4j.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -53,8 +52,7 @@ import java.util.Map;
  * Imports AtoN from Excel sheets.
  */
 @Path("/import/atons")
-@Stateless
-@SecurityDomain("keycloak")
+@RequestScoped
 @PermitAll
 @SuppressWarnings("unused")
 public class AtonImportRestService {

@@ -20,13 +20,12 @@ import org.locationtech.jts.geom.Geometry;
 import org.niord.core.area.Area;
 import org.niord.core.area.AreaSearchParams;
 import org.niord.core.area.AreaService;
-import org.niord.core.domain.Domain;
-import org.niord.core.domain.DomainService;
-import org.niord.core.schedule.FiringScheduleService;
-import org.niord.core.schedule.FiringPeriod;
+import org.niord.core.area.AreaType;
 import org.niord.core.category.Category;
 import org.niord.core.chart.Chart;
 import org.niord.core.conf.TextResource;
+import org.niord.core.domain.Domain;
+import org.niord.core.domain.DomainService;
 import org.niord.core.geojson.Feature;
 import org.niord.core.geojson.FeatureCollection;
 import org.niord.core.geojson.JtsConverter;
@@ -34,36 +33,25 @@ import org.niord.core.message.Message;
 import org.niord.core.message.MessagePart;
 import org.niord.core.message.MessageSeries;
 import org.niord.core.message.MessageSeriesService;
+import org.niord.core.schedule.FiringPeriod;
+import org.niord.core.schedule.FiringScheduleService;
 import org.niord.core.settings.SettingsService;
 import org.niord.core.settings.annotation.Setting;
 import org.niord.core.util.TimeUtils;
 import org.niord.model.geojson.PointVo;
 import org.niord.model.geojson.PolygonVo;
-import org.niord.core.area.AreaType;
 import org.niord.model.message.MainType;
 import org.niord.model.message.MessagePartType;
 import org.niord.model.message.Status;
 import org.niord.model.message.Type;
 import org.slf4j.Logger;
 
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
+import java.sql.*;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,7 +62,7 @@ import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
 /**
  * Imports firing areas from a local db dump of the Danish MSI database
  */
-@Stateless
+@RequestScoped
 public class LegacyFiringAreaImportService {
 
     public static Pattern FIRING_AREA_NAME_FORMAT_1 = Pattern.compile(

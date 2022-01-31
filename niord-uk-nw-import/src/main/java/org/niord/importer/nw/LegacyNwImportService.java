@@ -25,15 +25,7 @@ import org.niord.core.domain.DomainService;
 import org.niord.core.geojson.Feature;
 import org.niord.core.geojson.FeatureCollection;
 import org.niord.core.geojson.JtsConverter;
-import org.niord.core.message.DateInterval;
-import org.niord.core.message.Message;
-import org.niord.core.message.MessageDesc;
-import org.niord.core.message.MessagePart;
-import org.niord.core.message.MessagePartDesc;
-import org.niord.core.message.MessageSearchParams;
-import org.niord.core.message.MessageSeries;
-import org.niord.core.message.MessageSeriesService;
-import org.niord.core.message.MessageService;
+import org.niord.core.message.*;
 import org.niord.core.settings.Setting;
 import org.niord.core.settings.SettingsService;
 import org.niord.core.util.TextUtils;
@@ -48,26 +40,17 @@ import org.niord.model.message.Status;
 import org.niord.model.message.Type;
 import org.slf4j.Logger;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.sql.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Imports messages from a local db dump of the Danish MSI database
  */
-@Stateless
+@RequestScoped
 public class LegacyNwImportService {
 
     @Inject
