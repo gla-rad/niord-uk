@@ -15,6 +15,7 @@
  */
 package org.niord.importer.nw;
 
+import io.quarkus.scheduler.Scheduled;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.niord.core.batch.BatchService;
@@ -23,7 +24,6 @@ import org.niord.model.IJsonSerializable;
 import org.slf4j.Logger;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Schedule;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -122,8 +122,8 @@ public class LegacyNwImportRestService {
     /**
      * Called periodically to auto-import legacy NW messages (if the auto-import flag is turned on)
      */
-    @Schedule(persistent = false, second = "40", minute = "*/10", hour = "*")
-    private void periodicAutoImportNwMessages() {
+    @Scheduled(cron="40 */10 * * * ?")
+    void periodicAutoImportNwMessages() {
         try {
             long now = System.currentTimeMillis();
 

@@ -33,31 +33,31 @@
         </dependency>
 
         <!-- UK dependencies -->
-<!--        <dependency>-->
-<!--            <groupId>org.niord</groupId>-->
-<!--            <artifactId>niord-uk-promulgation</artifactId>-->
-<!--            <version>3.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.niord</groupId>-->
-<!--            <artifactId>niord-uk-aton-import</artifactId>-->
-<!--            <version>3.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.niord</groupId>-->
-<!--            <artifactId>niord-uk-nw-import</artifactId>-->
-<!--            <version>3.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.niord</groupId>-->
-<!--            <artifactId>niord-uk-eureka</artifactId>-->
-<!--            <version>3.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.niord</groupId>-->
-<!--            <artifactId>niord-uk-s125</artifactId>-->
-<!--            <version>3.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-promulgation</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-aton-import</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-nw-import</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-eureka</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-s125</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -106,7 +106,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/persistence.xml</include>
                     <include>**/version.properties</include>
                     <include>**/home-ctrl.js</include>
                 </includes>

@@ -16,6 +16,7 @@
 
 package org.niord.importer.nw;
 
+import io.quarkus.scheduler.Scheduled;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.niord.core.area.Area;
 import org.niord.core.batch.BatchService;
@@ -27,7 +28,6 @@ import org.niord.model.IJsonSerializable;
 import org.slf4j.Logger;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Schedule;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -172,8 +172,8 @@ public class LegacyFiringAreaImportRestService {
     /**
      * Called periodically to auto-import the legacy firing exercise schedule (if the auto-import flag is turned on)
      */
-    @Schedule(persistent = false, second = "10", minute = "*/7", hour = "*")
-    private void periodicAutoImportFaSchedule() {
+    @Scheduled(cron="10 */7 * * * ?")
+    void periodicAutoImportFaSchedule() {
         try {
 
             Boolean autoImport = faImportService.getAutoImportFeSchedule();
