@@ -21,6 +21,7 @@ import org.niord.core.util.JsonUtils;
 import org.niord.importer.nw.LegacyNwImportRestService.ImportLegacyNwData;
 import org.niord.importer.nw.LegacyNwImportService;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -42,7 +43,8 @@ import java.io.Serializable;
  * }
  * </pre>
  */
-@Named
+@Dependent
+@Named("batchDkNwImportReader")
 public class BatchDkNwImportReader extends AbstractItemHandler {
 
     @Inject

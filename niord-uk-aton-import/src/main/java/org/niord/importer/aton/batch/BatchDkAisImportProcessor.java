@@ -21,6 +21,7 @@ import org.niord.core.aton.AtonTag;
 import org.niord.core.user.User;
 import org.slf4j.Logger;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -32,7 +33,8 @@ import javax.inject.Named;
  * http://wiki.openstreetmap.org/wiki/Key:seamark
  * and sub-pages.
  */
-@Named
+@Dependent
+@Named("batchDkAisImportProcessor")
 public class BatchDkAisImportProcessor extends AbstractDkAtonImportProcessor {
 
     @Inject

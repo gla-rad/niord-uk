@@ -18,12 +18,14 @@ package org.niord.importer.nw.batch;
 import org.niord.core.message.Message;
 import org.niord.core.message.batch.BatchMessageImportProcessor;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 /**
  * Processes legacy NW messages
  */
-@Named
+@Dependent
+@Named("batchDkNwImportProcessor")
 public class BatchDkNwImportProcessor extends BatchMessageImportProcessor {
 
 

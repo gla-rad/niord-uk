@@ -15,12 +15,14 @@
  */
 package org.niord.importer.aton.batch;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 /**
  * Reads AtoNs from the DB
  */
-@Named
+@Dependent
+@Named("batchDkAtonImportReader")
 public class BatchDkAtonImportReader extends AbstractDkAtonImportReader {
 
     public static final String[] FIELDS = {
