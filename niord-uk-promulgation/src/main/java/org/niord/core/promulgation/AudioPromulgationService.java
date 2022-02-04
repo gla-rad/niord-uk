@@ -30,7 +30,6 @@ import org.niord.model.message.MessagePartType;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ResourceBundle;
@@ -42,7 +41,6 @@ import java.util.ResourceBundle;
  * and sent to the radio station via e-mail.
  */
 @ApplicationScoped
-@Startup
 @Lock(LockType.READ)
 @SuppressWarnings("unused")
 public class AudioPromulgationService extends BasePromulgationService {

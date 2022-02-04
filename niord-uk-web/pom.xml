@@ -33,19 +33,14 @@
         </dependency>
 
         <!-- UK dependencies -->
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-promulgation</artifactId>
-            <version>3.0-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.niord</groupId>-->
+<!--            <artifactId>niord-uk-promulgation</artifactId>-->
+<!--            <version>3.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-aton-import</artifactId>
-            <version>3.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-nw-import</artifactId>
             <version>3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -63,11 +58,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-oidc</artifactId>
         </dependency>
 
         <dependency>
