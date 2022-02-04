@@ -26,20 +26,19 @@ import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
 import org.niord.core.eureka.models.EurekaHealth;
 import org.slf4j.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 /**
  * The Eureka Client Implementation.
  */
 @ApplicationScoped
-@Startup
 public class EurekaClientService {
 
     @Inject
@@ -50,17 +49,9 @@ public class EurekaClientService {
     private static EurekaClient eurekaClient;
 
     /**
-     * The Eureka Client Service Constructor.
-     */
-    public EurekaClientService() {
-
-    }
-
-    /**
      * Initialize the data store.
      */
-    @PostConstruct
-    protected void init() {
+    void init(@Observes StartupEvent ev) {
         applicationInfoManager = initializeApplicationInfoManager(new MyDataCenterInstanceConfig());
         applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.STARTING);
 
@@ -75,8 +66,7 @@ public class EurekaClientService {
     /**
      * Clean up Lucene index.
      */
-    @PreDestroy
-    protected void destroy() {
+    void destroy(@Observes ShutdownEvent ev) {
         applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
     }
 

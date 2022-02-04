@@ -19,9 +19,11 @@ package org.niord.core.eureka.controllers;
 import org.niord.core.eureka.services.EurekaClientService;
 
 import javax.annotation.security.PermitAll;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -29,7 +31,7 @@ import javax.ws.rs.core.Response;
  * REST interface to the Eureka Client
  */
 @Path("/")
-@Stateless
+@ApplicationScoped
 @PermitAll
 @SuppressWarnings("unused")
 public class EurekaClientRestService {
