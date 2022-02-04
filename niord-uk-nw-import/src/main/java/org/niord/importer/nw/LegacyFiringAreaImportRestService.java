@@ -49,7 +49,6 @@ import java.util.stream.Collectors;
  */
 @Path("/import/fa")
 @Stateless
-@SecurityDomain("keycloak")
 @RolesAllowed(Roles.ADMIN)
 @SuppressWarnings("unused")
 public class LegacyFiringAreaImportRestService {

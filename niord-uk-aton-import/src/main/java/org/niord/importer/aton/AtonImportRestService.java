@@ -54,7 +54,6 @@ import java.util.Map;
  */
 @Path("/import/atons")
 @Stateless
-@SecurityDomain("keycloak")
 @PermitAll
 @SuppressWarnings("unused")
 public class AtonImportRestService {

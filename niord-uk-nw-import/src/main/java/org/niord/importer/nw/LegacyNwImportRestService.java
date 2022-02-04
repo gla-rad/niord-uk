@@ -42,7 +42,6 @@ import java.util.Map;
  */
 @Path("/import/nw")
 @Stateless
-@SecurityDomain("keycloak")
 @RolesAllowed(Roles.ADMIN)
 @SuppressWarnings("unused")
 public class LegacyNwImportRestService {
