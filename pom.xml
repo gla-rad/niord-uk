@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <niord.version>3.0.0-M1</niord.version>
         <poi.version>3.13</poi.version>
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
     </properties>
@@ -35,17 +36,5 @@
         <module>niord-uk-eureka</module>
         <module>niord-uk-s125</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${io.quarkus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>

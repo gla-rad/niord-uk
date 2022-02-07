@@ -22,10 +22,13 @@
         <artifactId>niord-uk-parent</artifactId>
         <groupId>org.niord</groupId>
         <version>3.0.0-M1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>niord-uk-s125</artifactId>
+    <packaging>jar</packaging>
+    <name>Niord S-125 library</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -48,7 +51,13 @@
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-core</artifactId>
-            <version>3.0.0-M1</version>
+            <version>${niord.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-model</artifactId>
+            <version>${niord.version}</version>
         </dependency>
 
         <dependency>
