@@ -17,6 +17,17 @@
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>grad</id>
+            <url>https://gla-rrnav1.dyndns.org:8081/repository/grad/</url>
+        </repository>
+        <repository>
+            <id>grad-snapshots</id>
+            <url>https://gla-rrnav1.dyndns.org:8081/repository/grad-snapshots/</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>niord-uk-web</module>
         <module>niord-uk-promulgation</module>
