@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.niord</groupId>
         <artifactId>niord-uk-parent</artifactId>
-        <version>3.0-SNAPSHOT</version>
+        <version>3.0.0-M1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -13,45 +13,55 @@
     <name>Niord UK web application</name>
 
     <properties>
-        <tika.version>1.11</tika.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd-MM-yyyy HH:mm 'UTC'</maven.build.timestamp.format>
-        <niord-core.jar>niord-core-${project.version}.jar</niord-core.jar>
-        <niord-uk-promulgation.jar>niord-uk-promulgation-${project.version}.jar</niord-uk-promulgation.jar>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>grad</id>
+            <url>https://gla-rrnav1.dyndns.org:8081/repository/grad/</url>
+        </repository>
+        <repository>
+            <id>grad-snapshots</id>
+            <url>https://gla-rrnav1.dyndns.org:8081/repository/grad-snapshots/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-core</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-web</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.0.0-M1</version>
         </dependency>
 
         <!-- UK dependencies -->
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-promulgation</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-aton-import</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-eureka</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-s125</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>3.0.0-M1</version>
         </dependency>
 
         <dependency>
@@ -120,6 +130,36 @@
         </resources>
 
         <plugins>
+
+<!--            <plugin>-->
+<!--                <groupId>org.codehaus.mojo</groupId>-->
+<!--                <artifactId>build-helper-maven-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>maven-version</id>-->
+<!--                        <goals>-->
+<!--                            <goal>maven-version</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>3.2.2/version>-->
+<!--                <configuration>-->
+<!--                    <archive>-->
+<!--                        <manifestEntries>-->
+<!--                            <Maven-Version>${maven.version}</Maven-Version>-->
+<!--                            <addClasspath>true</addClasspath>-->
+<!--                            <classpathPrefix>lib/</classpathPrefix>-->
+<!--                            <mainClass>org.niord.core.Main</mainClass>-->
+<!--                        </manifestEntries>-->
+<!--                    </archive>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
@@ -138,16 +178,13 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
                 <configuration>
-                    <workDirectory>target/overlay</workDirectory>
-                    <overlays>
-                        <overlay>
-                            <groupId>org.niord</groupId>
-                            <artifactId>niord-web</artifactId>
-                        </overlay>
-                    </overlays>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <maven.home>${maven.home}</maven.home>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
@@ -155,148 +192,38 @@
 
 
     <!-- ********************************************************************** -->
-    <!-- ** The "dist" profile will create a war where CSS and JavaScript files -->
-    <!-- ** have been merged, and include an HTML5 app cache file as well       -->
+    <!-- ** The "native" profile will create a native executable where that can -->
+    <!-- ** run as a linux service on deployment. No web data will be included. -->
     <!-- ********************************************************************** -->
     <profiles>
         <profile>
-            <id>dist</id>
+            <id>native</id>
+            <properties>
+                <quarkus.package.type>native</quarkus.package.type>
+                <quarkus.native.additional-build-args>--allow-incomplete-classpath</quarkus.native.additional-build-args>
+            </properties>
             <build>
                 <plugins>
-
-                    <!-- Compress jS and CSS files -->
-                    <plugin>
-                        <groupId>com.samaxes.maven</groupId>
-                        <artifactId>minify-maven-plugin</artifactId>
-                        <version>1.7.4</version>
-                        <executions>
-                            <execution>
-                                <id>default-minify</id>
-                                <configuration>
-
-                                    <webappSourceDir>${project.build.directory}/${project.build.finalName}</webappSourceDir>
-                                    <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
-
-                                    <!-- CSS files: NB site.css must be last to facilitate war project overlays -->
-                                    <cssSourceFiles>
-                                        <cssSourceFile>app.css</cssSourceFile>
-                                        <cssSourceFile>home.css</cssSourceFile>
-                                        <cssSourceFile>editor.css</cssSourceFile>
-                                        <cssSourceFile>schedule.css</cssSourceFile>
-                                        <cssSourceFile>admin.css</cssSourceFile>
-                                        <cssSourceFile>atons.css</cssSourceFile>
-                                        <cssSourceFile>messages.css</cssSourceFile>
-                                        <cssSourceFile>site.css</cssSourceFile>
-                                    </cssSourceFiles>
-                                    <cssFinalFile>niord-all.css</cssFinalFile>
-
-                                    <!-- JavaScript files: NB niord-app.js first -->
-                                    <jsSourceDir>app</jsSourceDir>
-                                    <jsEngine>CLOSURE</jsEngine>
-                                    <jsSourceFiles>
-                                        <jsSourceFile>niord-app.js</jsSourceFile>
-                                    </jsSourceFiles>
-                                    <jsSourceIncludes>
-                                        <jsSourceInclude>**/*.js</jsSourceInclude>
-                                    </jsSourceIncludes>
-                                    <jsFinalFile>niord-all.js</jsFinalFile>
-
-                                </configuration>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>minify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-
-                    <!-- Move index-prod.html to index.html -->
-                    <plugin>
-                        <groupId>com.coderplus.maven.plugins</groupId>
-                        <artifactId>copy-rename-maven-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>rename-file</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>rename</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceFile>${project.build.directory}/${project.build.finalName}/index-dist.html</sourceFile>
-                                    <destinationFile>${project.build.directory}/${project.build.finalName}/index.html</destinationFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-
-                    <!-- Generate a HTML5 application cache manifest -->
-                    <plugin>
-                        <groupId>com.github.cameroncan</groupId>
-                        <artifactId>cachemanifest-maven-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>generate-manifest</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <manifestVersion>${timestamp}</manifestVersion>
-                            <inputDirectory>${project.build.directory}/${project.build.finalName}</inputDirectory>
-                            <outputManifestFile>${project.build.directory}/${project.build.finalName}/index.manifest</outputManifestFile>
-                            <includes>
-                                <include>app/niord-all.js</include>
-                                <include>app/niord-all.min.js</include>
-                                <include>app/**/*.html</include>
-                                <include>css/niord-all.css</include>
-                                <include>css/niord-all.min.css</include>
-                                <include>css/messages.css</include> <!-- loaded by TinyMCS -->
-                                <include>css/templates/*.css</include>
-                                <include>ext/**</include>
-                                <include>img/**</include>
-                                <include>*.html</include>
-                            </includes>
-                            <additionals>
-                            </additionals>
-                            <networkResources>
-                                <networkResource>*</networkResource>
-                            </networkResources>
-                            <fallback>/index.html /index.html</fallback>
-                        </configuration>
-                    </plugin>
-
-
-                    <!-- Update war with changed files -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${surefire-plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>package</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <delete>
-                                            <dirset dir="${project.build.directory}" includes="${project.build.finalName}.jar" />
-                                        </delete>
-                                        <zip basedir="${project.build.directory}/${project.build.finalName}"
-                                             destfile="${project.build.directory}/${project.build.finalName}.war">
-                                        </zip>
-                                    </target>
-                                </configuration>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                                        <maven.home>${maven.home}</maven.home>
+                                    </systemPropertyVariables>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>

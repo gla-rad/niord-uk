@@ -1,0 +1,14 @@
+[Unit]
+Description=e-Navigation Niord Service - Quarkus
+After=syslog.target
+
+[Service]
+WorkingDirectory=/opt/niordQuarkus
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Xms512m Xmx1024m -jar quarkus-run.jar
+User=root
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
