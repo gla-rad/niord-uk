@@ -6,7 +6,6 @@
         <groupId>org.niord</groupId>
         <artifactId>niord-uk-parent</artifactId>
         <version>3.0.0-M1</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>niord-uk-promulgation</artifactId>
@@ -34,12 +33,6 @@
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-core</artifactId>
-            <version>3.0.0-M1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-model</artifactId>
             <version>3.0.0-M1</version>
         </dependency>
 
