@@ -10,3 +10,4 @@ private/
 .idea
 *.iml
 /org.niord.core.aton.AtonNode/
+/niord-uk-web/AtonNode/
