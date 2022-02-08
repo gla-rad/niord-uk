@@ -1,13 +1,41 @@
-/wildfly-*
+HELP.md
 target/
-niord-dk-web/overlays/
-.settings
-.project
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
 .classpath
-private/
-*~
-.DS_Store
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
 .idea
+*.iws
 *.iml
-/org.niord.core.aton.AtonNode/
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Lucence Index ###
+/lucene/
 /niord-uk-web/AtonNode/
+
+### macOS ###
+.DS_Store
+
