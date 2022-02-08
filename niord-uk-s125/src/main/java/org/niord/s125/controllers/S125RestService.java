@@ -16,16 +16,20 @@
 
 package org.niord.s125.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.IOUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.niord.s125.services.S125Service;
 import org.niord.s125.utils.XmlUtils;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -41,11 +45,8 @@ import java.io.InputStream;
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
-@Api(value = "/S-125",
-        description = "Public API for accessing messages as S-125 GML. " +
-                "NB: Only use this service for test purposes, not for production.",
-        tags = {"S-125" })
 @RequestScoped
+@Transactional
 @Path("/S-125")
 public class S125RestService {
 
@@ -58,20 +59,26 @@ public class S125RestService {
     /**
      * Returns the S-125 GML representation for the given AtoN.
      */
-    @ApiOperation(
-            value = "Returns S-125 GML representation for the aton." +
-                    "NB: Only use this service for test purposes, not for production.",
-            response = String.class,
-            tags = {"S-125"}
-    )
     @GET
     @Path("/atons/{atonUID}")
+    @Operation(
+            description = "Returns S-125 GML representation for the aton." +
+                    "NB: Only use this service for test purposes, not for production."
+    )
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(implementation = String.class)
+            )
+    )
+    @Tag(ref = "S-125")
     @Produces({"application/gml+xml;charset=UTF-8"})
     public Response s125AtonDetails(
-            @ApiParam(value = "The aton UID or aton ID", example = "aton-001")
+            @Parameter(name = "The aton UID or aton ID", example = "aton-001")
             @PathParam("atonUID") String atonUID,
 
-            @ApiParam(value = "Two-letter ISO 639-1 language code", example = "en")
+            @Parameter(name = "Two-letter ISO 639-1 language code", example = "en")
             @QueryParam("indent") @DefaultValue("4") Integer indent,
             @QueryParam("lang") @DefaultValue("en") String language
     ) {
