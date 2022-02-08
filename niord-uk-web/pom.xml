@@ -15,6 +15,8 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <artemis.version>1.0.3</artemis.version>
+        <postgis.version>2.2.1</postgis.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd-MM-yyyy HH:mm 'UTC'</maven.build.timestamp.format>
     </properties>
@@ -31,11 +33,13 @@
     </repositories>
 
     <dependencies>
+
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-core</artifactId>
             <version>${niord.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-web</artifactId>
@@ -45,29 +49,23 @@
         <!-- UK dependencies -->
         <dependency>
             <groupId>org.niord</groupId>
-            <artifactId>niord-uk-promulgation</artifactId>
-            <version>3.0.0-M1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.niord</groupId>
             <artifactId>niord-uk-aton-import</artifactId>
-            <version>3.0.0-M1</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-eureka</artifactId>
-            <version>3.0.0-M1</version>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-promulgation</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-s125</artifactId>
-            <version>3.0.0-M1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -83,13 +81,13 @@
         <dependency>
             <groupId>io.quarkiverse.artemis</groupId>
             <artifactId>quarkus-artemis-jms</artifactId>
-            <version>1.0.3</version>
+            <version>${artemis.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.postgis</groupId>
             <artifactId>postgis-jdbc</artifactId>
-            <version>2.2.1</version>
+            <version>${postgis.version}</version>
         </dependency>
 
         <dependency>
@@ -130,20 +128,6 @@
         </resources>
 
         <plugins>
-
-            <plugin>
-                <groupId>org.jboss.jandex</groupId>
-                <artifactId>jandex-maven-plugin</artifactId>
-                <version>1.1.0</version>
-                <executions>
-                    <execution>
-                        <id>make-index</id>
-                        <goals>
-                            <goal>jandex</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>io.quarkus</groupId>
