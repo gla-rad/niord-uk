@@ -33,8 +33,7 @@ build/
 .vscode/
 
 ### Lucence Index ###
-/lucene/
-/niord-uk-web/AtonNode/
+.lucene/
 
 ### macOS ###
 .DS_Store
