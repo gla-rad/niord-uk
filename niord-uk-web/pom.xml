@@ -114,7 +114,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <excludes>
-                    <exclude>**/persistence.xml</exclude>
                     <exclude>**/version.properties</exclude>
                     <exclude>**/home-ctrl.js</exclude>
                 </excludes>
