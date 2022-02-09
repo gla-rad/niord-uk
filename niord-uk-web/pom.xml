@@ -79,12 +79,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.quarkiverse.artemis</groupId>
-            <artifactId>quarkus-artemis-jms</artifactId>
-            <version>${artemis.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>net.postgis</groupId>
             <artifactId>postgis-jdbc</artifactId>
             <version>${postgis.version}</version>
