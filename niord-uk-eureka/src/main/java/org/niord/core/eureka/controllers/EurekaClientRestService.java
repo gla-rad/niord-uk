@@ -131,6 +131,7 @@ public class EurekaClientRestService {
         return "http://"
                 + this.eurekaClientService.getEurekaClientHostname()
                 + ":" + this.assignedPort
+                + "/rest/actuator"
                 + endpoint;
     }
 
