@@ -45,29 +45,29 @@ public class EurekaClientService {
     Logger log;
 
     // Service Variables
-    private static ApplicationInfoManager applicationInfoManager;
-    private static EurekaClient eurekaClient;
+    private ApplicationInfoManager applicationInfoManager;
+    private EurekaClient eurekaClient;
 
     /**
      * Initialize the data store.
      */
     void init(@Observes StartupEvent ev) {
-        applicationInfoManager = initializeApplicationInfoManager(new MyDataCenterInstanceConfig());
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.STARTING);
+        this.applicationInfoManager = initializeApplicationInfoManager(new MyDataCenterInstanceConfig());
+        this.applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.STARTING);
 
-        log.info("Initialising the Eureka Client...");
+        this.log.info("Initialising the Eureka Client...");
 
-        eurekaClient = initializeEurekaClient(applicationInfoManager, new DefaultEurekaClientConfig());
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.UP);
+        this.eurekaClient = initializeEurekaClient(this.applicationInfoManager, new DefaultEurekaClientConfig());
+        this.applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.UP);
 
-        log.info("Eureka Client now UP...");
+        this.log.info("Eureka Client now UP...");
     }
 
     /**
      * Clean up Lucene index.
      */
     void destroy(@Observes ShutdownEvent ev) {
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
+        this.applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
     }
 
     /**
@@ -76,13 +76,13 @@ public class EurekaClientService {
      * @param instanceConfig the instance config
      * @return the initialised application info manager instance
      */
-    protected static synchronized ApplicationInfoManager initializeApplicationInfoManager(EurekaInstanceConfig instanceConfig) {
-        if (applicationInfoManager == null) {
+    protected ApplicationInfoManager initializeApplicationInfoManager(EurekaInstanceConfig instanceConfig) {
+        if (this.applicationInfoManager == null) {
             InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
-            applicationInfoManager = new ApplicationInfoManager(instanceConfig, instanceInfo);
+            this.applicationInfoManager = new ApplicationInfoManager(instanceConfig, instanceInfo);
         }
 
-        return applicationInfoManager;
+        return this.applicationInfoManager;
     }
 
     /**
@@ -92,12 +92,21 @@ public class EurekaClientService {
      * @param clientConfig the eureka client configuration
      * @return the eureka client
      */
-    protected static synchronized EurekaClient initializeEurekaClient(ApplicationInfoManager applicationInfoManager, EurekaClientConfig clientConfig) {
-        if (eurekaClient == null) {
-            eurekaClient = new DiscoveryClient(applicationInfoManager, clientConfig);
+    protected EurekaClient initializeEurekaClient(ApplicationInfoManager applicationInfoManager, EurekaClientConfig clientConfig) {
+        if (this.eurekaClient == null) {
+            this.eurekaClient = new DiscoveryClient(applicationInfoManager, clientConfig);
         }
 
-        return eurekaClient;
+        return this.eurekaClient;
+    }
+
+    /**
+     * Returns the registered hostname with the eureka server.
+     *
+     * @return the registered hostname
+     */
+    public String getEurekaClientHostname() {
+        return this.eurekaClient.getApplicationInfoManager().getInfo().getHostName();
     }
 
     /**
@@ -106,7 +115,7 @@ public class EurekaClientService {
      * @return the service status
      */
     public InstanceInfo.InstanceStatus getStatus() {
-        return applicationInfoManager.getInfo().getStatus();
+        return this.applicationInfoManager.getInfo().getStatus();
     }
 
     /**
@@ -116,7 +125,7 @@ public class EurekaClientService {
      */
     public EurekaHealth getHealth() {
         EurekaHealth eurekaHealth = new EurekaHealth();
-        eurekaHealth.setStatus(applicationInfoManager.getInfo().getStatus());
+        eurekaHealth.setStatus(this.applicationInfoManager.getInfo().getStatus());
         return eurekaHealth;
     }
 
