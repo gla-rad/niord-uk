@@ -34,6 +34,9 @@
         <repository>
             <id>grad-snapshots</id>
             <url>https://gla-rrnav1.dyndns.org:8081/repository/grad-snapshots/</url>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
 
