@@ -16,22 +16,24 @@
 
 package org.niord.s125.services;
 
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+import _int.iho.s125.gml._0.DataSet;
+import _int.iho.s125.gml._0.MemberType;
+import _int.iho.s125.gml._0.S125AidsToNavigationType;
+
+import _int.iho.s125.gml._0.S125BuoyCardinalType;
+import _net.opengis.gml.profiles.AbstractFeatureType;
 import org.niord.core.NiordApp;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
-import org.niord.core.aton.vo.AtonNodeVo;
-import org.niord.core.geojson.GeoJsonUtils;
 import org.niord.core.geojson.JtsConverter;
 import org.niord.model.geojson.GeometryVo;
+import org.niord.s125.utils.S100Utils;
+import org.niord.s125.utils.S125Utils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 
 /**
  * The S-125 Service
@@ -71,29 +73,36 @@ public class S125Service {
 
         // And get the geometry and the AtoN node VO object
         GeometryVo geometry = JtsConverter.fromJts(atonNode.getGeometry());
-        AtonNodeVo aton = atonNode.toVo();
 
-        // Pass down all the parameters to the freemarker script
-        Map<String, Object> data = new HashMap<>();
-        data.put("aton", aton);
-        data.put("atonUID", atonUID);
-        data.put("geometry", geometry);
-        data.put("language", language);
-
-        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{geometry});
-        if (bbox != null) {
-            data.put("bbox", bbox);
-        }
-
-        // We need to set an incompatible version in our initial configuration
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates/gml"));
-
-        StringWriter result = new StringWriter();
-        Template fmTemplate = cfg.getTemplate("generate-s125.ftl");
-
-        fmTemplate.process(data, result);
-        return result.toString();
+        S125AidsToNavigationType aidsToNavigationType = S125Utils.generateAidsToNavigation(atonNode);
+        DataSet s125Dataset = new DataSet();
+        MemberType s125DatasetMember = new MemberType();
+        s125DatasetMember.setAbstractFeature(new JAXBElement(new QName("Member"), AbstractFeatureType.class, aidsToNavigationType));
+        s125Dataset.getMembers().add(s125DatasetMember);
+        return S100Utils.marshalS125(s125Dataset);
+//        AtonNodeVo aton = atonNode.toVo();
+//
+//        // Pass down all the parameters to the freemarker script
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("aton", aton);
+//        data.put("atonUID", atonUID);
+//        data.put("geometry", geometry);
+//        data.put("language", language);
+//
+//        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{geometry});
+//        if (bbox != null) {
+//            data.put("bbox", bbox);
+//        }
+//
+//        // We need to set an incompatible version in our initial configuration
+//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+//        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates/gml"));
+//
+//        StringWriter result = new StringWriter();
+//        Template fmTemplate = cfg.getTemplate("generate-s125.ftl");
+//
+//        fmTemplate.process(data, result);
+//        return result.toString();
     }
 
 }

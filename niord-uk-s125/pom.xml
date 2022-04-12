@@ -39,6 +39,13 @@
             <version>${niord.version}</version>
         </dependency>
 
+        <!-- S-125 -->
+        <dependency>
+            <groupId>org.grad.eNav</groupId>
+            <artifactId>S125</artifactId>
+            <version>0.5.3</version>
+        </dependency>
+
     </dependencies>
 
 </project>
