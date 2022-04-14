@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.grad.eNav</groupId>
             <artifactId>S125</artifactId>
-            <version>0.5.3</version>
+            <version>0.5.6</version>
         </dependency>
 
     </dependencies>

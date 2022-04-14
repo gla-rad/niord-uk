@@ -16,24 +16,17 @@
 
 package org.niord.s125.services;
 
-import _int.iho.s125.gml._0.DataSet;
-import _int.iho.s125.gml._0.MemberType;
-import _int.iho.s125.gml._0.S125AidsToNavigationType;
-
-import _int.iho.s125.gml._0.S125BuoyCardinalType;
-import _net.opengis.gml.profiles.AbstractFeatureType;
+import org.grad.eNav.s125.utils.S100Utils;
 import org.niord.core.NiordApp;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
-import org.niord.core.geojson.JtsConverter;
-import org.niord.model.geojson.GeometryVo;
-import org.niord.s125.utils.S100Utils;
 import org.niord.s125.utils.S125Utils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
+import javax.xml.bind.JAXBException;
+import java.util.Collections;
+import java.util.Optional;
 
 /**
  * The S-125 Service
@@ -60,7 +53,7 @@ public class S125Service {
      * @return the generated GML
      */
     public String generateGML(String atonUID, String language) throws Exception {
-
+        // Try to access the AtoN
         AtonNode atonNode = this.atonService.findByAtonUid(atonUID);
 
         // Validate the AtoN
@@ -68,41 +61,12 @@ public class S125Service {
             throw new IllegalArgumentException("AtoN not found " + atonUID);
         }
 
-        // Ensure we use a valid language
-        language = app.getLanguage(language);
-
-        // And get the geometry and the AtoN node VO object
-        GeometryVo geometry = JtsConverter.fromJts(atonNode.getGeometry());
-
-        S125AidsToNavigationType aidsToNavigationType = S125Utils.generateAidsToNavigation(atonNode);
-        DataSet s125Dataset = new DataSet();
-        MemberType s125DatasetMember = new MemberType();
-        s125DatasetMember.setAbstractFeature(new JAXBElement(new QName("Member"), AbstractFeatureType.class, aidsToNavigationType));
-        s125Dataset.getMembers().add(s125DatasetMember);
-        return S100Utils.marshalS125(s125Dataset);
-//        AtonNodeVo aton = atonNode.toVo();
-//
-//        // Pass down all the parameters to the freemarker script
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("aton", aton);
-//        data.put("atonUID", atonUID);
-//        data.put("geometry", geometry);
-//        data.put("language", language);
-//
-//        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{geometry});
-//        if (bbox != null) {
-//            data.put("bbox", bbox);
-//        }
-//
-//        // We need to set an incompatible version in our initial configuration
-//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-//        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates/gml"));
-//
-//        StringWriter result = new StringWriter();
-//        Template fmTemplate = cfg.getTemplate("generate-s125.ftl");
-//
-//        fmTemplate.process(data, result);
-//        return result.toString();
+        // Use the utilities to translate the AtoN node to an S-125 dataset
+        return Optional.ofNullable(atonNode)
+                .map(Collections::singletonList)
+                .map(l -> S125Utils.packageToDataset(atonNode.getAtonUid(), l, "GRAD", app.getLanguage(language)))
+                .map(d -> {try {return S100Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
+                .orElse(null);
     }
 
 }
