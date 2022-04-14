@@ -340,7 +340,96 @@ public class S125DatasetBuilder {
      * @return The S-125 dataset member section generated
      */
     protected S125LightType generateLight(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+        // Figure out the sector type
+        final String tagKeyPrefix = atonNode.getTags()
+                .stream()
+                .filter(t -> t.getK().startsWith("seamark:light:"))
+                .findFirst()
+                .map(AtonTag::getK)
+                .map(s -> s.substring(0, s.lastIndexOf(":")+1))
+                .orElse("seamark:light");
+
         S125LightType member = new S125LightType();
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setTextualDescriptionInNationalLanguage(String.format("Light %s", Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse("Unknown")));
+        member.setColour(Optional.of(tagKeyPrefix+"colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getCategoryOfLights().add(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseLightCategory)
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setExhibitionConditionOfLight(Optional.of(tagKeyPrefix+"exhibition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ExhibitionConditionOfLight.fromValue(v + " light");} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setHeight(Optional.of(tagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setLightCharacteristic(Optional.of(tagKeyPrefix+"character")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseLightCharacter)
+                .orElse(null));
+        member.getLightVisibilities().add(Optional.of(tagKeyPrefix+"visibility")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125LightVisibility.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setOrientation(Optional.of(tagKeyPrefix+"orientation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(BigDecimal.ONE));
+        member.setMultiplicityOfLights(Optional.of(tagKeyPrefix+"multiple")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigInteger::new)
+                .orElse(BigInteger.ONE));
+        member.setSignalPeriod(Optional.of(tagKeyPrefix+"group")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setSignalPeriod(Optional.of(tagKeyPrefix+"period")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.setValueOfNominalRange(Optional.of(tagKeyPrefix+"range")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+
+        // Now fix the geometry... from a point to a curve???
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
         return member;
     }
 
@@ -353,6 +442,55 @@ public class S125DatasetBuilder {
      */
     protected S125LightVesselType generateLightVessel(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125LightVesselType member = new S125LightVesselType();
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setTextualDescriptionInNationalLanguage(String.format("Light Vessel %s", Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse("Unknown")));
+        member.getColours().add(Optional.of("seamark:light:colours")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:light:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of("seamark:light_vessel:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125RadarConspicuous.NOT_RADAR_CONSPICUOUS));
+        member.setVisuallyConspicuous(Optional.of("seamark:light_vessel:visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125VisuallyConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125VisuallyConspicuous.NOT_VISUALLY_CONSPICUOUS));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+
+        // Now fix the geometry... from a point to a curve???
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -471,6 +609,75 @@ public class S125DatasetBuilder {
      */
     protected String generateId() {
         return String.format("ID%03d", this.idIndex.getAndIncrement());
+    }
+
+    /**
+     * Translates the category of a light from the INT-1.preset.xml to the
+     * S-125 Category of Light enum.
+     *
+     * @param lightCategory     The INT-1-preset.xml light category
+     * @return the S-125 category of light enum entry
+     */
+    protected S125CategoryOfLight parseLightCategory(String lightCategory) {
+        switch (lightCategory) {
+            case "front": return S125CategoryOfLight.FRONT;
+            case "rear": return S125CategoryOfLight.REAR;
+            case "lower": return S125CategoryOfLight.LOWER;
+            case "upper": return S125CategoryOfLight.UPPER;
+            case "horizontal": return S125CategoryOfLight.HORIZONTALLY_DISPOSED;
+            case "vertical":  return S125CategoryOfLight.VERTICALLY_DISPOSED;
+            case "directional":  return S125CategoryOfLight.DIRECTIONAL_FUNCTION;
+            case "leading": return S125CategoryOfLight.LEADING_LIGHT;
+            case "aero": return S125CategoryOfLight.AERO_LIGHT;
+            case "air_obstruction": return S125CategoryOfLight.AIR_OBSTRUCTION_LIGHT;
+            case "fog_detector": return S125CategoryOfLight.FOG_DETECTOR_LIGHT;
+            case "floodlight": return S125CategoryOfLight.FLOOD_LIGHT;
+            case "strip_light": return S125CategoryOfLight.STRIP_LIGHT;
+            case "subsidiary": return S125CategoryOfLight.SUBSIDIARY_LIGHT;
+            case "spotlight": return S125CategoryOfLight.SPOTLIGHT;
+            case "moire": return S125CategoryOfLight.MOIRÉ_EFFECT;
+            case "emergency": return S125CategoryOfLight.EMERGENCY;
+            case "bearing": return S125CategoryOfLight.BEARING_LIGHT;
+            default: return null;
+        }
+    }
+
+    /**
+     * Translates the character of a light from the INT-1.preset.xml to the
+     * S-12t Light Characteristic enum.
+     *
+     * @param lightCharacter    The INT-1-preset.xml light character
+     * @return the S-125 category of light enum entry
+     */
+    protected S125LightCharacteristic parseLightCharacter(String lightCharacter) {
+        switch (lightCharacter) {
+            case "F": return S125LightCharacteristic.FIXED;
+            case "Fl": return S125LightCharacteristic.FLASHING;
+            case "LFl": return S125LightCharacteristic.LONG_FLASHING;
+            case "Q": return S125LightCharacteristic.QUICK_FLASHING;
+            case "VQ": return S125LightCharacteristic.VERY_QUICK_FLASHING;
+            case "UQ": return S125LightCharacteristic.ULTRA_QUICK_FLASHING;
+            case "Iso": return S125LightCharacteristic.ISOPHASED;
+            case "Oc": return S125LightCharacteristic.OCCULTING;
+            case "IQ": return S125LightCharacteristic.INTERRUPTED_QUICK_FLASHING;
+            case "IVQ": return S125LightCharacteristic.INTERRUPTED_VERY_QUICK_FLASHING;
+            case "IUQ": return S125LightCharacteristic.INTERRUPTED_ULTRA_QUICK_FLASHING;
+            case "Mo": return S125LightCharacteristic.MORSE;
+            case "FFl": return S125LightCharacteristic.FIXED_FLASH;
+            case "FlLFl": return S125LightCharacteristic.FLASH_LONG_FLASH;
+            case "OcFl": return S125LightCharacteristic.OCCULTING_FLASH;
+            case "FLFl": return S125LightCharacteristic.FIXED_LONG_FLASH;
+            case "Al.Oc": return S125LightCharacteristic.OCCULTING_ALTERNATING;
+            case "Al.LFl": return S125LightCharacteristic.LONG_FLASH_ALTERNATING;
+            case "Al.Fl": return S125LightCharacteristic.FLASH_ALTERNATING;
+            case "Al.Gr": return S125LightCharacteristic.GROUP_ALTERNATING;
+            case "Q+LFl": return S125LightCharacteristic.QUICK_FLASH_PLUS_LONG_FLASH;
+            case "VQ+LFl": return S125LightCharacteristic.VERY_QUICK_FLASH_PLUS_LONG_FLASH;
+            case "UQ+LFl": return S125LightCharacteristic.ULTRA_QUICK_FLASH_PLUS_LONG_FLASH;
+            case "Al": return S125LightCharacteristic.ALTERNATING;
+            case "Al.FFl": return S125LightCharacteristic.FIXED_AND_ALTERNATING_FLASHING;
+            default: return null;
+        }
     }
 
 }
