@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 GLA UK Research and Development Directive
+ * Copyright (c) 2022 GLA UK Research and Development Directive
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ import org.grad.eNav.s125.utils.S100Utils;
 import org.niord.core.NiordApp;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
-import org.niord.s125.utils.S125Utils;
+import org.niord.s125.models.S125DatasetInfo;
+import org.niord.s125.utils.S125DatasetBuilder;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -64,7 +65,7 @@ public class S125Service {
         // Use the utilities to translate the AtoN node to an S-125 dataset
         return Optional.ofNullable(atonNode)
                 .map(Collections::singletonList)
-                .map(l -> S125Utils.packageToDataset(atonNode.getAtonUid(), l, "GRAD", app.getLanguage(language)))
+                .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(atonNode.getAtonUid(), app.getOrganisation(), l), l))
                 .map(d -> {try {return S100Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
                 .orElse(null);
     }

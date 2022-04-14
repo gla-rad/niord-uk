@@ -1,49 +1,71 @@
+/*
+ * Copyright (c) 2022 GLA UK Research and Development Directive
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package org.niord.s125.utils;
 
 import _int.iala_aism.s125.gml._0_0.*;
-import _int.iala_aism.s125.gml._0_0.ObjectFactory;
-import _int.iho.s100.gml.base._1_0.*;
 import _int.iho.s100.gml.base._1_0.CurveType;
 import _int.iho.s100.gml.base._1_0.PointType;
+import _int.iho.s100.gml.base._1_0.*;
 import _net.opengis.gml.profiles.*;
-import org.locationtech.jts.geom.Point;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonTag;
 import org.niord.core.geojson.GeoJsonUtils;
 import org.niord.core.geojson.JtsConverter;
 import org.niord.model.geojson.CrsVo;
 import org.niord.model.geojson.GeoJsonVo;
+import org.niord.s125.models.S125DatasetInfo;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static org.niord.core.aton.AtonTag.TAG_ATON_TYPE;
 
-public class S125Utils {
+public class S125DatasetBuilder {
+
+    // Class Variables
+    private AtomicInteger idIndex;
+    private _int.iala_aism.s125.gml._0_0.ObjectFactory s125GMLFactory;
+    private _net.opengis.gml.profiles.ObjectFactory opengisGMLFactory;
 
     /**
-     * Packages the provided list of AtoN nodess into an S125 dataset as
+     * Class Constructor.
+     */
+    public S125DatasetBuilder() {
+        this.idIndex = new AtomicInteger(1);
+        this.s125GMLFactory = new _int.iala_aism.s125.gml._0_0.ObjectFactory();
+        this.opengisGMLFactory = new _net.opengis.gml.profiles.ObjectFactory();
+    }
+    
+    /**
+     * This is the main   the provided list of AtoN nodess into an S125 dataset as
      * dictated by the NIPWG S-125 data product specification.
      *
-     * @param atonNodes      The list of S-125 AtoN nodes
+     * @param datasetInfo   The dataset information
+     * @param atonNodes     The list of S-125 AtoN nodes
      */
-    public static DataSet packageToDataset(String dataSetId,
-                                           List<AtonNode> atonNodes,
-                                           String agency,
-                                           String language) {
+    public DataSet packageToDataset(S125DatasetInfo datasetInfo,
+                                    List<AtonNode> atonNodes) {
         // Initialise the dataset
         DataSet s125Dataset = new DataSet();
-        s125Dataset.setId(dataSetId);
+        s125Dataset.setId(datasetInfo.getDatasetId());
 
         //====================================================================//
         //                       BOUNDED BY SECTION                           //
@@ -66,7 +88,7 @@ public class S125Utils {
         upperCorner.getValues().add(bbox[3]);
         upperCorner.getValues().add(bbox[2]);
 
-        // And create the bounding by envelop
+        // And create the bounding by envelope
         BoundingShapeType boundingShapeType = new BoundingShapeType();
         EnvelopeType envelopeType = new EnvelopeType();
         envelopeType.setSrsName(srsName);
@@ -79,18 +101,15 @@ public class S125Utils {
         //                  DATASET IDENTIFICATION SECTION                    //
         //====================================================================//
         DataSetIdentificationType dataSetIdentificationType = new DataSetIdentificationType();
-        dataSetIdentificationType.setEncodingSpecification("S100 Part 10b");
-        dataSetIdentificationType.setEncodingSpecificationEdition("1.0");
-        dataSetIdentificationType.setProductIdentifier("S-125");
-        dataSetIdentificationType.setProductEdition("0.0.1");
-        dataSetIdentificationType.setDatasetFileIdentifier("S-125_GRAD_"+ dataSetId);
-        dataSetIdentificationType.setDatasetTitle("Niord S-125 Dataset");
+        dataSetIdentificationType.setEncodingSpecification(datasetInfo.getEncodingSpecification());
+        dataSetIdentificationType.setEncodingSpecificationEdition(datasetInfo.getEncodingSpecificationEdition());
+        dataSetIdentificationType.setProductIdentifier(datasetInfo.getProductionIdentifier());
+        dataSetIdentificationType.setProductEdition(datasetInfo.getProductionEdition());
+        dataSetIdentificationType.setDatasetFileIdentifier(datasetInfo.getFileIdentifier());
+        dataSetIdentificationType.setDatasetTitle(datasetInfo.getTitle());
         dataSetIdentificationType.setDatasetReferenceDate(new Date());
         dataSetIdentificationType.setDatasetLanguage(ISO6391.EN);
-        dataSetIdentificationType.setDatasetAbstract("Autogenerated S-125 Dataset for" + atonNodes.stream()
-                .map(AtonNode::getAtonUid)
-                .map(uid -> String.format(" %s", uid))
-                .collect(Collectors.joining()));
+        dataSetIdentificationType.setDatasetAbstract(datasetInfo.getAbstractText());
         s125Dataset.setDatasetIdentificationInformation(dataSetIdentificationType);
 
         //====================================================================//
@@ -104,75 +123,75 @@ public class S125Utils {
         //====================================================================//
         //                      DATASET MEMBERS SECTION                       //
         //====================================================================//
-        AtomicInteger idIndex = new AtomicInteger(1);
         Optional.ofNullable(atonNodes)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(aton -> S125Utils.generateAidsToNavigation(idIndex, aton))
+                .map(aton -> this.generateAidsToNavigation(datasetInfo, aton))
                 .map(jaxb -> { MemberType m = new MemberType(); m.setAbstractFeature(jaxb); return m; })
                 .forEach(s125Dataset.getImembersAndMembers()::add);
+
         // Return the dataset
         return s125Dataset;
     }
 
     /**
-     * This is the entry method static function of the utility. It will examine
-     * the provided AtoN Node from Niord and generate a standardised S-125
-     * format messages based on the specifications specified by the IHO/IALA
-     * NIPWG.
+     * This is another entry method static function of the utility. It will
+     * examine the provided AtoN Node from Niord and generate a standardised
+     * S-125 format messages based on the specifications specified by the
+     * IHO/IALA NIPWG.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The Niord AtoN node object
      * @return The generated S-125 data message
      */
-    public static JAXBElement<? extends S125AidsToNavigationType> generateAidsToNavigation(AtomicInteger idIndex, AtonNode atonNode) {
+    public JAXBElement<? extends S125AidsToNavigationType> generateAidsToNavigation(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         // First read the AtoN type information from the input
         String atonType = atonNode.getTagValue(TAG_ATON_TYPE);
         // Now initialise the JAXB object factory to generate the member
-        ObjectFactory factory = new ObjectFactory();
         JAXBElement<? extends S125AidsToNavigationType> jaxbElement =  null;
         // Handle each possible type, cause a different object should be created
         switch(atonType) {
             case "beacon_cardinal":
-                jaxbElement = factory.createS125BeaconCardinal(generateBeaconCardinal(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BeaconCardinal(this.generateBeaconCardinal(datasetInfo, atonNode));
                 break;
             case "beacon_lateral":
-                jaxbElement = factory.createS125BeaconLateral(generateBeaconLateral(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BeaconLateral(this.generateBeaconLateral(datasetInfo, atonNode));
                 break;
             case "beacon_isolated_danger":
-                jaxbElement = factory.createS125BeaconIsolatedDanger(generateBeaconIsolatedDanger(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BeaconIsolatedDanger(this.generateBeaconIsolatedDanger(datasetInfo, atonNode));
                 break;
             case "beacon_safe_water":
-                jaxbElement = factory.createS125BeaconSafeWater(generateBeaconSafeWater(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BeaconSafeWater(this.generateBeaconSafeWater(datasetInfo, atonNode));
                 break;
             case "beacon_special_purpose":
-                jaxbElement = factory.createS125BeaconSpecialPurposeGeneral(generateBeaconSpecialPurpose(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BeaconSpecialPurposeGeneral(this.generateBeaconSpecialPurpose(datasetInfo, atonNode));
                 break;
             case "buoy_cardinal":
-                jaxbElement = factory.createS125BuoyCardinal(generateBuoyCardinal(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BuoyCardinal(this.generateBuoyCardinal(datasetInfo, atonNode));
                 break;
             case "buoy_lateral":
-                jaxbElement = factory.createS125BuoyLateral(generateBuoyLateral(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BuoyLateral(this.generateBuoyLateral(datasetInfo, atonNode));
                 break;
             case "buoy_installation":
-                jaxbElement = factory.createS125BuoyInstallation(generateBuoyInstallation(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BuoyInstallation(this.generateBuoyInstallation(datasetInfo, atonNode));
                 break;
             case "buoy_isolated_danger":
-                jaxbElement = factory.createS125BuoyIsolatedDanger(generateBuoyIsolatedDanger(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BuoyIsolatedDanger(this.generateBuoyIsolatedDanger(datasetInfo, atonNode));
                 break;
             case "buoy_safe_water":
-                jaxbElement = factory.createS125BuoySafeWater(generateBuoySafeWater(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BuoySafeWater(this.generateBuoySafeWater(datasetInfo, atonNode));
                 break;
             case "buoy_special_purpose":
-                jaxbElement = factory.createS125BuoySpecialPurposeGeneral(generateBuoySpecialPurpose(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125BuoySpecialPurposeGeneral(this.generateBuoySpecialPurpose(datasetInfo, atonNode));
                 break;
             case "light":
-                jaxbElement = factory.createS125Light(generateLight(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125Light(this.generateLight(datasetInfo, atonNode));
                 break;
             case "light_vessel":
-                jaxbElement = factory.createS125LightVessel(generateLightVessel(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125LightVessel(this.generateLightVessel(datasetInfo, atonNode));
                 break;
             case "virtual_aton":
-                jaxbElement = factory.createS125VirtualAISAidToNavigation(generateVirtualAtoN(idIndex, atonNode));
+                jaxbElement = this.s125GMLFactory.createS125VirtualAISAidToNavigation(this.generateVirtualAtoN(datasetInfo, atonNode));
                 break;
         }
         // And return what was generated
@@ -182,10 +201,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Beacon Cardinal AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BeaconCardinalType generateBeaconCardinal(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BeaconCardinalType generateBeaconCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconCardinalType member = new S125BeaconCardinalType();
         return member;
     }
@@ -193,10 +213,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Beacon Lateral AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BeaconLateralType generateBeaconLateral(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BeaconLateralType generateBeaconLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconLateralType member = new S125BeaconLateralType();
         return  member;
     }
@@ -205,10 +226,11 @@ public class S125Utils {
      * Generate the S-125 dataset member section for Beacon Isolated Danger
      * AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BeaconIsolatedDangerType generateBeaconIsolatedDanger(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BeaconIsolatedDangerType generateBeaconIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconIsolatedDangerType member = new S125BeaconIsolatedDangerType();
         return member;
     }
@@ -216,10 +238,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Beacon Safe Water AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BeaconSafeWaterType generateBeaconSafeWater(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BeaconSafeWaterType generateBeaconSafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconSafeWaterType member = new S125BeaconSafeWaterType();
         return member;
     }
@@ -228,10 +251,11 @@ public class S125Utils {
      * Generate the S-125 dataset member section for Beacon Special Purpose
      * AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BeaconSpecialPurposeGeneralType generateBeaconSpecialPurpose(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BeaconSpecialPurposeGeneralType generateBeaconSpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconSpecialPurposeGeneralType member = new S125BeaconSpecialPurposeGeneralType();
         return member;
     }
@@ -239,10 +263,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Buoy Cardinal AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BuoyCardinalType generateBuoyCardinal(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BuoyCardinalType generateBuoyCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyCardinalType member = new S125BuoyCardinalType();
         return member;
     }
@@ -250,10 +275,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Buoy Lateral AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BuoyLateralType generateBuoyLateral(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BuoyLateralType generateBuoyLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyLateralType member = new S125BuoyLateralType();
         return member;
     }
@@ -261,10 +287,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Buoy Installation AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BuoyInstallationType generateBuoyInstallation(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BuoyInstallationType generateBuoyInstallation(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyInstallationType member = new S125BuoyInstallationType();
         return member;
     }
@@ -272,10 +299,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Buoy Isolated Dander AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BuoyIsolatedDangerType generateBuoyIsolatedDanger(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BuoyIsolatedDangerType generateBuoyIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyIsolatedDangerType member = new S125BuoyIsolatedDangerType();
         return member;
     }
@@ -283,10 +311,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Buoy Safe Water AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BuoySafeWaterType generateBuoySafeWater(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BuoySafeWaterType generateBuoySafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoySafeWaterType member = new S125BuoySafeWaterType();
         return member;
     }
@@ -294,10 +323,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Buoy Special Purpose AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125BuoySpecialPurposeGeneralType generateBuoySpecialPurpose(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125BuoySpecialPurposeGeneralType generateBuoySpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoySpecialPurposeGeneralType member = new S125BuoySpecialPurposeGeneralType();
         return member;
     }
@@ -305,10 +335,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Light AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125LightType generateLight(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125LightType generateLight(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125LightType member = new S125LightType();
         return member;
     }
@@ -316,10 +347,11 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Light Vessel AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125LightVesselType generateLightVessel(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125LightVesselType generateLightVessel(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125LightVesselType member = new S125LightVesselType();
         return member;
     }
@@ -327,15 +359,17 @@ public class S125Utils {
     /**
      * Generate the S-125 dataset member section for Virtual AtoNs.
      *
+     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
      * @return The S-125 dataset member section generated
      */
-    private static S125VirtualAISAidToNavigationType generateVirtualAtoN(AtomicInteger idIndex, AtonNode atonNode) {
+    protected S125VirtualAISAidToNavigationType generateVirtualAtoN(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125VirtualAISAidToNavigationType member = new S125VirtualAISAidToNavigationType();
-        member.setId(String.format("ID%03d", idIndex.getAndIncrement()));
-        member.setIdCode(Integer.toString(atonNode.getId()));
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
         FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
-        featureObjectIdentifier.setAgency("GRAD");
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
         member.setAtonNumber(Optional.of("mrn")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -367,20 +401,7 @@ public class S125Utils {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.CurveProperty curvePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.CurveProperty();
-        CurveProperty curveProperty = new CurveProperty();
-        CurveType curveType = new CurveType();
-        Segments segments = new Segments();
-        LineStringSegmentType lineStringSegmentType = new LineStringSegmentType();
-        PosList posList = new PosList();
-        posList.getValues().add(atonNode.getLat());
-        posList.getValues().add(atonNode.getLon());
-        lineStringSegmentType.setPosList(posList);
-        JAXBElement<LineStringSegmentType> element = new _net.opengis.gml.profiles.ObjectFactory().createLineStringSegment(lineStringSegmentType);
-        segments.getAbstractCurveSegments().add(element);
-        curveType.setId(String.format("ID%03d", idIndex.getAndIncrement()));
-        curveType.setSegments(segments);
-        curveProperty.setCurve(curveType);
-        curvePropertyExt.setCurveProperty(curveProperty);
+        curvePropertyExt.setCurveProperty(this.generateCurveProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
         member.setGeometry(curvePropertyExt);
 
         // And return the populated member
@@ -388,28 +409,68 @@ public class S125Utils {
     }
 
     /**
-     * Populates and return an S-125 point property based on a point geometry
+     * Populates and return an S-125 curve property based on the provided line
+     * segment geometry coordinates.
      *
-     * @param point     The point geometry
+     * @param coords    The coordinates of the element to be generated
      * @return The populated point property
      */
-    public static PointProperty generatePointProperty(Point point) {
+    private CurveProperty generateCurveProperty(Collection<Double> coords) {
+        // Generate the elements
+        CurveProperty curveProperty = new CurveProperty();
+        CurveType curveType = new CurveType();
+        Segments segments = new Segments();
+        LineStringSegmentType lineStringSegmentType = new LineStringSegmentType();
+        PosList posList = new PosList();
+        
+        // Populate with the geometry data
+        posList.getValues().addAll(coords);
+        
+        // Populate the elements
+        lineStringSegmentType.setPosList(posList);
+        JAXBElement<LineStringSegmentType> element = this.opengisGMLFactory.createLineStringSegment(lineStringSegmentType);
+        segments.getAbstractCurveSegments().add(element);
+        curveType.setSegments(segments);
+        curveType.setId(this.generateId());
+        curveProperty.setCurve(curveType);
+
+        // And return the output
+        return curveProperty;
+    }
+
+    /**
+     * Populates and return an S-125 point property based on the provided point
+     * geometry coordinates.
+     *
+     * @param coords    The coordinates of the element to be generated
+     * @return The populated point property
+     */
+    protected PointProperty generatePointProperty(Collection<Double> coords) {
         // Generate the elements
         PointProperty pointProperty = new PointProperty();
         PointType pointType = new PointType();
         Pos pos = new Pos();
 
         // Populate with the geometry data
-        pos.setSrsName("EPSG:4326");
-        pos.getValues().add(point.getY());
-        pos.getValues().add(point.getX());
+        pos.getValues().addAll(coords);
 
         // Populate the elements
         pointType.setPos(pos);
+        pointType.setId(this.generateId());
         pointProperty.setPoint(pointType);
 
         // And return the output
         return pointProperty;
+    }
+
+    /**
+     * A helper function that is used to generate a homogenous set of IDs for
+     * the S-125 dataset.
+     *
+     * @return the generated ID string
+     */
+    protected String generateId() {
+        return String.format("ID%03d", this.idIndex.getAndIncrement());
     }
 
 }
