@@ -207,6 +207,85 @@ public class S125DatasetBuilder {
      */
     protected S125BeaconCardinalType generateBeaconCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconCardinalType member = new S125BeaconCardinalType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBeaconShape(Optional.of("seamark:beacon_cardinal:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBeaconShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:beacon_cardinal:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:beacon_cardinal:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setHeight(Optional.of("seamark:beacon_cardinal:height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:beacon_cardinal:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfConstructions().add(Optional.of("seamark:beacon_cardinal:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of("seamark:beacon_cardinal:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of("seamark:beacon_cardinal:visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125VisuallyConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:beacon_cardinal:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.setCategoryOfCardinalMark(Optional.of("seamark:beacon_cardinal:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfCardinalMark)
+                .orElse(null));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -219,6 +298,85 @@ public class S125DatasetBuilder {
      */
     protected S125BeaconLateralType generateBeaconLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconLateralType member = new S125BeaconLateralType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBeaconShape(Optional.of("seamark:beacon_lateral:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBeaconShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:beacon_lateral:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:beacon_lateral:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setHeight(Optional.of("seamark:beacon_lateral:height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:beacon_lateral:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfConstructions().add(Optional.of("seamark:beacon_lateral:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of("seamark:beacon_lateral:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of("seamark:beacon_lateral:visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125VisuallyConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:beacon_lateral:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.setCategoryOfLateralMark(Optional.of("seamark:beacon_lateral:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfLateralMark)
+                .orElse(null));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return  member;
     }
 
@@ -232,6 +390,80 @@ public class S125DatasetBuilder {
      */
     protected S125BeaconIsolatedDangerType generateBeaconIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconIsolatedDangerType member = new S125BeaconIsolatedDangerType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBeaconShape(Optional.of("seamark:beacon_isolated_danger:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBeaconShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:beacon_isolated_danger:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:beacon_isolated_danger:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setHeight(Optional.of("seamark:beacon_isolated_danger:height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:beacon_isolated_danger:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfConstructions().add(Optional.of("seamark:beacon_isolated_danger:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of("seamark:beacon_isolated_danger:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of("seamark:beacon_isolated_danger:visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125VisuallyConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:beacon_isolated_danger:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -244,6 +476,80 @@ public class S125DatasetBuilder {
      */
     protected S125BeaconSafeWaterType generateBeaconSafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconSafeWaterType member = new S125BeaconSafeWaterType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBeaconShape(Optional.of("seamark:beacon_safe_water:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBeaconShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:beacon_safe_water:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:beacon_safe_water:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setHeight(Optional.of("seamark:beacon_safe_water:height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:beacon_safe_water:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfConstructions().add(Optional.of("seamark:beacon_safe_water:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of("seamark:beacon_safe_water:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of("seamark:beacon_safe_water:visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125VisuallyConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:beacon_safe_water:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -257,6 +563,85 @@ public class S125DatasetBuilder {
      */
     protected S125BeaconSpecialPurposeGeneralType generateBeaconSpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BeaconSpecialPurposeGeneralType member = new S125BeaconSpecialPurposeGeneralType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBeaconShape(Optional.of("seamark:beacon_special_purpose:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBeaconShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:beacon_special_purpose:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:beacon_special_purpose:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setHeight(Optional.of("seamark:beacon_special_purpose:height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:beacon_special_purpose:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfConstructions().add(Optional.of("seamark:beacon_special_purpose:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of("seamark:beacon_special_purpose:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of("seamark:beacon_special_purpose:visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125VisuallyConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:beacon_special_purpose:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.getCategoryOfSpecialPurposeMarks().add(Optional.of("seamark:beacon_special_purpose:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfSpecialPurposeMark)
+                .orElse(null));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -269,6 +654,75 @@ public class S125DatasetBuilder {
      */
     protected S125BuoyCardinalType generateBuoyCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyCardinalType member = new S125BuoyCardinalType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBuoyShape(Optional.of("seamark:buoy_cardinal:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBuoyShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:buoy_cardinal:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:buoy_cardinal:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:buoy_cardinal:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfconstuctions().add(Optional.of("seamark:buoy_cardinal:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicious(Optional.of("seamark:buoy_cardinal:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:buoy_cardinal:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.setCategoryOfCardinalMark(Optional.of("seamark:buoy_cardinal:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfCardinalMark)
+                .orElse(null));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -281,6 +735,75 @@ public class S125DatasetBuilder {
      */
     protected S125BuoyLateralType generateBuoyLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyLateralType member = new S125BuoyLateralType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBuoyShape(Optional.of("seamark:buoy_lateral:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBuoyShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:buoy_lateral:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:buoy_lateral:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:buoy_lateral:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfconstuctions().add(Optional.of("seamark:buoy_lateral:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicious(Optional.of("seamark:buoy_lateral:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:buoy_lateral:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.setCategoryOfLateralMark(Optional.of("seamark:buoy_lateral:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfLateralMark)
+                .orElse(null));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -293,6 +816,75 @@ public class S125DatasetBuilder {
      */
     protected S125BuoyInstallationType generateBuoyInstallation(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyInstallationType member = new S125BuoyInstallationType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBuoyShape(Optional.of("seamark:buoy_installation:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBuoyShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:buoy_installation:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:buoy_installation:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:buoy_installation:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfconstuctions().add(Optional.of("seamark:buoy_installation:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicious(Optional.of("seamark:buoy_installation:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:buoy_installation:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.setCategoryOfInstallationBuoy(Optional.of("seamark:buoy_installation:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfInstallationBuoy)
+                .orElse(null));
+
+        // Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
         return member;
     }
 
@@ -305,6 +897,65 @@ public class S125DatasetBuilder {
      */
     protected S125BuoyIsolatedDangerType generateBuoyIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoyIsolatedDangerType member = new S125BuoyIsolatedDangerType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBuoyShape(Optional.of("seamark:buoy_isolated_danger:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBuoyShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:buoy_isolated_danger:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:buoy_isolated_danger:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:buoy_isolated_danger:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfconstuctions().add(Optional.of("seamark:buoy_isolated_danger:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicious(Optional.of("seamark:buoy_isolated_danger:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:buoy_isolated_danger:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+
+        // And return the populated member
         return member;
     }
 
@@ -317,6 +968,65 @@ public class S125DatasetBuilder {
      */
     protected S125BuoySafeWaterType generateBuoySafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoySafeWaterType member = new S125BuoySafeWaterType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBuoyShape(Optional.of("seamark:buoy_safe_water:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBuoyShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:buoy_safe_water:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:buoy_safe_water:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:buoy_safe_water:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfconstuctions().add(Optional.of("seamark:buoy_safe_water:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicious(Optional.of("seamark:buoy_safe_water:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:buoy_safe_water:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+
+        // And return the populated member
         return member;
     }
 
@@ -329,6 +1039,70 @@ public class S125DatasetBuilder {
      */
     protected S125BuoySpecialPurposeGeneralType generateBuoySpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         S125BuoySpecialPurposeGeneralType member = new S125BuoySpecialPurposeGeneralType();
+        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
+        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
+        member.setFeatureObjectIdentifier(featureObjectIdentifier);
+        member.setId(this.generateId());
+        member.setIdCode(atonNode.getAtonUid());
+        member.setAtonNumber(Optional.of("mrn")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setBuoyShape(Optional.of("seamark:buoy_special_purpose:shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseBuoyShape)
+                .orElse(null));
+        member.getColours().add(Optional.of("seamark:buoy_special_purpose:colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Colour.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getColourPatterns().add(Optional.of("seamark:buoy_special_purpose:colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125ColourPattern.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setMarksNavigationalSystemOf(Optional.of("seamark:buoy_special_purpose:marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125MarksNavigationalSystemOf.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.getNatureOfconstuctions().add(Optional.of("seamark:buoy_special_purpose:nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125NatureOfConstruction.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicious(Optional.of("seamark:buoy_special_purpose:radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125RadarConspicuous.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(null));
+        member.setVerticalLength(Optional.of("seamark:buoy_special_purpose:vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> {try {return S125Status.fromValue(v);} catch (Exception ex) {return null;}})
+                .orElse(S125Status.EXISTENCE_DOUBTFUL));
+        member.getCategoryOfSpecialPurposeMarks().add(Optional.of("seamark:buoy_special_purpose:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::parseCategoryOfSpecialPurposeMark)
+                .orElse(null));
+
+        // And return the populated member
         return member;
     }
 
@@ -611,6 +1385,164 @@ public class S125DatasetBuilder {
         return String.format("ID%03d", this.idIndex.getAndIncrement());
     }
 
+
+    /**
+     * Translates the category of installation buoy from the INT-1.preset.xml to the
+     * S-125 Category of Installation Buoy enum.
+     *
+     * @param installationBuoy  The INT-1-preset.xml category of installation buoy
+     * @return the S-125 Category of Installation Buoy enum entry
+     */
+    protected S125CategoryOfInstallationBuoy parseCategoryOfInstallationBuoy(String installationBuoy) {
+        switch (installationBuoy) {
+            case "calm": return S125CategoryOfInstallationBuoy.CATENARY_ANCHOR_LEG_MOORING_CALM;
+            case "sbm": return S125CategoryOfInstallationBuoy.SINGLE_BUOY_MOORING_SBM_OR_SPM;
+            default: return null;
+        }
+    }
+    /**
+     * Translates the category of special purpose mark from the INT-1.preset.xml to the
+     * S-125 Category of Special Purpose Mark enum.
+     *
+     * @param specialPurposeMark    The INT-1-preset.xml special purpose mark
+     * @return the S-125 Category of Special Purpose Mark enum entry
+     */
+    protected S125CategoryOfSpecialPurposeMark parseCategoryOfSpecialPurposeMark(String specialPurposeMark) {
+        switch (specialPurposeMark) {
+            case("firing_danger_area"): return S125CategoryOfSpecialPurposeMark.FIRING_DANGER_AREA_MARK;
+            case("target"): return S125CategoryOfSpecialPurposeMark.TARGET_MARK;
+            case("marker_ship"): return S125CategoryOfSpecialPurposeMark.MARKER_SHIP_MARK;
+            case("degaussing_range"): return S125CategoryOfSpecialPurposeMark.DEGAUSSING_RANGE_MARK;
+            case("barge"): return S125CategoryOfSpecialPurposeMark.BARGE_MARK;
+            case("cable"): return S125CategoryOfSpecialPurposeMark.CABLE_MARK;
+            case("spoil_ground"): return S125CategoryOfSpecialPurposeMark.SPOIL_GROUND_MARK;
+            case("outfall"): return S125CategoryOfSpecialPurposeMark.OUTFALL_MARK;
+            case("odas"): return S125CategoryOfSpecialPurposeMark.ODAS_OCEAN_DATA_ACQUISITION_SYSTEM;
+            case("recording"): return S125CategoryOfSpecialPurposeMark.RECORDING_MARK;
+            case("seaplane_anchorage"): return S125CategoryOfSpecialPurposeMark.SEAPLANE_ANCHORAGE_MARK;
+            case("recreation_zone"): return S125CategoryOfSpecialPurposeMark.RECREATION_ZONE_MARK;
+            case("private"): return S125CategoryOfSpecialPurposeMark.PRIVATE_MARK;
+            case("mooring"): return S125CategoryOfSpecialPurposeMark.MOORING_MARK;
+            case("lanby"): return S125CategoryOfSpecialPurposeMark.LANBY_LARGE_AUTOMATIC_NAVIGATIONAL_BUOY;
+            case("leading"): return S125CategoryOfSpecialPurposeMark.LEADING_MARK;
+            case("measured_distance"): return S125CategoryOfSpecialPurposeMark.MEASURED_DISTANCE_MARK;
+            case("notice"): return S125CategoryOfSpecialPurposeMark.NOTICE_MARK;
+            case("tss"): return S125CategoryOfSpecialPurposeMark.TSS_MARK_TRAFFIC_SEPARATION_SCHEME;
+            case("no_anchoring"): return S125CategoryOfSpecialPurposeMark.ANCHORING_PROHIBITED_MARK;
+            case("no_berthing"): return S125CategoryOfSpecialPurposeMark.BERTHING_PROHIBITED_MARK;
+            case("no_overtaking"): return S125CategoryOfSpecialPurposeMark.OVERTAKING_PROHIBITED_MARK;
+            case("no_two-way_traffic"): return S125CategoryOfSpecialPurposeMark.TWO_WAY_TRAFFIC_PROHIBITED_MARK;
+            case("reduced_wake"): return S125CategoryOfSpecialPurposeMark.REDUCED_WAKE_MARK;
+            case("speed_limit"): return S125CategoryOfSpecialPurposeMark.SPEED_LIMIT_MARK;
+            case("stop"): return S125CategoryOfSpecialPurposeMark.STOP_MARK;
+            case("warning"): return S125CategoryOfSpecialPurposeMark.GENERAL_WARNING_MARK;
+            case("sound_ship_siren"): return S125CategoryOfSpecialPurposeMark.SOUND_SHIP_S_SIREN_MARK;
+            case("restricted_vertical_clearance"): return S125CategoryOfSpecialPurposeMark.RESTRICTED_VERTICAL_CLEARANCE_MARK;
+            case("maximum_vessel_draught"): return S125CategoryOfSpecialPurposeMark.MAXIMUM_VESSEL_S_DRAUGHT_MARK;
+            case("restricted_horizontal_clearance"): return S125CategoryOfSpecialPurposeMark.RESTRICTED_HORIZONTAL_CLEARANCE_MARK;
+            case("strong_current"): return S125CategoryOfSpecialPurposeMark.STRONG_CURRENT_WARNING_MARK;
+            case("berthing"): return S125CategoryOfSpecialPurposeMark.BERTHING_PERMITTED_MARK;
+            case("overhead_power_cable"): return S125CategoryOfSpecialPurposeMark.OVERHEAD_POWER_CABLE_MARK;
+            case("channel_edge_gradient"): return S125CategoryOfSpecialPurposeMark.CHANNEL_EDGE_GRADIENT_MARK;
+            case("telephone"): return S125CategoryOfSpecialPurposeMark.TELEPHONE_MARK;
+            case("ferry_crossing"): return S125CategoryOfSpecialPurposeMark.FERRY_CROSSING_MARK;
+            case("pipeline"): return S125CategoryOfSpecialPurposeMark.PIPELINE_MARK;
+            case("anchorage"): return S125CategoryOfSpecialPurposeMark.ANCHORAGE_MARK;
+            case("clearing"): return S125CategoryOfSpecialPurposeMark.CLEARING_MARK;
+            case("control"): return S125CategoryOfSpecialPurposeMark.CONTROL_MARK;
+            case("diving"): return S125CategoryOfSpecialPurposeMark.DIVING_MARK;
+            case("refuge_beacon"): return S125CategoryOfSpecialPurposeMark.REFUGE_BEACON;
+            case("foul_ground"): return S125CategoryOfSpecialPurposeMark.FOUL_GROUND_MARK;
+            case("yachting"): return S125CategoryOfSpecialPurposeMark.YACHTING_MARK;
+            case("heliport"): return S125CategoryOfSpecialPurposeMark.HELIPORT_MARK;
+            case("gps"): return S125CategoryOfSpecialPurposeMark.GPS_MARK;
+            case("seaplane_landing"): return S125CategoryOfSpecialPurposeMark.SEAPLANE_LANDING_MARK;
+            case("no_entry"): return S125CategoryOfSpecialPurposeMark.ENTRY_PROHIBITED_MARK;
+            case("work_in_progress"): return S125CategoryOfSpecialPurposeMark.WORK_IN_PROGRESS_MARK;
+            case("unknown_purpose"): return S125CategoryOfSpecialPurposeMark.MARK_WITH_UNKNOWN_PURPOSE;
+            case("wellhead"): return S125CategoryOfSpecialPurposeMark.WELLHEAD_MARK;
+            case("channel_separation"): return S125CategoryOfSpecialPurposeMark.CHANNEL_SEPARATION_MARK;
+            case("marine_farm"): return S125CategoryOfSpecialPurposeMark.MARINE_FARM_MARK;
+            case("artificial_reef"): return S125CategoryOfSpecialPurposeMark.ARTIFICIAL_REEF_MARK;
+            default: return null;
+        }
+    }
+    
+    /**
+     * Translates the category of lateral mark from the INT-1.preset.xml to the
+     * S-125 Category of Lateral Mark enum.
+     *
+     * @param lateralMark   The INT-1-preset.xml lateral mark
+     * @return the S-125 Category of Lateral Mark enum entry
+     */
+    protected S125CategoryOfLateralMark parseCategoryOfLateralMark(String lateralMark) {
+        switch (lateralMark) {
+            case "port": return S125CategoryOfLateralMark.PORT_HAND_LATERAL_MARK;
+            case "starboard": return S125CategoryOfLateralMark.STARBOARD_HAND_LATERAL_MARK;
+            case "preferred_channel_starboard": return S125CategoryOfLateralMark.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
+            case "preferred_channel_port": return S125CategoryOfLateralMark.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
+            default: return null;
+        }
+    }
+
+    /**
+     * Translates the category of cardinal mark from the INT-1.preset.xml to the
+     * S-125 Category of Cardinal Mark enum.
+     *
+     * @param cardinalMark  The INT-1-preset.xml cardinal mark
+     * @return the S-125 Category of Cardinal Mark enum entry
+     */
+    protected S125CategoryOfCardinalMark parseCategoryOfCardinalMark(String cardinalMark) {
+        switch (cardinalMark) {
+            case "north": return S125CategoryOfCardinalMark.NORTH_CARDINAL_MARK;
+            case "east": return S125CategoryOfCardinalMark.EAST_CARDINAL_MARK;
+            case "south": return S125CategoryOfCardinalMark.SOUTH_CARDINAL_MARK;
+            case "west": return S125CategoryOfCardinalMark.WEST_CARDINAL_MARK;
+            default: return null;
+        }
+    }
+
+    /**
+     * Translates the beacon shape from the INT-1.preset.xml to the
+     * S-125 Beacon Shape enum.
+     *
+     * @param beaconShape    The INT-1-preset.xml beacon shape
+     * @return the S-125 Beacon Shape enum entry
+     */
+    protected S125BeaconShape parseBeaconShape(String beaconShape) {
+        switch (beaconShape) {
+            case "stake": case "pole": case "perch": case "post": return S125BeaconShape.STAKE_POLE_PERCH_POST;
+            case "withy": return S125BeaconShape.WITHY;
+            case "tower": return S125BeaconShape.BEACON_TOWER;
+            case "lattice": return S125BeaconShape.LATTICE_BEACON;
+            case "pile": return S125BeaconShape.PILE_BEACON;
+            case "cairn": return S125BeaconShape.CAIRN;
+            case "buoyant": return S125BeaconShape.BUOYANT_BEACON;
+            default: return null;
+        }
+    }
+
+    /**
+     * Translates the buoy shape from the INT-1.preset.xml to the
+     * S-125 Buoy Shape enum.
+     *
+     * @param buoyShape     The INT-1-preset.xml buoy shape
+     * @return the S-125 Buoy Shape enum entry
+     */
+    protected S125BuoyShape parseBuoyShape(String buoyShape) {
+        switch (buoyShape) {
+            case "conical": return S125BuoyShape.CONICAL_NUN_OGIVAL;
+            case "can": return S125BuoyShape.CAN_CYLINDRICAL;
+            case "spherical": return S125BuoyShape.SPHERICAL;
+            case "super-buoy": return S125BuoyShape.SUPER_BUOY;
+            case "pillar": return S125BuoyShape.PILLAR;
+            case "spar": return S125BuoyShape.SPAR_SPINDLE;
+            case "barrel": return S125BuoyShape.BARREL_TUN;
+            case "ice-buoy": return S125BuoyShape.ICE_BUOY;
+            default: return null;
+        }
+    }
+
     /**
      * Translates the category of a light from the INT-1.preset.xml to the
      * S-125 Category of Light enum.
@@ -644,7 +1576,7 @@ public class S125DatasetBuilder {
 
     /**
      * Translates the character of a light from the INT-1.preset.xml to the
-     * S-12t Light Characteristic enum.
+     * S-125 Light Characteristic enum.
      *
      * @param lightCharacter    The INT-1-preset.xml light character
      * @return the S-125 category of light enum entry
