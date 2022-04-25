@@ -182,6 +182,9 @@ public class S125DatasetBuilder {
             case LIGHT_VESSEL:
                 jaxbElement = this.s125GMLFactory.createS125LightVessel(this.generateLightVessel(datasetInfo, atonNode));
                 break;
+            case PHYSICAL_AIS_ATON:
+                jaxbElement = this.s125GMLFactory.createS125PhysicalAISAidToNavigation(this.generatePhysicalAISAtoN(datasetInfo, atonNode));
+                break;
             case VIRTUAL_ATON:
                 jaxbElement = this.s125GMLFactory.createS125VirtualAISAidToNavigation(this.generateVirtualAtoN(datasetInfo, atonNode));
                 break;
@@ -200,6 +203,7 @@ public class S125DatasetBuilder {
     protected S125BeaconCardinalType generateBeaconCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BeaconCardinalType member = new S125BeaconCardinalType();
         final String tagKeyPrefix = "seamark:beacon_cardinal:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
@@ -216,17 +220,17 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -239,17 +243,17 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -284,6 +288,7 @@ public class S125DatasetBuilder {
     protected S125BeaconLateralType generateBeaconLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BeaconLateralType member = new S125BeaconLateralType();
         final String tagKeyPrefix = "seamark:beacon_lateral:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
@@ -300,17 +305,17 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -323,17 +328,17 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -369,6 +374,7 @@ public class S125DatasetBuilder {
     protected S125BeaconIsolatedDangerType generateBeaconIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BeaconIsolatedDangerType member = new S125BeaconIsolatedDangerType();
         final String tagKeyPrefix = "seamark:beacon_isolated_danger:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
@@ -385,17 +391,17 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -408,17 +414,17 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -448,6 +454,7 @@ public class S125DatasetBuilder {
     protected S125BeaconSafeWaterType generateBeaconSafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BeaconSafeWaterType member = new S125BeaconSafeWaterType();
         final String tagKeyPrefix = "seamark:beacon_safe_water:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBeaconShape(Optional.of("seamark:beacon_safe_water:shape")
                 .map(atonNode::getTag)
@@ -464,17 +471,17 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -487,17 +494,17 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -528,6 +535,7 @@ public class S125DatasetBuilder {
     protected S125BeaconSpecialPurposeGeneralType generateBeaconSpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BeaconSpecialPurposeGeneralType member = new S125BeaconSpecialPurposeGeneralType();
         final String tagKeyPrefix = "seamark:beacon_special_purpose:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
@@ -544,17 +552,17 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -567,17 +575,17 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"isually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"isually_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -612,6 +620,7 @@ public class S125DatasetBuilder {
     protected S125BuoyCardinalType generateBuoyCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BuoyCardinalType member = new S125BuoyCardinalType();
         final String tagKeyPrefix = "seamark:buoy_cardinal:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_cardinal:shape")
                 .map(atonNode::getTag)
@@ -628,12 +637,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -646,12 +655,12 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicious(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicious(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -686,6 +695,7 @@ public class S125DatasetBuilder {
     protected S125BuoyLateralType generateBuoyLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BuoyLateralType member = new S125BuoyLateralType();
         final String tagKeyPrefix = "seamark:buoy_lateral:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_lateral:shape")
                 .map(atonNode::getTag)
@@ -702,12 +712,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -720,12 +730,12 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicious(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicious(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -760,6 +770,7 @@ public class S125DatasetBuilder {
     protected S125BuoyInstallationType generateBuoyInstallation(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BuoyInstallationType member = new S125BuoyInstallationType();
         final String tagKeyPrefix = "seamark:buoy_installation:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBuoyShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
@@ -776,12 +787,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -794,12 +805,12 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicious(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicious(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -834,6 +845,7 @@ public class S125DatasetBuilder {
     protected S125BuoyIsolatedDangerType generateBuoyIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BuoyIsolatedDangerType member = new S125BuoyIsolatedDangerType();
         final String tagKeyPrefix = "seamark:buoy_isolated_danger:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_isolated_danger:shape")
                 .map(atonNode::getTag)
@@ -850,12 +862,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -868,12 +880,12 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicious(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicious(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -898,6 +910,7 @@ public class S125DatasetBuilder {
     protected S125BuoySafeWaterType generateBuoySafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BuoySafeWaterType member = new S125BuoySafeWaterType();
         final String tagKeyPrefix = "seamark:buoy_safe_water:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_safe_water:shape")
                 .map(atonNode::getTag)
@@ -914,12 +927,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -932,12 +945,12 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicious(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicious(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -962,6 +975,7 @@ public class S125DatasetBuilder {
     protected S125BuoySpecialPurposeGeneralType generateBuoySpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
         final S125BuoySpecialPurposeGeneralType member = new S125BuoySpecialPurposeGeneralType();
         final String tagKeyPrefix = "seamark:buoy_special_purpose:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
         this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_special_purpose:shape")
                 .map(atonNode::getTag)
@@ -978,12 +992,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(tagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -996,12 +1010,12 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
-        member.setRadarConspicious(Optional.of(tagKeyPrefix+"radar_conspicuous")
+        member.setRadarConspicious(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(BigDecimal::new)
@@ -1016,6 +1030,308 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseCategoryOfSpecialPurposeMark)
                 .orElse(null));
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 dataset member section for Landmark AtoNs.
+     *
+     * @param datasetInfo   The dataset information
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 dataset member section generated
+     */
+    protected S125LandmarkType generateLandmark(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+        final S125LandmarkType member = new S125LandmarkType();
+        final String tagKeyPrefix = "seamark:landmark";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:landmark:";
+        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        member.getCategoryOfLandmarks().addAll(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseCategoryOfLandmark))
+                .orElse(Collections.emptyList()));
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.getFunctions().addAll(Optional.of(tagKeyPrefix+"function")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseFunction))
+                .orElse(Collections.emptyList()));
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
+                .orElse(Collections.emptyList()));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseRadarConspicuous)
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseVisuallyConspicuous)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+
+        // Now fix the geometry... from a point to a curve???
+        _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
+        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointCurveSurfacePropertyExt);
+        return member;
+    }
+
+    /**
+     * Generate the S-125 dataset member section for Lighthouse AtoNs.
+     *
+     * @param datasetInfo   The dataset information
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 dataset member section generated
+     */
+    protected S125LighthouseType generateLighthouse(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+        final S125LighthouseType member = new S125LighthouseType();
+        final String tagKeyPrefix = "seamark:light:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:lighthouse:";
+        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        member.getCategoryOfLandmarks().addAll(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseCategoryOfLandmark))
+                .orElse(Collections.emptyList()));
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colour")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.getFunctions().addAll(Optional.of(tagKeyPrefix+"function")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseFunction))
+                .orElse(Collections.emptyList()));
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
+                .orElse(Collections.emptyList()));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseRadarConspicuous)
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseVisuallyConspicuous)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+
+        // Now fix the geometry... from a point to a curve???
+        _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
+        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointCurveSurfacePropertyExt);
+        return member;
+    }
+
+    /**
+     * Generate the S-125 dataset member section for Light Vessel AtoNs.
+     *
+     * @param datasetInfo   The dataset information
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 dataset member section generated
+     */
+    protected S125LightVesselType generateLightVessel(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+        final S125LightVesselType member = new S125LightVesselType();
+        final String tagKeyPrefix = "seamark:light_vessel:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:light_vessel:";
+        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
+                .orElse(Collections.emptyList()));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseRadarConspicuous)
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseVisuallyConspicuous)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+
+        // Now fix the geometry... from a point to a curve???
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 dataset member section for physical AtoNs.
+     *
+     * @param datasetInfo   The dataset information
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 dataset member section generated
+     */
+    protected S125PhysicalAISAidToNavigationType generatePhysicalAISAtoN(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+        final S125PhysicalAISAidToNavigationType member = new S125PhysicalAISAidToNavigationType();
+        final String tagKeyPrefix = "seamark:radio_station:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:ais_aid_to_navigation:";
+        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        member.setEstimatedRangeOfTransmission(Optional.of(s125TagKeyPrefix+"estimated_range_of_transmission")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setStatus(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseStatus)
+                .orElse(null));
+
+        /// Now fix the geometry...
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 dataset member section for Virtual AtoNs.
+     *
+     * @param datasetInfo   The dataset information
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 dataset member section generated
+     */
+    protected S125VirtualAISAidToNavigationType generateVirtualAtoN(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+        final S125VirtualAISAidToNavigationType member = new S125VirtualAISAidToNavigationType();
+        final String tagKeyPrefix = "seamark:radio_station:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:virtual_ais_aid_to_navigation:";
+        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        member.setEstimatedRangeOfTransmission(Optional.of(s125TagKeyPrefix+"estimated_range_of_transmission")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setStatus(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseStatus)
+                .orElse(null));
+        member.setVirtualAISAidToNavigationType(Optional.of("seamark:virtual_aton:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> v.replace(" ", "_"))
+                .map(S125EnumParser::parseVirtualAisAidToNavigationType)
+                .orElse(S125VirtualAISAidToNavigationPurposeType.SPECIAL_PURPOSE));
+
+        // Now fix the geometry... from a point to a curve???
+        _int.iho.s100.gml.base._1_0_Ext.CurveProperty curvePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.CurveProperty();
+        curvePropertyExt.setCurveProperty(this.generateCurveProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(curvePropertyExt);
 
         // And return the populated member
         return member;
@@ -1109,229 +1425,6 @@ public class S125DatasetBuilder {
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
         pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
         member.setGeometry(pointPropertyExt);
-        return member;
-    }
-
-    /**
-     * Generate the S-125 dataset member section for Landmark AtoNs.
-     *
-     * @param datasetInfo   The dataset information
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
-     */
-    protected S125LandmarkType generateLandmark(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LighthouseType member = new S125LighthouseType();
-        final String tagKeyPrefix = "seamark:landmark";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
-        member.getColours().addAll(Optional.of(tagKeyPrefix+"colour")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
-                .orElse(Collections.emptyList()));
-        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"category")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
-                .orElse(Collections.emptyList()));
-        member.getFunctions().addAll(Optional.of(tagKeyPrefix+"function")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseFunction))
-                .orElse(Collections.emptyList()));
-        member.setObjectName(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseRadarConspicuous)
-                .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseVisuallyConspicuous)
-                .orElse(null));
-        member.getStatuses().addAll(Optional.of("seamark:status")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
-                .orElse(Collections.emptyList()));
-
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
-        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
-        member.setGeometry(pointCurveSurfacePropertyExt);
-        return member;
-    }
-
-    /**
-     * Generate the S-125 dataset member section for Lighthouse AtoNs.
-     *
-     * @param datasetInfo   The dataset information
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
-     */
-    protected S125LighthouseType generateLighthouse(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LighthouseType member = new S125LighthouseType();
-        final String tagKeyPrefix = "seamark:light:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
-        member.getColours().addAll(Optional.of(tagKeyPrefix+"colour")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
-                .orElse(Collections.emptyList()));
-        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"category")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
-                .orElse(Collections.emptyList()));
-        member.getFunctions().addAll(Optional.of(tagKeyPrefix+"function")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseFunction))
-                .orElse(Collections.emptyList()));
-        member.setObjectName(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setHeight(Optional.of(tagKeyPrefix+"height")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseRadarConspicuous)
-                .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseVisuallyConspicuous)
-                .orElse(null));
-        member.getStatuses().addAll(Optional.of("seamark:status")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
-                .orElse(Collections.emptyList()));
-
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
-        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
-        member.setGeometry(pointCurveSurfacePropertyExt);
-        return member;
-    }
-
-    /**
-     * Generate the S-125 dataset member section for Light Vessel AtoNs.
-     *
-     * @param datasetInfo   The dataset information
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
-     */
-    protected S125LightVesselType generateLightVessel(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LightVesselType member = new S125LightVesselType();
-        final String tagKeyPrefix = "seamark:light_vessek:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
-        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
-                .orElse(Collections.emptyList()));
-        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
-                .orElse(Collections.emptyList()));
-        member.setObjectName(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setRadarConspicuous(Optional.of(tagKeyPrefix+"radar_conspicuous")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseRadarConspicuous)
-                .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"visually_conspicuous")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseVisuallyConspicuous)
-                .orElse(null));
-        member.getStatuses().addAll(Optional.of("seamark:status")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
-                .orElse(Collections.emptyList()));
-
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
-        member.setGeometry(pointPropertyExt);
-
-        // And return the populated member
-        return member;
-    }
-
-    /**
-     * Generate the S-125 dataset member section for Virtual AtoNs.
-     *
-     * @param datasetInfo   The dataset information
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
-     */
-    protected S125VirtualAISAidToNavigationType generateVirtualAtoN(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125VirtualAISAidToNavigationType member = new S125VirtualAISAidToNavigationType();
-        final String tagKeyPrefix = "seamark:radio_station:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
-        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
-        member.setObjectName(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setStatus(Optional.of("seamark:status")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseStatus)
-                .orElse(null));
-        member.setVirtualAISAidToNavigationType(Optional.of("seamark:virtual_aton:category")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(v -> v.replace(" ", "_"))
-                .map(v -> {try {return S125VirtualAISAidToNavigationPurposeType.fromValue(v);} catch (Exception ex) {return null;}})
-                .orElse(S125VirtualAISAidToNavigationPurposeType.SPECIAL_PURPOSE));
-
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.CurveProperty curvePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.CurveProperty();
-        curvePropertyExt.setCurveProperty(this.generateCurveProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
-        member.setGeometry(curvePropertyExt);
-
-        // And return the populated member
         return member;
     }
 

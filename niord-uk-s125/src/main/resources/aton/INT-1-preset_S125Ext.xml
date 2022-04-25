@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<presets author="Nikolaos Vastardis" version="0.0.1"
+         description="S-125 field additions to the Seamark INT-1-preset.xml"
+         shortdescription="S-125 field additions">
+
+    <chunk id="marksNavigationalSystemOf">
+        <list_entry value="iala-a" display_value="IALA-A"/>
+        <list_entry value="iala-b" diplay_value="IALA-B"/>
+        <list_entry value="cevni" diplay_value="CEVNI"/>
+        <list_entry value="none" diplay_value="None"/>
+    </chunk>
+
+    <chunk id="categoryOfPhysicalAISAidToNavigation">
+        <list_entry value="physical_ais_type_1" display_value="Physical AIS Type 1"/>
+        <list_entry value="physical_ais_type_2" display_value="Physical AIS Type 2"/>
+        <list_entry value="physical_ais_type_3" display_value="Physical AIS Type 3"/>
+    </chunk>
+
+    <chunk id="categoryOfSyntheticAISAidToNavigation">
+        <list_entry value="predicted" display_value="Predicted"/>
+        <list_entry value="monitored" diplay_value="Monitored"/>
+    </chunk>
+
+    <group name="Beacons (Q80-Q125)">
+        <group name="Beacons in General">
+
+            <item name="Cardinal Beacon" type="node">
+                <text key="s125:aidsToNavigation:generic_beacon:height" text="Height" type="real"/>
+                <combo key="s125:aidsToNavigation:generic_beacon:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+            <item name="Lateral Beacon">
+                <text key="s125:aidsToNavigation:generic_beacon:height" text="Height" type="real"/>
+                <combo key="s125:aidsToNavigation:generic_beacon:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+            <item name="Lateral Beacon">
+                <text key="s125:aidsToNavigation:generic_beacon:height" text="Height" type="real"/>
+                <combo key="s125:aidsToNavigation:generic_beacon:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+            <item name="Isolated Danger Beacon">
+                <text key="s125:aidsToNavigation:generic_beacon:height" text="Height" type="real"/>
+                <combo key="s125:aidsToNavigation:generic_beacon:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+            <item name="Safe Water Beacon">
+                <text key="s125:aidsToNavigation:generic_beacon:height" text="Height" type="real"/>
+                <combo key="s125:aidsToNavigation:generic_beacon:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+            <item name="Special Purpose Beacon">
+                <text key="s125:aidsToNavigation:generic_beacon:height" text="Height" type="real"/>
+                <combo key="s125:aidsToNavigation:generic_beacon:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+        </group>
+    </group>
+
+    <group name="Buoys and Floats (Q20-Q71)">
+
+        <group name="Buoys in General">
+
+            <item name="Lateral Buoy" type="node">
+                <combo key="s125:aidsToNavigation:generic_buoy:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+
+            <item name="Cardinal Buoy">
+                <combo key="s125:aidsToNavigation:generic_buoy:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+
+            <item name="Safe Water Buoy">
+                <combo key="s125:aidsToNavigation:generic_buoy:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+
+            <item name="Isolated Danger Buoy">
+                <combo key="s125:aidsToNavigation:generic_buoy:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+
+            <item name="Special Purpose Buoy">
+                <combo key="s125:aidsToNavigation:generic_buoy:marks_navigational_system_of" text="Marks Navigational System of">
+                    <reference ref="marksNavigationalSystemOf"/>
+                </combo>
+                <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+
+        </group>
+
+        <item name="Installation Buoy">
+            <combo key="s125:aidsToNavigation:generic_buoy:marks_navigational_system_of" text="Marks Navigational System of">
+                <reference ref="marksNavigationalSystemOf"/>
+            </combo>
+            <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
+                <reference ref="construction"/>
+            </multiselect>
+            <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+        </item>
+
+    </group>
+
+    <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
+
+        <item name="Landmarks in General">
+            <text key="s125:aidsToNavigation:landmark:height" text="Height" type="real"/>
+            <multiselect key="s125:aidsToNavigation:landmark:nature_or_construction" text="Nature of Construction">
+                <reference ref="construction"/>
+            </multiselect>
+            <check key="s125:aidsToNavigation:landmark:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:landmark:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+        </item>
+
+    </group>
+
+    <group name="P: Lights">
+
+        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
+
+            <item name="Major and Minor Lights (P1)" type="node,closedway">
+                <text key="s125:aidsToNavigation:lighthouse:height" text="Height" type="real"/>
+                <multiselect key="s125:aidsToNavigation:lighthouse:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:lighthouse:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:lighthouse:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+        </group>
+
+        <item name="Major Floating Light (P6)" type="node,closedway">
+            <multiselect key="s125:aidsToNavigation:light_vessel:nature_or_construction" text="Nature of Construction">
+                <reference ref="construction"/>
+            </multiselect>
+            <check key="s125:aidsToNavigation:light_vessel:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:light_vessel:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+        </item>
+
+    </group>
+
+    <group name="S: Electronic Position-Fixing Systems">
+
+        <item name="AIS transmitter (S17.1-S17.2)" type="node,closedway">
+            <key key="seamark:type" value="radio_station"/>
+            <combo key="s125:aidsToNavigation:ais_aid_to_navigation:category_ais_aid_to_navigation" text="AIS AtoN Type">
+                <list_entry value="physical_ais_aton"/>
+                <list_entry value="synthetic_ais_aton"/>
+            </combo>
+            <multiselect key="s125:aidsToNavigation:ais_aid_to_navigation:category_of_physical_ais_aid_to_navigation" text="Category of Physical AIS AtoN">
+                <reference ref="categoryOfPhysicalAISAidToNavigation"/>
+            </multiselect>
+            <text key="s125:aidsToNavigation:aid_aid_to_navigation:estimated_range_of_transmission" text="Estimated Transmission Range" type="real"/>
+        </item>
+
+        <item name="Virtual AIS transmitter (S18.1-S18.7)" type="node,closedway">
+            <text key="s125:aidsToNavigation:virtual_ais_aid_to_navigation:estimated_range_of_transmission" text="Estimated Transmission Range" type="real"/>
+        </item>
+
+    </group>
+
+    <item name="Supplementary Information" type="node,way,closedway,relation">
+        <text key="s125.aidsToNavigation.date_end" text="Date End" type="date"/>
+        <text key="s125.aidsToNavigation.date_start" text="Date Start" type="date"/>
+        <text key="s125.aidsToNavigation.id_code" text="ID Code" type="text"/>
+        <text key="s125.aidsToNavigation.information" text="Info" type="text"/>
+        <text key="s125.aidsToNavigation.information_in_national_language" text="Info in National Lang." type="text"/>
+        <text key="s125.aidsToNavigation.period_start" text="Period Start" type="date"/>
+        <text key="s125.aidsToNavigation.period_end" text="Period End" type="date"/>
+        <text key="s125.aidsToNavigation.pictorial_representation" text="Pictorial Representation" type="text"/>
+        <text key="s125.aidsToNavigation.scale_minimum" text="Scale Minimum" type="int"/>
+    </item>
+
+</presets>

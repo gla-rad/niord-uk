@@ -27,6 +27,7 @@ public enum S125AtonTypes {
     LIGHTHOUSE_MAJOR("light_major", "Lighthouse - Major", false),
     LIGHTHOUSE_MINOR("light_minor", "Lighthouse - Minor", false),
     LIGHT_VESSEL("light_vessel", "Light Vessel", false),
+    PHYSICAL_AIS_ATON("radio_station", "Physical AIS AtoN", false),
     VIRTUAL_ATON("virtual_aton", "Virtual AtoN", false);
 
     // Enum Variables

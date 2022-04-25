@@ -35,14 +35,16 @@ import java.util.stream.Collectors;
 public class S125EnumParser {
 
     /**
-     * Translates the colour sfrom the INT-1.preset.xml to the S-125 Colour enum
-     * list. The colours should be seperated by a semi-colon character (;).
+     * Splits the list string separated by a special character into an actual
+     * Java list or S125 enum entries. The colours should be separated by a
+     * semi-colon character (;). The individual entry parsing is performed by
+     * the function provided as an argument.
      *
-     * @param colours     The INT-1-preset.xml colours
-     * @return the S-125 Colour Pattern enum list
+     * @param stringList     The string list separated by a character (;)
+     * @return the Java list object
      */
-    public static <R> Collection<R> splitAndParse(String colours, Function<String, R> function) {
-        return Optional.ofNullable(colours)
+    public static <R> Collection<R> splitAndParse(String stringList, Function<String, R> function) {
+        return Optional.ofNullable(stringList)
                 .map(c -> c.split(";"))
                 .map(Arrays::asList)
                 .orElse(Collections.emptyList())
@@ -52,7 +54,66 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the construction from the INT-1.preset.xml to the  S-125
+     * Translates the category of landmark from the INT-1.preset.xml to the
+     * S-125 Category of Landmark enum.
+     *
+     * @param categoryOfLandmark        The INT-1-preset.xml category of landmark
+     * @return the S-125 Category of Landmark enum entry
+     */
+    public static S125CategoryOfLandmark parseCategoryOfLandmark(String categoryOfLandmark) {
+        switch(categoryOfLandmark) {
+            case "cairn": return S125CategoryOfLandmark.CAIRN;
+            case "cemetery": return S125CategoryOfLandmark.CEMETERY;
+            case "chimney": return S125CategoryOfLandmark.CHIMNEY;
+            case "dish_aerial": return S125CategoryOfLandmark.DISH_AERIAL;
+            case "flagstaff": return S125CategoryOfLandmark.FLAGSTAFF_FLAGPOLE;
+            case "flare_stack": return S125CategoryOfLandmark.FLARE_STACK;
+            case "mast": return S125CategoryOfLandmark.MAST;
+            case "windsock": return S125CategoryOfLandmark.WINDSOCK;
+            case "monument": return S125CategoryOfLandmark.MONUMENT;
+            case "column": return S125CategoryOfLandmark.COLUMN_PILLAR;
+            case "memorial": return S125CategoryOfLandmark.MEMORIAL_PLAQUE;
+            case "obelisk": return S125CategoryOfLandmark.OBELISK;
+            case "statue": return S125CategoryOfLandmark.STATUE;
+            case "cross": return S125CategoryOfLandmark.CROSS;
+            case "dome": return S125CategoryOfLandmark.DOME;
+            case "radar_scanner": return S125CategoryOfLandmark.RADAR_SCANNER;
+            case "tower": return S125CategoryOfLandmark.TOWER;
+            case "windmill": return S125CategoryOfLandmark.WINDMILL;
+            case "windmotor": return S125CategoryOfLandmark.WINDMOTOR;
+            case "spire": return S125CategoryOfLandmark.SPIRE_MINARET;
+            case "boulder": return S125CategoryOfLandmark.LARGE_ROCK_OR_BOULDER_ON_LAND;
+            default: return null;
+        }
+    }
+
+    /**
+     * Translates the virtual AtoN category from the INT-1.preset.xml to the 
+     * S-125 Virtual AIS Aid Navigation Purpose Type enum.
+     *
+     * @param virtualAisAidsToNavigationType        The INT-1-preset.xml virtual AtoN category
+     * @return the S-125 Virtual AIS Aid Navigation Purpose Type
+     */
+    public static S125VirtualAISAidToNavigationPurposeType parseVirtualAisAidToNavigationType(String virtualAisAidsToNavigationType) {
+        switch(virtualAisAidsToNavigationType) {
+            case "north_cardinal": return S125VirtualAISAidToNavigationPurposeType.NORTH_CARDINAL;
+            case "south_cardinal": return S125VirtualAISAidToNavigationPurposeType.SOUTH_CARDINAL;
+            case "east_cardinal": return S125VirtualAISAidToNavigationPurposeType.EAST_CARDINAL;
+            case "west_cardinal": return S125VirtualAISAidToNavigationPurposeType.WEST_CARDINAL;
+            case "port_lateral": return S125VirtualAISAidToNavigationPurposeType.PORT_LATERAL;
+            case "starboard_lateral": return S125VirtualAISAidToNavigationPurposeType.STARBOARD_LATERAL;
+            case "preferred_port": return S125VirtualAISAidToNavigationPurposeType.PREFERRED_CHANNEL_TO_PORT;
+            case "preferred_starboard": return S125VirtualAISAidToNavigationPurposeType.PREFERRED_CHANNEL_TO_STARBOARD;
+            case "isolated_danger": return S125VirtualAISAidToNavigationPurposeType.ISOLATED_DANGER;
+            case "safe_water": return S125VirtualAISAidToNavigationPurposeType.SAFE_WATER;
+            case "special_purpose": return S125VirtualAISAidToNavigationPurposeType.SPECIAL_PURPOSE;
+            case "wreck": return S125VirtualAISAidToNavigationPurposeType.EMERGENCY_WRECK_MARKING;
+            default: return null;
+        }
+    }
+    
+    /**
+     * Translates the construction from the INT-1.preset.xml to the S-125
      * Nature Of Construction enum.
      *
      * @param natureOfConstruction        The INT-1-preset.xml construction
