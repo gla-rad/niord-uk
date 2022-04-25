@@ -22,7 +22,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.niord.s125.models.S125AtonTypes;
 import org.niord.s125.services.S125Service;
 import org.niord.s125.utils.XmlUtils;
 import org.slf4j.Logger;
@@ -34,6 +34,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A public REST API for accessing messages as S-125 GML.
@@ -57,6 +60,54 @@ public class S125RestService {
     S125Service s125Service;
 
     /**
+     * Returns the list of the S-125 supported feature types.
+     */
+    @GET
+    @Path("/feature-types")
+    @Operation(
+            description = "The list of S-125 supported feature types."
+    )
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(implementation = List.class)
+            )
+    )
+    @Produces({"application/json;charset=UTF-8"})
+    public List<String> s125FeatureTypes() {
+        return Arrays.asList(S125AtonTypes.values())
+                .stream()
+                .map(S125AtonTypes::getName)
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns the list of respective JOSM node types matching the selected
+     * S-125 feature type.
+     */
+    @GET
+    @Path("/feature-types/{featureType}/josm")
+    @Operation(
+            description = "The JOSM node types for a certain S-125 Aids to Navigation feature type."
+    )
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(implementation = List.class)
+            )
+    )
+    @Produces({"application/json;charset=UTF-8"})
+    public List<String> s125ToJosmNodeTypes(
+            @Parameter(name = "The S-125 feature type", example = "beacon_cardinal")
+            @PathParam("featureType") S125AtonTypes featureType
+    ) {
+        return featureType.getJosmNodeTypes();
+    }
+
+    /**
      * Returns the S-125 GML representation for the given AtoN.
      */
     @GET
@@ -68,18 +119,17 @@ public class S125RestService {
     @APIResponse(
             responseCode = "200",
             content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON,
+                    mediaType = "application/gml+xml;charset=UTF-8",
                     schema = @Schema(implementation = String.class)
             )
     )
-    @Tag(ref = "S-125")
     @Produces({"application/gml+xml;charset=UTF-8"})
     public Response s125AtonDetails(
             @Parameter(name = "The aton UID or aton ID", example = "aton-001")
             @PathParam("atonUID") String atonUID,
-
-            @Parameter(name = "Two-letter ISO 639-1 language code", example = "en")
+            @Parameter(name = "Indentation of the XML output", example = "4")
             @QueryParam("indent") @DefaultValue("4") Integer indent,
+            @Parameter(name = "Two-letter ISO 639-1 language code", example = "en")
             @QueryParam("lang") @DefaultValue("en") String language
     ) {
 
