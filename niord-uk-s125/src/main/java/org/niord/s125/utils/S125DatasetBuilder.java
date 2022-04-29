@@ -1453,7 +1453,7 @@ public class S125DatasetBuilder {
         member.setAtonNumber(Optional.of("mrn")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .orElse(null));
+                .orElse(atonNode.getAtonUid()));
         member.setIdCode(atonNode.getAtonUid());
         member.setTextualDescription(String.format("%s %s", atonType.getDescription(), Optional.of("seamark:name")
                 .map(atonNode::getTag)
