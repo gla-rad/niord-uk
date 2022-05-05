@@ -1454,7 +1454,7 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(atonNode.getAtonUid()));
-        member.setIdCode(atonNode.getAtonUid());
+        member.setIdCode("aton.uk." + atonNode.getAtonUid().toLowerCase());
         member.setTextualDescription(String.format("%s %s", atonType.getDescription(), Optional.of("seamark:name")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
