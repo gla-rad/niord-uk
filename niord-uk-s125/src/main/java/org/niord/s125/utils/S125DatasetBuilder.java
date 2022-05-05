@@ -1330,7 +1330,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.CurveProperty curvePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.CurveProperty();
-        curvePropertyExt.setCurveProperty(this.generateCurveProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        curvePropertyExt.setCurveProperty(this.generateCurveProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(curvePropertyExt);
 
         // And return the populated member
@@ -1453,7 +1453,7 @@ public class S125DatasetBuilder {
         member.setAtonNumber(Optional.of("mrn")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .orElse(null));
+                .orElse(atonNode.getAtonUid()));
         member.setIdCode(atonNode.getAtonUid());
         member.setTextualDescription(String.format("%s %s", atonType.getDescription(), Optional.of("seamark:name")
                 .map(atonNode::getTag)
@@ -1572,11 +1572,11 @@ public class S125DatasetBuilder {
                 .orElse("EPSG:4326");
         double bbox[] = GeoJsonUtils.computeBBox(geoJsonAList.toArray(GeoJsonVo[]::new));
         Pos lowerCorner = new Pos();
-        lowerCorner.getValues().add(bbox[1]);
         lowerCorner.getValues().add(bbox[0]);
+        lowerCorner.getValues().add(bbox[1]);
         Pos upperCorner = new Pos();
-        upperCorner.getValues().add(bbox[3]);
         upperCorner.getValues().add(bbox[2]);
+        upperCorner.getValues().add(bbox[3]);
 
         // And create the bounding by envelope
         BoundingShapeType boundingShapeType = new BoundingShapeType();
