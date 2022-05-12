@@ -1329,9 +1329,9 @@ public class S125DatasetBuilder {
                 .orElse(S125VirtualAISAidToNavigationPurposeType.SPECIAL_PURPOSE));
 
         // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.CurveProperty curvePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.CurveProperty();
-        curvePropertyExt.setCurveProperty(this.generateCurveProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(curvePropertyExt);
+        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        member.setGeometry(pointPropertyExt);
 
         // And return the populated member
         return member;

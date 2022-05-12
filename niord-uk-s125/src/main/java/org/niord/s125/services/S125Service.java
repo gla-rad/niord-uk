@@ -16,7 +16,7 @@
 
 package org.niord.s125.services;
 
-import org.grad.eNav.s125.utils.S100Utils;
+import org.grad.eNav.s125.utils.S125Utils;
 import org.niord.core.NiordApp;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
@@ -66,7 +66,7 @@ public class S125Service {
         return Optional.ofNullable(atonNode)
                 .map(Collections::singletonList)
                 .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(atonNode.getAtonUid(), app.getOrganisation(), l), l))
-                .map(d -> {try {return S100Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
+                .map(d -> {try {return S125Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
                 .orElse(null);
     }
 
