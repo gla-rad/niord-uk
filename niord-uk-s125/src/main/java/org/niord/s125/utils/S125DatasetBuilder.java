@@ -271,7 +271,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -356,7 +356,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -437,7 +437,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -517,7 +517,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -603,7 +603,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -678,7 +678,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -753,7 +753,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -828,7 +828,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -1103,7 +1103,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
-        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointCurveSurfacePropertyExt);
         return member;
     }
@@ -1176,7 +1176,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
-        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointCurveSurfacePropertyExt);
         return member;
     }
@@ -1234,7 +1234,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -1279,7 +1279,7 @@ public class S125DatasetBuilder {
 
         /// Now fix the geometry...
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -1330,7 +1330,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
 
         // And return the populated member
@@ -1423,7 +1423,7 @@ public class S125DatasetBuilder {
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())));
+        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
         member.setGeometry(pointPropertyExt);
         return member;
     }
