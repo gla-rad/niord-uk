@@ -90,6 +90,12 @@
             <xsl:attribute name="v">
                 <xsl:value-of select="@value"/>
             </xsl:attribute>
+            <xsl:attribute name="text">
+                <xsl:value-of select="@text"/>
+            </xsl:attribute>
+            <xsl:attribute name="type">
+                <xsl:value-of select="@type"/>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </tag>
     </xsl:template>
@@ -102,6 +108,9 @@
             <xsl:attribute name="text">
                 <xsl:value-of select="@text"/>
             </xsl:attribute>
+            <xsl:attribute name="type">
+                <xsl:value-of select="@type"/>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </tag>
     </xsl:template>
@@ -113,6 +122,9 @@
             </xsl:attribute>
             <xsl:attribute name="text">
                 <xsl:value-of select="@text"/>
+            </xsl:attribute>
+            <xsl:attribute name="type">
+                <xsl:value-of select="@type"/>
             </xsl:attribute>
             <xsl:apply-templates/>
         </tag>
