@@ -19,8 +19,8 @@ package org.niord.s125.utils;
 import _int.iala_aism.s125.gml._0_0.*;
 import _int.iho.s100.gml.base._1_0.CurveType;
 import _int.iho.s100.gml.base._1_0.PointType;
-import _int.iho.s100.gml.base._1_0.*;
 import _int.iho.s100.gml.base._1_0.SurfaceType;
+import _int.iho.s100.gml.base._1_0.*;
 import _net.opengis.gml.profiles.*;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonTag;
@@ -34,6 +34,10 @@ import org.niord.s125.models.S125DatasetInfo;
 import javax.xml.bind.JAXBElement;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -96,7 +100,7 @@ public class S125DatasetBuilder {
         dataSetIdentificationType.setProductEdition(datasetInfo.getProductionEdition());
         dataSetIdentificationType.setDatasetFileIdentifier(datasetInfo.getFileIdentifier());
         dataSetIdentificationType.setDatasetTitle(datasetInfo.getTitle());
-        dataSetIdentificationType.setDatasetReferenceDate(new Date());
+        dataSetIdentificationType.setDatasetReferenceDate(LocalDate.now());
         dataSetIdentificationType.setDatasetLanguage(ISO6391.EN);
         dataSetIdentificationType.setDatasetAbstract(datasetInfo.getAbstractText());
         s125Dataset.setDatasetIdentificationInformation(dataSetIdentificationType);
@@ -1440,7 +1444,8 @@ public class S125DatasetBuilder {
      */
     public <R extends S125AidsToNavigationType> void populateS125AidsToNavigationFields(R member, S125DatasetInfo datasetInfo, AtonNode atonNode) {
         // First read the AtoN type information from the input
-        S125AtonTypes atonType = S125AtonTypes.fromSeamarkType(atonNode.getTagValue(TAG_ATON_TYPE));
+        final S125AtonTypes atonType = S125AtonTypes.fromSeamarkType(atonNode.getTagValue(TAG_ATON_TYPE));
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:";
 
         // Now populate the fields
         member.setId(this.generateId());
@@ -1463,6 +1468,44 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse("Unknown")));
+        member.setDateStart(Optional.of(s125TagKeyPrefix+"date_start")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::getS100TruncatedDate)
+                .orElse(null));
+        member.setDateEnd(Optional.of(s125TagKeyPrefix+"date_start")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::getS100TruncatedDate)
+                .orElse(null));
+        member.setPeriodStart(Optional.of(s125TagKeyPrefix+"period_start")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::getS100TruncatedDate)
+                .orElse(null));
+        member.setPeriodEnd(Optional.of(s125TagKeyPrefix+"period_end" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::getS100TruncatedDate)
+                .orElse(null));
+    }
+
+    /**
+     * Translate the ISO Date-Time string into an S100-compatible Truncated Date
+     * object.
+     *
+     * @param isoDateTimeString The ISO Date-Time String
+     * @return the S100 Truncated Date object
+     */
+    private S100TruncatedDate getS100TruncatedDate(String isoDateTimeString) {
+        S100TruncatedDate s100TruncatedDate = new S100TruncatedDate();
+        try {
+            s100TruncatedDate.setDate(LocalDateTime.parse(isoDateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME).toLocalDate());
+        } catch (NullPointerException | DateTimeParseException ex) {
+            // Ok, so we got an error..., we return an empty date
+            return null;
+        }
+        return s100TruncatedDate;
     }
 
     /**
