@@ -238,15 +238,15 @@
     </group>
 
     <item name="Supplementary Information" type="node,way,closedway,relation">
-        <text key="s125.aidsToNavigation.date_end" text="Date End" type="date"/>
-        <text key="s125.aidsToNavigation.date_start" text="Date Start" type="date"/>
-        <text key="s125.aidsToNavigation.id_code" text="ID Code" type="text"/>
-        <text key="s125.aidsToNavigation.information" text="Info" type="text"/>
-        <text key="s125.aidsToNavigation.information_in_national_language" text="Info in National Lang." type="text"/>
-        <text key="s125.aidsToNavigation.period_start" text="Period Start" type="date"/>
-        <text key="s125.aidsToNavigation.period_end" text="Period End" type="date"/>
-        <text key="s125.aidsToNavigation.pictorial_representation" text="Pictorial Representation" type="text"/>
-        <text key="s125.aidsToNavigation.scale_minimum" text="Scale Minimum" type="int"/>
+        <text key="s125:aidsToNavigation:date_end" text="Date End" type="date"/>
+        <text key="s125:aidsToNavigation:date_start" text="Date Start" type="date"/>
+        <text key="s125:aidsToNavigation:id_code" text="ID Code" type="text"/>
+        <text key="s125:aidsToNavigation:information" text="Info" type="text"/>
+        <text key="s125:aidsToNavigation:information_in_national_language" text="Info in National Lang." type="text"/>
+        <text key="s125:aidsToNavigation:period_start" text="Period Start" type="date"/>
+        <text key="s125:aidsToNavigation:period_end" text="Period End" type="date"/>
+        <text key="s125:aidsToNavigation:pictorial_representation" text="Pictorial Representation" type="text"/>
+        <text key="s125:aidsToNavigation:scale_minimum" text="Scale Minimum" type="int"/>
     </item>
 
 </presets>

@@ -1473,7 +1473,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(this::getS100TruncatedDate)
                 .orElse(null));
-        member.setDateEnd(Optional.of(s125TagKeyPrefix+"date_start")
+        member.setDateEnd(Optional.of(s125TagKeyPrefix+"date_end")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(this::getS100TruncatedDate)
@@ -1500,7 +1500,7 @@ public class S125DatasetBuilder {
     private S100TruncatedDate getS100TruncatedDate(String isoDateTimeString) {
         S100TruncatedDate s100TruncatedDate = new S100TruncatedDate();
         try {
-            s100TruncatedDate.setDate(LocalDateTime.parse(isoDateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME).toLocalDate());
+            s100TruncatedDate.setDate(LocalDateTime.parse(isoDateTimeString, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toLocalDate());
         } catch (NullPointerException | DateTimeParseException ex) {
             // Ok, so we got an error..., we return an empty date
             return null;
