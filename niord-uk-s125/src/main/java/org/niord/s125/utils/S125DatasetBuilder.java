@@ -22,12 +22,11 @@ import _int.iho.s100.gml.base._1_0.PointType;
 import _int.iho.s100.gml.base._1_0.SurfaceType;
 import _int.iho.s100.gml.base._1_0.*;
 import _net.opengis.gml.profiles.*;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonTag;
-import org.niord.core.geojson.GeoJsonUtils;
-import org.niord.core.geojson.JtsConverter;
-import org.niord.model.geojson.CrsVo;
-import org.niord.model.geojson.GeoJsonVo;
 import org.niord.s125.models.S125AtonTypes;
 import org.niord.s125.models.S125DatasetInfo;
 
@@ -40,7 +39,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import static org.niord.core.aton.AtonTag.TAG_ATON_TYPE;
 
@@ -1500,7 +1498,10 @@ public class S125DatasetBuilder {
     private S100TruncatedDate getS100TruncatedDate(String isoDateTimeString) {
         S100TruncatedDate s100TruncatedDate = new S100TruncatedDate();
         try {
-            s100TruncatedDate.setDate(LocalDateTime.parse(isoDateTimeString, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toLocalDate());
+            Optional.ofNullable(isoDateTimeString)
+                    .map(s -> LocalDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+                    .map(LocalDateTime::toLocalDate)
+                    .ifPresent(s100TruncatedDate::setDate);
         } catch (NullPointerException | DateTimeParseException ex) {
             // Ok, so we got an error..., we return an empty date
             return null;
@@ -1604,33 +1605,44 @@ public class S125DatasetBuilder {
      */
     protected BoundingShapeType generateBoundingShape(Collection<AtonNode> atonNodes) {
         // Calculate the bounding by envelope
-        List<GeoJsonVo> geoJsonAList = atonNodes.stream()
+        final Envelope envelope = new Envelope();
+        atonNodes.stream()
                 .map(AtonNode::getGeometry)
-                .map(JtsConverter::fromJts)
-                .collect(Collectors.toList());
-        String srsName = geoJsonAList.stream()
-                .findFirst()
-                .map(GeoJsonVo::getCrs)
-                .map(CrsVo::getType)
-                .orElse("EPSG:4326");
-        double bbox[] = GeoJsonUtils.computeBBox(geoJsonAList.toArray(GeoJsonVo[]::new));
+                .forEach(g -> this.enclosingEnvelopFromGeometry(envelope, g));
+
         Pos lowerCorner = new Pos();
-        lowerCorner.getValues().add(bbox[0]);
-        lowerCorner.getValues().add(bbox[1]);
+        lowerCorner.getValues().add(envelope.getMinX());
+        lowerCorner.getValues().add(envelope.getMaxY());
         Pos upperCorner = new Pos();
-        upperCorner.getValues().add(bbox[2]);
-        upperCorner.getValues().add(bbox[3]);
+        upperCorner.getValues().add(envelope.getMaxX());
+        upperCorner.getValues().add(envelope.getMaxY());
 
         // And create the bounding by envelope
         BoundingShapeType boundingShapeType = new BoundingShapeType();
         EnvelopeType envelopeType = new EnvelopeType();
-        envelopeType.setSrsName(srsName);
+        envelopeType.setSrsName("EPSG:4326");
         envelopeType.setLowerCorner(lowerCorner);
         envelopeType.setUpperCorner(upperCorner);
         boundingShapeType.setEnvelope(envelopeType);
 
         // Finally, return the result
         return boundingShapeType;
+    }
+
+    /**
+     * Adds the enclosing geometry boundaries to the provided envelop.
+     *
+     * @param envelope      The envelope to be updated
+     * @param geometry      The geometry to update the envelope boundaries with
+     * @return the updates envelope
+     */
+    protected Envelope enclosingEnvelopFromGeometry(Envelope envelope, Geometry geometry) {
+        final Geometry enclosingGeometry = geometry.getEnvelope();
+        final Coordinate[] enclosingCoordinates = enclosingGeometry.getCoordinates();
+        for (Coordinate c : enclosingCoordinates) {
+            envelope.expandToInclude(c);
+        }
+        return envelope;
     }
 
     /**
