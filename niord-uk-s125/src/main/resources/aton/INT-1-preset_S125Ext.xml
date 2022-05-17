@@ -32,9 +32,9 @@
                 <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
-                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
             <item name="Lateral Beacon">
@@ -45,9 +45,9 @@
                 <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
-                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
             <item name="Lateral Beacon">
@@ -58,9 +58,9 @@
                 <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
-                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
             <item name="Isolated Danger Beacon">
@@ -71,9 +71,9 @@
                 <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
-                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
             <item name="Safe Water Beacon">
@@ -84,9 +84,9 @@
                 <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
-                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
             <item name="Special Purpose Beacon">
@@ -97,9 +97,9 @@
                 <multiselect key="s125:aidsToNavigation:generic_beacon:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
-                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_beacon:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
         </group>
@@ -116,7 +116,7 @@
                 <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
             </item>
 
@@ -127,7 +127,7 @@
                 <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
             </item>
 
@@ -138,7 +138,7 @@
                 <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
             </item>
 
@@ -149,7 +149,7 @@
                 <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
             </item>
 
@@ -160,7 +160,7 @@
                 <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
                 <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
             </item>
 
@@ -173,7 +173,7 @@
             <multiselect key="s125:aidsToNavigation:generic_buoy:nature_or_construction" text="Nature of Construction">
                 <reference ref="construction"/>
             </multiselect>
-            <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             <text key="s125:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
         </item>
 
@@ -186,8 +186,8 @@
             <multiselect key="s125:aidsToNavigation:landmark:nature_or_construction" text="Nature of Construction">
                 <reference ref="construction"/>
             </multiselect>
-            <check key="s125:aidsToNavigation:landmark:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            <check key="s125:aidsToNavigation:landmark:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:landmark:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:landmark:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
         </item>
 
     </group>
@@ -201,8 +201,8 @@
                 <multiselect key="s125:aidsToNavigation:lighthouse:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
                 </multiselect>
-                <check key="s125:aidsToNavigation:lighthouse:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-                <check key="s125:aidsToNavigation:lighthouse:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:lighthouse:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:lighthouse:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             </item>
 
         </group>
@@ -211,8 +211,8 @@
             <multiselect key="s125:aidsToNavigation:light_vessel:nature_or_construction" text="Nature of Construction">
                 <reference ref="construction"/>
             </multiselect>
-            <check key="s125:aidsToNavigation:light_vessel:radar_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            <check key="s125:aidsToNavigation:light_vessel:visually_conspicuous" text="Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:light_vessel:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:light_vessel:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
         </item>
 
     </group>

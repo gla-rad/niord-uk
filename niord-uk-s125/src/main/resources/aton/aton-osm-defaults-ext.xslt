@@ -17,7 +17,7 @@
     </xsl:template>
 
     <!-- Match the groups we are interested in -->
-    <xsl:template match="group[@name='Seamarks' or ancestor-or-self::group[@name='E: Landmarks' or @name='P: Lights' or @name='Q: Buoys, Beacons, Notices' or @name='R: Fog Signals' or @name='S: Electronic Position-Fixing Systems']]">
+    <xsl:template match="group[@name='Seamarks' or ancestor-or-self::group[@name='Beacons (Q80-Q125)' or @name='Buoys and Floats (Q20-Q71)' or @name='E: Landmarks' or @name='P: Lights' or @name='Q: Buoys, Beacons, Notices' or @name='R: Fog Signals' or @name='S: Electronic Position-Fixing Systems']]">
         <xsl:if test="not(starts-with(@name,$ialaSkipSystem))">
             <xsl:apply-templates/>
         </xsl:if>
@@ -25,7 +25,6 @@
 
     <!-- Discard all other groups -->
     <xsl:template match="group" />
-
 
     <!-- Filter chunks by ID -->
     <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns']">
@@ -130,6 +129,33 @@
         </tag>
     </xsl:template>
 
+    <xsl:template match="check">
+        <tag>
+            <xsl:attribute name="k">
+                <xsl:value-of select="@key"/>
+            </xsl:attribute>
+            <xsl:attribute name="text">
+                <xsl:value-of select="@text"/>
+            </xsl:attribute>
+            <xsl:attribute name="type">
+                <xsl:value-of select="boolean"/>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+            <tag-value>
+                <xsl:attribute name="v">
+                    <xsl:value-of select="@value_on"/>
+                </xsl:attribute>
+                <xsl:apply-templates/>
+            </tag-value>
+            <tag-value>
+                <xsl:attribute name="v">
+                    <xsl:value-of select="@value_off"/>
+                </xsl:attribute>
+                <xsl:apply-templates/>
+            </tag-value>
+        </tag>
+    </xsl:template>
+
     <xsl:template match="reference">
         <tag-values>
             <xsl:attribute name="ref">
@@ -139,7 +165,7 @@
         </tag-values>
     </xsl:template>
 
-    <xsl:template match="label|space|link|check">
+    <xsl:template match="label|space|link">
         <!-- discard these elements -->
     </xsl:template>
 
