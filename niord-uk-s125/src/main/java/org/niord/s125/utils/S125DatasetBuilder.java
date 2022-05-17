@@ -1486,6 +1486,11 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(this::getS100TruncatedDate)
                 .orElse(null));
+        member.setScaleMinimum(Optional.of(s125TagKeyPrefix+"scale_minimum")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(BigInteger::new)
+                .orElse(BigInteger.ONE));
     }
 
     /**
