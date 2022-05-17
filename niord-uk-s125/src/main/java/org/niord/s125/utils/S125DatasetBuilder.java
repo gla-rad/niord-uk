@@ -1466,6 +1466,16 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse("Unknown")));
+        member.getInformations().addAll(Optional.of(s125TagKeyPrefix+"information")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, String::valueOf))
+                .orElse(Collections.emptyList()));
+        member.getInformationInNationalLanguages().addAll(Optional.of(s125TagKeyPrefix+"information_in_national_language")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, String::valueOf))
+                .orElse(Collections.emptyList()));
         member.setDateStart(Optional.of(s125TagKeyPrefix+"date_start")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
