@@ -255,11 +255,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -339,11 +334,6 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
                 .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
@@ -426,11 +416,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -505,11 +490,6 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
                 .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
@@ -587,11 +567,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -661,11 +636,6 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
                 .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
@@ -737,11 +707,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -811,11 +776,6 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
                 .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
@@ -887,11 +847,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -952,11 +907,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1016,11 +966,6 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s125TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
                 .orElse(null));
         member.getStatuses().addAll(Optional.of("seamark:status")
                 .map(atonNode::getTag)
@@ -1328,7 +1273,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(v -> v.replace(" ", "_"))
                 .map(S125EnumParser::parseVirtualAisAidToNavigationType)
-                .orElse(S125VirtualAISAidToNavigationPurposeType.SPECIAL_PURPOSE));
+                .orElse(S125CategoryOfVirtualAISAidToNavigation.SPECIAL_PURPOSE));
 
         // Now fix the geometry... from a point to a curve???
         _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();

@@ -94,20 +94,20 @@ public class S125EnumParser {
      * @param virtualAisAidsToNavigationType        The INT-1-preset.xml virtual AtoN category
      * @return the S-125 Virtual AIS Aid Navigation Purpose Type
      */
-    public static S125VirtualAISAidToNavigationPurposeType parseVirtualAisAidToNavigationType(String virtualAisAidsToNavigationType) {
+    public static S125CategoryOfVirtualAISAidToNavigation parseVirtualAisAidToNavigationType(String virtualAisAidsToNavigationType) {
         switch(virtualAisAidsToNavigationType) {
-            case "north_cardinal": return S125VirtualAISAidToNavigationPurposeType.NORTH_CARDINAL;
-            case "south_cardinal": return S125VirtualAISAidToNavigationPurposeType.SOUTH_CARDINAL;
-            case "east_cardinal": return S125VirtualAISAidToNavigationPurposeType.EAST_CARDINAL;
-            case "west_cardinal": return S125VirtualAISAidToNavigationPurposeType.WEST_CARDINAL;
-            case "port_lateral": return S125VirtualAISAidToNavigationPurposeType.PORT_LATERAL;
-            case "starboard_lateral": return S125VirtualAISAidToNavigationPurposeType.STARBOARD_LATERAL;
-            case "preferred_port": return S125VirtualAISAidToNavigationPurposeType.PREFERRED_CHANNEL_TO_PORT;
-            case "preferred_starboard": return S125VirtualAISAidToNavigationPurposeType.PREFERRED_CHANNEL_TO_STARBOARD;
-            case "isolated_danger": return S125VirtualAISAidToNavigationPurposeType.ISOLATED_DANGER;
-            case "safe_water": return S125VirtualAISAidToNavigationPurposeType.SAFE_WATER;
-            case "special_purpose": return S125VirtualAISAidToNavigationPurposeType.SPECIAL_PURPOSE;
-            case "wreck": return S125VirtualAISAidToNavigationPurposeType.EMERGENCY_WRECK_MARKING;
+            case "north_cardinal": return S125CategoryOfVirtualAISAidToNavigation.NORTH_CARDINAL;
+            case "south_cardinal": return S125CategoryOfVirtualAISAidToNavigation.SOUTH_CARDINAL;
+            case "east_cardinal": return S125CategoryOfVirtualAISAidToNavigation.EAST_CARDINAL;
+            case "west_cardinal": return S125CategoryOfVirtualAISAidToNavigation.WEST_CARDINAL;
+            case "port_lateral": return S125CategoryOfVirtualAISAidToNavigation.PORT_LATERAL;
+            case "starboard_lateral": return S125CategoryOfVirtualAISAidToNavigation.STARBOARD_LATERAL;
+            case "preferred_port": return S125CategoryOfVirtualAISAidToNavigation.PREFERRED_CHANNEL_TO_PORT;
+            case "preferred_starboard": return S125CategoryOfVirtualAISAidToNavigation.PREFERRED_CHANNEL_TO_STARBOARD;
+            case "isolated_danger": return S125CategoryOfVirtualAISAidToNavigation.ISOLATED_DANGER;
+            case "safe_water": return S125CategoryOfVirtualAISAidToNavigation.SAFE_WATER;
+            case "special_purpose": return S125CategoryOfVirtualAISAidToNavigation.SPECIAL_PURPOSE;
+            case "wreck": return S125CategoryOfVirtualAISAidToNavigation.EMERGENCY_WRECK_MARKING;
             default: return null;
         }
     }
