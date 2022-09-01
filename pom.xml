@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.niord</groupId>
         <artifactId>niord-parent</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>niord-uk-parent</artifactId>
@@ -13,16 +13,31 @@
     <packaging>pom</packaging>
 
     <properties>
+        <niord.version>3.1.0-SNAPSHOT</niord.version>
         <poi.version>3.13</poi.version>
+        <surefire-plugin.version>2.22.2</surefire-plugin.version>
     </properties>
 
     <modules>
         <module>niord-uk-web</module>
         <module>niord-uk-promulgation</module>
         <module>niord-uk-aton-import</module>
-        <module>niord-uk-nw-import</module>
         <module>niord-uk-eureka</module>
         <module>niord-uk-s125</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>grad</id>
+            <url>https://rnavlab.gla-rad.org:8081/repository/grad/</url>
+        </repository>
+        <repository>
+            <id>grad-snapshots</id>
+            <url>https://rnavlab.gla-rad.org:8081/repository/grad-snapshots/</url>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>

@@ -5,60 +5,75 @@
     <parent>
         <groupId>org.niord</groupId>
         <artifactId>niord-uk-parent</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>niord-uk-web</artifactId>
     <name>Niord UK web application</name>
-    <packaging>war</packaging>
 
     <properties>
-        <tika.version>1.11</tika.version>
+        <artemis.version>1.0.3</artemis.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd-MM-yyyy HH:mm 'UTC'</maven.build.timestamp.format>
-        <niord-core.jar>niord-core-${project.version}.jar</niord-core.jar>
-        <niord-uk-promulgation.jar>niord-uk-promulgation-${project.version}.jar</niord-uk-promulgation.jar>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-core</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>${niord.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-web</artifactId>
-            <version>2.0-SNAPSHOT</version>
-            <type>war</type>
+            <version>${niord.version}</version>
         </dependency>
 
-        <!-- DK dependencies -->
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-promulgation</artifactId>
-            <version>2.0-SNAPSHOT</version>
-        </dependency>
+        <!-- UK dependencies -->
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-aton-import</artifactId>
-            <version>2.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-nw-import</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-eureka</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-promulgation</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-s125</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-keycloak-authorization</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-mysql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
     </dependencies>
@@ -71,7 +86,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/persistence.xml</include>
                     <include>**/version.properties</include>
                     <include>**/home-ctrl.js</include>
                 </includes>
@@ -80,7 +94,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <excludes>
-                    <exclude>**/persistence.xml</exclude>
                     <exclude>**/version.properties</exclude>
                     <exclude>**/home-ctrl.js</exclude>
                 </excludes>
@@ -88,173 +101,70 @@
         </resources>
 
         <plugins>
+
             <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>2.1.0.Beta1</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${io.quarkus.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>generate-code</goal>
+                            <goal>generate-code-tests</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
                 <configuration>
-                    <workDirectory>target/overlay</workDirectory>
-                    <overlays>
-                        <overlay>
-                            <groupId>org.niord</groupId>
-                            <artifactId>niord-web</artifactId>
-                        </overlay>
-                    </overlays>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <maven.home>${maven.home}</maven.home>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
-
     <!-- ********************************************************************** -->
-    <!-- ** The "dist" profile will create a war where CSS and JavaScript files -->
-    <!-- ** have been merged, and include an HTML5 app cache file as well       -->
+    <!-- ** The "native" profile will create a native executable where that can -->
+    <!-- ** run as a linux service on deployment. No web data will be included. -->
     <!-- ********************************************************************** -->
     <profiles>
         <profile>
-            <id>dist</id>
+            <id>native</id>
+            <properties>
+                <quarkus.package.type>native</quarkus.package.type>
+                <quarkus.native.additional-build-args>--allow-incomplete-classpath</quarkus.native.additional-build-args>
+            </properties>
             <build>
                 <plugins>
-
-                    <!-- Compress jS and CSS files -->
-                    <plugin>
-                        <groupId>com.samaxes.maven</groupId>
-                        <artifactId>minify-maven-plugin</artifactId>
-                        <version>1.7.4</version>
-                        <executions>
-                            <execution>
-                                <id>default-minify</id>
-                                <configuration>
-
-                                    <webappSourceDir>${project.build.directory}/${project.build.finalName}</webappSourceDir>
-                                    <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
-
-                                    <!-- CSS files: NB site.css must be last to facilitate war project overlays -->
-                                    <cssSourceFiles>
-                                        <cssSourceFile>app.css</cssSourceFile>
-                                        <cssSourceFile>home.css</cssSourceFile>
-                                        <cssSourceFile>editor.css</cssSourceFile>
-                                        <cssSourceFile>schedule.css</cssSourceFile>
-                                        <cssSourceFile>admin.css</cssSourceFile>
-                                        <cssSourceFile>atons.css</cssSourceFile>
-                                        <cssSourceFile>messages.css</cssSourceFile>
-                                        <cssSourceFile>site.css</cssSourceFile>
-                                    </cssSourceFiles>
-                                    <cssFinalFile>niord-all.css</cssFinalFile>
-
-                                    <!-- JavaScript files: NB niord-app.js first -->
-                                    <jsSourceDir>app</jsSourceDir>
-                                    <jsEngine>CLOSURE</jsEngine>
-                                    <jsSourceFiles>
-                                        <jsSourceFile>niord-app.js</jsSourceFile>
-                                    </jsSourceFiles>
-                                    <jsSourceIncludes>
-                                        <jsSourceInclude>**/*.js</jsSourceInclude>
-                                    </jsSourceIncludes>
-                                    <jsFinalFile>niord-all.js</jsFinalFile>
-
-                                </configuration>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>minify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-
-                    <!-- Move index-prod.html to index.html -->
-                    <plugin>
-                        <groupId>com.coderplus.maven.plugins</groupId>
-                        <artifactId>copy-rename-maven-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>rename-file</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>rename</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceFile>${project.build.directory}/${project.build.finalName}/index-dist.html</sourceFile>
-                                    <destinationFile>${project.build.directory}/${project.build.finalName}/index.html</destinationFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-
-                    <!-- Generate a HTML5 application cache manifest -->
-                    <plugin>
-                        <groupId>com.github.cameroncan</groupId>
-                        <artifactId>cachemanifest-maven-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>generate-manifest</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <manifestVersion>${timestamp}</manifestVersion>
-                            <inputDirectory>${project.build.directory}/${project.build.finalName}</inputDirectory>
-                            <outputManifestFile>${project.build.directory}/${project.build.finalName}/index.manifest</outputManifestFile>
-                            <includes>
-                                <include>app/niord-all.js</include>
-                                <include>app/niord-all.min.js</include>
-                                <include>app/**/*.html</include>
-                                <include>css/niord-all.css</include>
-                                <include>css/niord-all.min.css</include>
-                                <include>css/messages.css</include> <!-- loaded by TinyMCS -->
-                                <include>css/templates/*.css</include>
-                                <include>ext/**</include>
-                                <include>img/**</include>
-                                <include>*.html</include>
-                            </includes>
-                            <additionals>
-                            </additionals>
-                            <networkResources>
-                                <networkResource>*</networkResource>
-                            </networkResources>
-                            <fallback>/index.html /index.html</fallback>
-                        </configuration>
-                    </plugin>
-
-
-                    <!-- Update war with changed files -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${surefire-plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>package</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <delete>
-                                            <dirset dir="${project.build.directory}" includes="${project.build.finalName}.war" />
-                                        </delete>
-                                        <zip basedir="${project.build.directory}/${project.build.finalName}"
-                                             destfile="${project.build.directory}/${project.build.finalName}.war">
-                                        </zip>
-                                    </target>
-                                </configuration>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                                        <maven.home>${maven.home}</maven.home>
+                                    </systemPropertyVariables>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>

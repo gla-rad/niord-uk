@@ -21,6 +21,7 @@ import org.niord.core.aton.AtonTag;
 import org.niord.core.user.User;
 import org.slf4j.Logger;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.regex.Matcher;
@@ -37,7 +38,8 @@ import java.util.regex.Pattern;
  * RACONs are also documented at:
  * http://wiki.openstreetmap.org/wiki/Key:radar_transponder
  */
-@Named
+@Dependent
+@Named("batchDkRaconImportProcessor")
 public class BatchDkRaconImportProcessor extends AbstractDkAtonImportProcessor {
 
     public static final Pattern PERIOD_FORMAT = Pattern.compile("^(\\d+)[ ]*s?");

@@ -20,94 +20,100 @@ package org.niord.core.eureka.services;
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.appinfo.MyDataCenterInstanceConfig;
-import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
-import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
 import org.niord.core.eureka.models.EurekaHealth;
 import org.slf4j.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 /**
  * The Eureka Client Implementation.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
-@Singleton
-@Startup
+@ApplicationScoped
 public class EurekaClientService {
 
     @Inject
     Logger log;
 
+    @Inject
+    EurekaInstanceConfig eurekaInstanceConfig;
+
+    @Inject
+    InstanceInfo instanceInfo;
+
+    @Inject
+    ApplicationInfoManager.OptionalArgs optionalArgs;
+
+    @Inject
+    EurekaClientConfig eurekaClientConfig;
+
     // Service Variables
-    private static ApplicationInfoManager applicationInfoManager;
-    private static EurekaClient eurekaClient;
-
-    /**
-     * The Eureka Client Service Constructor.
-     */
-    public EurekaClientService() {
-
-    }
+    private ApplicationInfoManager applicationInfoManager;
+    private EurekaClient eurekaClient;
 
     /**
      * Initialize the data store.
      */
-    @PostConstruct
-    protected void init() {
-        applicationInfoManager = initializeApplicationInfoManager(new MyDataCenterInstanceConfig());
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.STARTING);
+    void init(@Observes StartupEvent ev) {
+        this.applicationInfoManager = initializeApplicationInfoManager();
+        this.applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.STARTING);
 
-        log.info("Initialising the Eureka Client...");
+        this.log.info("Initialising the Eureka Client...");
 
-        eurekaClient = initializeEurekaClient(applicationInfoManager, new DefaultEurekaClientConfig());
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.UP);
+        this.eurekaClient = initializeEurekaClient();
+        this.applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.UP);
 
-        log.info("Eureka Client now UP...");
+        this.log.info("Eureka Client now UP...");
     }
 
     /**
      * Clean up Lucene index.
      */
-    @PreDestroy
-    protected void destroy() {
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
+    void destroy(@Observes ShutdownEvent ev) {
+        this.applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
     }
 
     /**
      * Initialises the Netflix application info manager instance.
      *
-     * @param instanceConfig the instance config
      * @return the initialised application info manager instance
      */
-    protected static synchronized ApplicationInfoManager initializeApplicationInfoManager(EurekaInstanceConfig instanceConfig) {
-        if (applicationInfoManager == null) {
-            InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
-            applicationInfoManager = new ApplicationInfoManager(instanceConfig, instanceInfo);
+    protected ApplicationInfoManager initializeApplicationInfoManager() {
+        if (this.applicationInfoManager == null) {
+            this.applicationInfoManager = new ApplicationInfoManager(eurekaInstanceConfig, instanceInfo, optionalArgs);
         }
 
-        return applicationInfoManager;
+        return this.applicationInfoManager;
     }
 
     /**
      * Initialises the Netflix eureka client instance.
      *
-     * @param applicationInfoManager the application info manager
-     * @param clientConfig the eureka client configuration
      * @return the eureka client
      */
-    protected static synchronized EurekaClient initializeEurekaClient(ApplicationInfoManager applicationInfoManager, EurekaClientConfig clientConfig) {
-        if (eurekaClient == null) {
-            eurekaClient = new DiscoveryClient(applicationInfoManager, clientConfig);
+    EurekaClient initializeEurekaClient() {
+        if (this.eurekaClient == null) {
+            this.eurekaClient = new DiscoveryClient(this.applicationInfoManager, this.eurekaClientConfig);
         }
 
-        return eurekaClient;
+        return this.eurekaClient;
+    }
+
+    /**
+     * Returns the registered hostname with the eureka server.
+     *
+     * @return the registered hostname
+     */
+    public String getEurekaClientHostname() {
+        return this.eurekaClient.getApplicationInfoManager().getInfo().getHostName();
     }
 
     /**
@@ -116,7 +122,7 @@ public class EurekaClientService {
      * @return the service status
      */
     public InstanceInfo.InstanceStatus getStatus() {
-        return applicationInfoManager.getInfo().getStatus();
+        return this.applicationInfoManager.getInfo().getStatus();
     }
 
     /**
@@ -126,7 +132,7 @@ public class EurekaClientService {
      */
     public EurekaHealth getHealth() {
         EurekaHealth eurekaHealth = new EurekaHealth();
-        eurekaHealth.setStatus(applicationInfoManager.getInfo().getStatus());
+        eurekaHealth.setStatus(this.applicationInfoManager.getInfo().getStatus());
         return eurekaHealth;
     }
 

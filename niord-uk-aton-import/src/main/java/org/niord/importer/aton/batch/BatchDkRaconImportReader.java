@@ -15,12 +15,14 @@
  */
 package org.niord.importer.aton.batch;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 /**
  * Reads AIS from Excel
  */
-@Named
+@Dependent
+@Named("batchDkRaconImportReader")
 public class BatchDkRaconImportReader extends AbstractDkAtonImportReader {
 
     public static final String[] FIELDS = {

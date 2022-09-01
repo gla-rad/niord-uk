@@ -9,7 +9,7 @@
   {
     "key"         : "baseUri",
     "description" : "The base application server URI",
-    "value"       : "http://localhost:8080",
+    "value"       : "http://localhost:8888",
     "web"         : false,
     "editable"    : true
   },
@@ -190,7 +190,7 @@
   {
     "key"         : "osmSourceUrl",
     "description" : "URL of OSM tile server",
-    "value"       : "//services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    "value"       : "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     "web"         : true,
     "editable"    : true
   },

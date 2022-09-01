@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 GLA UK Research and Development Directive
+ * Copyright (c) 2022 GLA UK Research and Development Directive
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,18 @@
 
 package org.niord.s125.services;
 
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+import org.grad.eNav.s125.utils.S125Utils;
 import org.niord.core.NiordApp;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
-import org.niord.core.aton.vo.AtonNodeVo;
-import org.niord.core.geojson.GeoJsonUtils;
-import org.niord.core.geojson.JtsConverter;
-import org.niord.model.geojson.GeometryVo;
+import org.niord.s125.models.S125DatasetInfo;
+import org.niord.s125.utils.S125DatasetBuilder;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
+import javax.xml.bind.JAXBException;
+import java.util.Collections;
+import java.util.Optional;
 
 /**
  * The S-125 Service
@@ -42,7 +38,7 @@ import java.util.Map;
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
-@Stateless
+@RequestScoped
 public class S125Service {
 
     @Inject
@@ -58,7 +54,7 @@ public class S125Service {
      * @return the generated GML
      */
     public String generateGML(String atonUID, String language) throws Exception {
-
+        // Try to access the AtoN
         AtonNode atonNode = this.atonService.findByAtonUid(atonUID);
 
         // Validate the AtoN
@@ -66,34 +62,12 @@ public class S125Service {
             throw new IllegalArgumentException("AtoN not found " + atonUID);
         }
 
-        // Ensure we use a valid language
-        language = app.getLanguage(language);
-
-        // And get the geometry and the AtoN node VO object
-        GeometryVo geometry = JtsConverter.fromJts(atonNode.getGeometry());
-        AtonNodeVo aton = atonNode.toVo();
-
-        // Pass down all the parameters to the freemarker script
-        Map<String, Object> data = new HashMap<>();
-        data.put("aton", aton);
-        data.put("atonUID", atonUID);
-        data.put("geometry", geometry);
-        data.put("language", language);
-
-        double[] bbox = GeoJsonUtils.computeBBox(new GeometryVo[]{geometry});
-        if (bbox != null) {
-            data.put("bbox", bbox);
-        }
-
-        // We need to set an incompatible version in our initial configuration
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/templates/gml"));
-
-        StringWriter result = new StringWriter();
-        Template fmTemplate = cfg.getTemplate("generate-s125.ftl");
-
-        fmTemplate.process(data, result);
-        return result.toString();
+        // Use the utilities to translate the AtoN node to an S-125 dataset
+        return Optional.ofNullable(atonNode)
+                .map(Collections::singletonList)
+                .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(atonNode.getAtonUid(), app.getOrganisation(), l), l))
+                .map(d -> {try {return S125Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
+                .orElse(null);
     }
 
 }

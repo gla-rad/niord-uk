@@ -20,6 +20,7 @@ import org.niord.core.aton.vo.AtonNodeVo;
 import org.slf4j.Logger;
 
 import javax.batch.api.chunk.AbstractItemWriter;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.bind.JAXBContext;
@@ -33,7 +34,8 @@ import java.util.List;
  *
  * Useful for development purposes.
  */
-@Named
+@Dependent
+@Named("noopAtonImportItemWriter")
 public class NoopAtonImportItemWriter extends AbstractItemWriter {
 
     @Inject
