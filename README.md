@@ -4,7 +4,7 @@ The niord-uk project contains the GRAD UK-specific extensions for the
 [niord](https://github.com/NiordOrg) system, i.e. a system for producing and
 promulgating NW + NM T&P messages.
 
-From version 3.0.0 onwards, Niord has been ported and run using the Red Har
+From version 3.0.0 onwards, Niord has been ported and run using the Red Hat
 [Quarkus](https://quarkus.io/) framework.
 
 Niord is documented extensively at http://docs.niord.org
@@ -16,15 +16,17 @@ The *niord-web* web-application, found under the
 for producing and promulgating navigational warnings and notices to mariners.
 
 The *niord-uk-web* project is an overlay web-application that customizes 
-*niord-web* for use in the UK for the General Lighthouse Authorities. 
+*niord-web* for use in the UK for the General Lighthouse Authorities of UK
+and Ireland. 
 
 ## Prerequisites
 
-* Java 17
-* Maven 3
+* Java 11 (Java 17 is also supported but jBerret causes issues)
+* Maven 3.8.1
 * MySQL 5.7.10+ (NB: proper spatial support is a requirement)
 * Quarkus 2.7+
-* JBoss Keycloak 11+
+* JBoss Keycloak 12+
+* Apache ActiveMQ (5 or Artemis)
 
 ## Development Set-Up
 
@@ -33,6 +35,12 @@ scripts for setting up Quarkus, Keycloak, etc.
 
 However, the easiest way to get started developing on this project is to use
 Docker.
+
+    docker run -p 3306:3306 --name mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=mysql -d mysql:latest
+    docker run -p 8080:8080 -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin jboss/keycloak:latest
+
+For the ApacheMQ message broken you can find more information in the project
+[web page](https://activemq.apache.org/download.html).
 
 ### Starting MySQL and Keycloak
 
@@ -58,6 +66,22 @@ roles to the groups:
 
 Enter [http://localhost:8090/auth/](http://localhost:8090/auth/) and check that
 you can log in using the Keycloak admin user.
+
+The next important step is to initialise the keycloak "niord" realm for
+authentication. This can be done easily by importing the
+*niord-bootstrap-realm.json* configuration file, found in the project's
+top directory.
+
+The final important step is to initialise a MySQL database with the name
+*niord*. Here is a copy of the script also available in the
+[niord-appsrv](https://github.com/NiordOrg/niord-appsrv) repo:
+
+    CREATE DATABASE niord CHARACTER SET utf8 COLLATE utf8_general_ci;
+    CREATE USER 'niord'@'localhost' IDENTIFIED BY 'niord';
+    GRANT ALL PRIVILEGES ON *.* TO 'niord'@'localhost' WITH GRANT OPTION;
+    CREATE USER 'niord'@'%' IDENTIFIED BY 'niord';
+    GRANT ALL PRIVILEGES ON *.* TO 'niord'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
 
 ### Finishing touches
 
