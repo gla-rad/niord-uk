@@ -25,8 +25,8 @@ and Ireland.
 * Maven 3.8.1
 * MySQL 5.7.10+ (NB: proper spatial support is a requirement)
 * Quarkus 2.7+
-* JBoss Keycloak 12+
-* Apache ActiveMQ (5 or Artemis)
+* JBoss Keycloak 16+
+* Apache ActiveMQ (preferably Artemis)
 
 ## Development Set-Up
 
@@ -36,74 +36,99 @@ scripts for setting up Quarkus, Keycloak, etc.
 However, the easiest way to get started developing on this project is to use
 Docker.
 
-    docker run -p 3306:3306 --name mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=mysql -d mysql:latest
-    docker run -p 8080:8080 -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin jboss/keycloak:latest
+To create a MySQL database container for Niord you can run:
 
-For the ApacheMQ message broken you can find more information in the project
-[web page](https://activemq.apache.org/download.html).
+    docker run -p 3306:3306 --name mysql -d -e MYSQL_DATABASE=niord -e MYSQL_USER=niord -e MYSQL_PASSWORD=niord -e MYSQL_ROOT_PASSWORD=root_password mysql:latest
 
-### Starting MySQL and Keycloak
+While to setup Keycloak using docker (with MySQL), you can run:
 
-You may want to start by creating a *.env* file in your working directory, which
-overrides the environment variables (such as database passwords) used in the 
-docker compose file.
+    docker network create keycloak-network
+    docker run --name mysql_kc -d --net keycloak-network -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password mysql:latest
+    docker run -p 8080:8080 --name keycloak -d --net keycloak-network -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=mysql -e DB_ADDR=mysql_kc -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak:latest
 
-The following commands will start two MySQL databases, one for the application
-server and one for Keycloak, and also run Keycloak itself.
+For the ApacheMQ message broker you can find more information in the project
+[web page](https://activemq.apache.org/download.html). In a nutshell, download
+the artemis zip file and extract it. Then create a new broker and run it:
 
-    mkdir $HOME/.niord-dk
-    docker-compose -f dev/docker-dev-compose.yml pull
-    docker-compose -f dev/docker-dev-compose.yml up -d
+    apache-artemis/bin/artemis create ../broker/
+    apache-artemis/broker/artemis-service start
 
-The initial *mkdir* command is just to avoid permission problems since docker
-would otherwise create it as owned by root.
+Note that while generating the broker, you will be asked to provide a
+name for the broker, a username and a password.
 
-Once this is up and running, create a Keycloak admin user (default 
-niordadmin/keycloak) which can be used to create user groups and assign domain
-roles to the groups:
+### Application Configuration
 
-    ./dev/keycloak-admin-user.sh
+Once all the back-end services are in place, the Niord system should be also 
+be appropriately configured to interact with them. This configuration is 
+included in two files
 
-Enter [http://localhost:8090/auth/](http://localhost:8090/auth/) and check that
-you can log in using the Keycloak admin user.
+* niord-uk/web/src/main/resources/application.properties
+* niord-uk/web/src/main/resources/META-INF/persistence.xml
 
-The next important step is to initialise the keycloak "niord" realm for
-authentication. This can be done easily by importing the
-*niord-bootstrap-realm.json* configuration file, found in the project's
-top directory.
+The second file is only required because quarkus doesn't support all the
+desirable configuration for hibernate-search using Lucene undexing, i.e.
+to put all the generated indexes in one directory so we keep everything tidy.
 
-The final important step is to initialise a MySQL database with the name
-*niord*. Here is a copy of the script also available in the
-[niord-appsrv](https://github.com/NiordOrg/niord-appsrv) repo:
+In the *application.properties* file you will need to enter the details for 
 
-    CREATE DATABASE niord CHARACTER SET utf8 COLLATE utf8_general_ci;
-    CREATE USER 'niord'@'localhost' IDENTIFIED BY 'niord';
-    GRANT ALL PRIVILEGES ON *.* TO 'niord'@'localhost' WITH GRANT OPTION;
-    CREATE USER 'niord'@'%' IDENTIFIED BY 'niord';
-    GRANT ALL PRIVILEGES ON *.* TO 'niord'@'%' WITH GRANT OPTION;
-    FLUSH PRIVILEGES;
+the OIDC client and Keycloak admin configurations:
+
+    quarkus.oidc.auth-server-url=http://<keycloak-server>:8080/auth/realms/niord
+    keycloak.admin.clientId=<client-name>
+    keycloak.admin.clientSecret=<client-secret>
+
+the MySQL database connection (also update the *persistence.xml*):
+
+    quarkus.datasource.jdbc.url=jdbc:mysql://<mysql-db-server>:3306/niord
+    quarkus.datasource.db-kind=mysql
+    quarkus.datasource.username=<mysql-db-username>
+    quarkus.datasource.password=<mysql-db-password>
+
+and finally the Apache Artemis MQ communication:
+
+    # Configures the Artemis MQ properties.
+    quarkus.qpid-jms.url=amqp://<amp-server>:5672
+    quarkus.qpid-jms.username=<amp-username>
+    quarkus.qpid-jms.password=<amp-password>
 
 ### Finishing touches
 
-Import the Danish test base data into Niord:
+Before continuing you should create the keycloak niord realm required. Log
+into the keycloak server under *http://localhost:8080* using the username and
+password that you selected. Then create a new realm and provide the
+*niord-boostrap-realm.json* as the JSON input.
 
-    ./dev/install-base-data.sh
+To then run Niord under quarkus you should run the quarkus development maven
+goal under the *niord-uk-web* module directory. 
+
+    mvn quarkus:dev
+
+The final step is to import the Danish test base data into Niord. To do so
+copy the provided *niord-dev-basedata.zip* in the following directory (under
+your own user's) main folder. You will also need to create the full folder
+structure if it doesn't already exist.
+
+    ~/.niord/batch-jobs/batch-sets/
     
-Within a minute or so, this will import domains, areas, categories, etc. needed to run the Niord-DK project. 
-First clean up a bit:
-* In Niord, under Sysadmin -> Domains, click the "Create in Keycloak" button for 
-  the "NW" and "NM" domains. This will create the two domains in Keycloak. 
+Within a minute or so, this will import domains, areas, categories, etc. needed
+to run the Niord-DK project. First clean up a bit:
+* In Niord, under Sysadmin -> Domains, click the "Create in Keycloak" button 
+  for the "NW" and "NM" domains. This will create the two domains in Keycloak. 
 * In Keycloak, edit the "Sysadmin" user group. Under "Role Mappings", in the 
   drop-down "Client Roles" select first "niord-nw" then "niord-nm" and assign 
   the "sysadmin" client roles to the group.
-* While in Keycloak, you may also want to define new user groups for editors and
-  admins, and assign the appropriate client roles for "niord-nw" and "niord-nm"
-  to the groups. Additionally, for admin-related groups (who should be able to
-  manage users in Niord), assign the "manage-clients" and "manage-users" client
-  roles of the "realm-management" client to the groups.
-* Delete the "Master" domain in Niord and the corresponding "niord-client-master"
-  client in Keycloak.
+* While in Keycloak, you may also want to define new user groups for editors
+  and admins, and assign the appropriate client roles for "niord-nw" and
+  "niord-nm" to the groups. Additionally, for admin-related groups (who should
+  be able to manage users in Niord), assign the "manage-clients" and
+  "manage-users" client roles of the "realm-management" client to the groups.
+* Delete the "Master" domain in Niord and the corresponding
+  "niord-client-master" client in Keycloak (Optional).
 * Go through the configuration and settings of the Niord Sysadmin pages and 
   adjust as appropriate.
 
+Finally, success! You can open your browser and point it to the following
+location *http://localhost:8888*. You should be able to see the AngularJS
+front-end of Niord! Login using the sysadmin (both username and password)
+credentials.
 
