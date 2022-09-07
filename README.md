@@ -23,10 +23,10 @@ and Ireland.
 
 * Java 11 (Java 17 is also supported but jBerret causes issues)
 * Maven 3.8.1
-* MySQL 5.7.10+ (NB: proper spatial support is a requirement)
+* MySQL 8.0.30+ (NB: proper spatial support is a requirement)
 * Quarkus 2.7+
 * JBoss Keycloak 16+
-* Apache ActiveMQ (preferably Artemis)
+* Apache ActiveMQ (preferably Artemis - Optional)
 
 ## Development Set-Up
 
@@ -38,12 +38,12 @@ Docker.
 
 To create a MySQL database container for Niord you can run:
 
-    docker run -p 3306:3306 --name mysql -d -e MYSQL_DATABASE=niord -e MYSQL_USER=niord -e MYSQL_PASSWORD=niord -e MYSQL_ROOT_PASSWORD=root_password mysql:latest
+    docker run -p 3306:3306 --name mysql -d -e MYSQL_DATABASE=niord -e MYSQL_USER=niord -e MYSQL_PASSWORD=niord -e MYSQL_ROOT_PASSWORD=root_password mysql:8.0.30
 
 While to setup Keycloak using docker (with MySQL), you can run:
 
     docker network create keycloak-network
-    docker run --name mysql_kc -d --net keycloak-network -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password mysql:latest
+    docker run --name mysql_kc -d --net keycloak-network -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password mysql:8.0.30 
     docker run -p 8080:8080 --name keycloak -d --net keycloak-network -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=mysql -e DB_ADDR=mysql_kc -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak:latest
 
 For the ApacheMQ message broker you can find more information in the project
