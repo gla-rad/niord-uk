@@ -2314,50 +2314,6 @@
           ]
         }
       }
-    ],
-    "org.keycloak.keys.KeyProvider": [
-      {
-        "id": "b976e4f0-9c5c-4dd4-8874-57268e6b7ccc",
-        "name": "rsa",
-        "providerId": "rsa",
-        "subComponents": {},
-        "config": {
-          "privateKey": [
-            "**********"
-          ],
-          "certificate": [
-            "MIICmTCCAYECBgFYYZJZGDANBgkqhkiG9w0BAQsFADAQMQ4wDAYDVQQDDAVuaW9yZDAeFw0xNjExMTQwNjQwMzBaFw0yNjExMTQwNjQyMTBaMBAxDjAMBgNVBAMMBW5pb3JkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoLkFAm4WPKnfslLigUQUmPvZ0vL02e5G7gBvblS7+PsulWc29bH1QAeDeNup7j+XLkIxa5b0SOcAEept3bkfE8HW6lAzd8Fi+IR3tIXxzQjvg9pTFfhUupamLClcIuTCXql/VjH+lkSMYD6i7nnGpTHdqfE++yhHv/IoxicQwJjNIT+zGLLJOgTet8xWxFAWO3g12gC2F1Djk9bo6Fp7kR1pXRd0Z+TsT4YbC71xdc86oVBtzGuYGRm7bjFW07acqGN7pHzM2rGS5hfx5Yf0ynF4PDceLJMHXl7t3un2wWH7VUC2uFi8V6ULapjMy8kR/P8+Ax9xbWxV/yjOUHdIvQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAYPebk1HsuBRYXOAowohb9qT3vTIMK+OmXsNsQ6i/thdvWu4CvKv846fe50a2m97NqGjR6vggsSlWSYjvWPK79wT85WdQz7NZfN94LjpFmYUh9y3USSwhV2jQfTHfTCjkTVqxtnQVwsAGyFfhDCnHr4uVNVdaeVF3Uov6Yqll+Y57jFOEM8q7ygd1rtZQxtezFtFCs7gPC8D3hvRr2BHBr+cKkeGVFhTG0Tv8ibOlftOicjOrGsWqrtvxGm61GRmLvXHRcUdqAqGl+zFdJzNDg2ZgfuJ9U9SemvrGPuxHjylT7+ciXFejBeQtFwRfXtvh/FyP7+6lW4gT2J5UTeBk+"
-          ],
-          "priority": [
-            "100"
-          ]
-        }
-      },
-      {
-        "id": "a0dfda53-5d52-427f-80ac-107949c9af24",
-        "name": "hmac-generated",
-        "providerId": "hmac-generated",
-        "subComponents": {},
-        "config": {
-          "priority": [
-            "100"
-          ],
-          "algorithm": [
-            "HS256"
-          ]
-        }
-      },
-      {
-        "id": "2bc09eaf-481f-434f-8297-3f5404cdba41",
-        "name": "aes-generated",
-        "providerId": "aes-generated",
-        "subComponents": {},
-        "config": {
-          "priority": [
-            "100"
-          ]
-        }
-      }
     ]
   },
   "internationalizationEnabled": false,
