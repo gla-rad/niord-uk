@@ -62,7 +62,9 @@ Before continuing you should create the keycloak niord realm required. Log
 into the keycloak server under *http://localhost:8080* using the username and
 password that you selected. Then create a new realm and provide the
 *niord-boostrap-realm.json* as the JSON input. You can then need to get 
-access to the realm and client secrets and configuration.
+access to the realm and client secrets and configuration. You should also
+create a user e.g. *sysadmin*, add it to the system administrator group
+and set a password for it. That is going to be your Niord user.
 
 Once all the back-end services are in place, the Niord system should be also 
 be appropriately configured to interact with them. This configuration is 
