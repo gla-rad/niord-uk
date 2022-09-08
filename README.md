@@ -58,6 +58,12 @@ name for the broker, a username and a password.
 
 ### Application Configuration
 
+Before continuing you should create the keycloak niord realm required. Log
+into the keycloak server under *http://localhost:8080* using the username and
+password that you selected. Then create a new realm and provide the
+*niord-boostrap-realm.json* as the JSON input. You can then need to get 
+access to the realm and client secrets and configuration.
+
 Once all the back-end services are in place, the Niord system should be also 
 be appropriately configured to interact with them. This configuration is 
 included in two files
@@ -92,11 +98,6 @@ and finally the Apache Artemis MQ communication:
     quarkus.qpid-jms.password=<amp-password>
 
 ### Finishing touches
-
-Before continuing you should create the keycloak niord realm required. Log
-into the keycloak server under *http://localhost:8080* using the username and
-password that you selected. Then create a new realm and provide the
-*niord-boostrap-realm.json* as the JSON input.
 
 To then run Niord under quarkus you should run the quarkus development maven
 goal under the *niord-uk-web* module directory. 
