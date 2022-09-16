@@ -584,6 +584,34 @@
       },
       "notBefore": 0,
       "groups": []
+    },
+    {
+      "id" : "3a058694-653c-41f4-83ca-3e2898290d7c",
+      "createdTimestamp" : 1479105921513,
+      "username" : "sysadmin",
+      "enabled" : true,
+      "totp" : false,
+      "emailVerified" : true,
+      "firstName" : "System",
+      "lastName" : "Admin",
+      "email" : "sysadmin@niord.org",
+      "credentials" : [ {
+        "type" : "password",
+        "hashedSaltedValue" : "zCfaDA4u8/IRKcoGPxVcHhLYo4EbEEj0A9Ua7hDGdWXViVTZZ0VtMYOto7qPQxfnP2V5oLVcwvtlJ0qNqJ4LRQ==",
+        "salt" : "zHGif2i0z81Nbuju8ah4mg==",
+        "hashIterations" : 20000,
+        "counter" : 0,
+        "algorithm" : "pbkdf2",
+        "digits" : 0,
+        "createdDate" : 1479105932000
+      } ],
+      "requiredActions" : [ ],
+      "realmRoles" : [ "uma_authorization", "offline_access" ],
+      "clientRoles" : {
+        "realm-management" : [ "manage-users", "manage-clients" ],
+        "account" : [ "manage-account", "view-profile" ]
+      },
+      "groups" : [ "/Sysadmin" ]
     }
   ],
   "scopeMappings": [

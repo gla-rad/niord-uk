@@ -44,14 +44,15 @@ While to setup Keycloak using docker (with MySQL), you can run:
 
     docker network create keycloak-network
     docker run --name mysql_kc -d --net keycloak-network -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password mysql:8.0.30 
-    docker run -p 8080:8080 --name keycloak -d --net keycloak-network -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=mysql -e DB_ADDR=mysql_kc -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak:latest
+    docker run -p 8080:8080 --name keycloak -d --net keycloak-network -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=mysql -e DB_ADDR=mysql_kc -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak:16.1.1
 
 For the ApacheMQ message broker you can find more information in the project
 [web page](https://activemq.apache.org/download.html). In a nutshell, download
-the artemis zip file and extract it. Then create a new broker and run it:
+the artemis zip file and extract it. Then create a new broker and run it (you
+might need Admin rights for this):
 
-    apache-artemis/bin/artemis create ../broker/
-    apache-artemis/broker/artemis-service start
+    apache-artemis/bin/artemis create niordBroker
+    apache-artemis/bin/artemis/niordBroker/artemis run
 
 Note that while generating the broker, you will be asked to provide a
 name for the broker, a username and a password.
@@ -62,9 +63,9 @@ Before continuing you should create the keycloak niord realm required. Log
 into the keycloak server under *http://localhost:8080* using the username and
 password that you selected. Then create a new realm and provide the
 *niord-boostrap-realm.json* as the JSON input. You can then need to get 
-access to the realm and client secrets and configuration. You should also
-create a user e.g. *sysadmin*, add it to the system administrator group
-and set a password for it. That is going to be your Niord user.
+access to the realm and client secrets and configuration. You might also
+need to create a user e.g. *sysadmin*, add it to the Sysadmin group and set a
+password for it. That is going to be your Niord user.
 
 Once all the back-end services are in place, the Niord system should be also 
 be appropriately configured to interact with them. This configuration is 
@@ -74,8 +75,8 @@ included in two files
 * niord-uk/web/src/main/resources/META-INF/persistence.xml
 
 The second file is only required because quarkus doesn't support all the
-desirable configuration for hibernate-search using Lucene undexing, i.e.
-to put all the generated indexes in one directory so we keep everything tidy.
+desirable configuration for hibernate-search using Lucene indexing, i.e.
+to put all the generated indexes in one directory, so we keep everything tidy.
 
 In the *application.properties* file you will need to enter the details for 
 
