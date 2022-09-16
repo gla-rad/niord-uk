@@ -4,7 +4,7 @@ The niord-uk project contains the GRAD UK-specific extensions for the
 [niord](https://github.com/NiordOrg) system, i.e. a system for producing and
 promulgating NW + NM T&P messages.
 
-From version 3.0.0 onwards, Niord has been ported and run using the Red Har
+From version 3.0.0 onwards, Niord has been ported and run using the Red Hat
 [Quarkus](https://quarkus.io/) framework.
 
 Niord is documented extensively at http://docs.niord.org
@@ -16,15 +16,17 @@ The *niord-web* web-application, found under the
 for producing and promulgating navigational warnings and notices to mariners.
 
 The *niord-uk-web* project is an overlay web-application that customizes 
-*niord-web* for use in the UK for the General Lighthouse Authorities. 
+*niord-web* for use in the UK for the General Lighthouse Authorities of UK
+and Ireland. 
 
 ## Prerequisites
 
-* Java 17
-* Maven 3
-* MySQL 5.7.10+ (NB: proper spatial support is a requirement)
+* Java 11 (Java 17 is also supported but jBerret causes issues)
+* Maven 3.8.1
+* MySQL 8.0.30+ (NB: proper spatial support is a requirement)
 * Quarkus 2.7+
-* JBoss Keycloak 11+
+* JBoss Keycloak 16+
+* Apache ActiveMQ (preferably Artemis - Optional)
 
 ## Development Set-Up
 
@@ -34,52 +36,103 @@ scripts for setting up Quarkus, Keycloak, etc.
 However, the easiest way to get started developing on this project is to use
 Docker.
 
-### Starting MySQL and Keycloak
+To create a MySQL database container for Niord you can run:
 
-You may want to start by creating a *.env* file in your working directory, which
-overrides the environment variables (such as database passwords) used in the 
-docker compose file.
+    docker run -p 3306:3306 --name mysql -d -e MYSQL_DATABASE=niord -e MYSQL_USER=niord -e MYSQL_PASSWORD=niord -e MYSQL_ROOT_PASSWORD=root_password mysql:8.0.30
 
-The following commands will start two MySQL databases, one for the application
-server and one for Keycloak, and also run Keycloak itself.
+While to setup Keycloak using docker (with MySQL), you can run:
 
-    mkdir $HOME/.niord-dk
-    docker-compose -f dev/docker-dev-compose.yml pull
-    docker-compose -f dev/docker-dev-compose.yml up -d
+    docker network create keycloak-network
+    docker run --name mysql_kc -d --net keycloak-network -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password mysql:8.0.30 
+    docker run -p 8080:8080 --name keycloak -d --net keycloak-network -e KEYCLOAK_USER=user -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=mysql -e DB_ADDR=mysql_kc -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak:16.1.1
 
-The initial *mkdir* command is just to avoid permission problems since docker
-would otherwise create it as owned by root.
+For the ApacheMQ message broker you can find more information in the project
+[web page](https://activemq.apache.org/download.html). In a nutshell, download
+the artemis zip file and extract it. Then create a new broker and run it (you
+might need Admin rights for this):
 
-Once this is up and running, create a Keycloak admin user (default 
-niordadmin/keycloak) which can be used to create user groups and assign domain
-roles to the groups:
+    apache-artemis/bin/artemis create niordBroker
+    apache-artemis/bin/artemis/niordBroker/artemis run
 
-    ./dev/keycloak-admin-user.sh
+Note that while generating the broker, you will be asked to provide a
+name for the broker, a username and a password.
 
-Enter [http://localhost:8090/auth/](http://localhost:8090/auth/) and check that
-you can log in using the Keycloak admin user.
+### Application Configuration
+
+Before continuing you should create the keycloak niord realm required. Log
+into the keycloak server under *http://localhost:8080* using the username and
+password that you selected. Then create a new realm and provide the
+*niord-boostrap-realm.json* as the JSON input. You can then need to get 
+access to the realm and client secrets and configuration. You might also
+need to create a user e.g. *sysadmin*, add it to the Sysadmin group and set a
+password for it. That is going to be your Niord user.
+
+Once all the back-end services are in place, the Niord system should be also 
+be appropriately configured to interact with them. This configuration is 
+included in two files
+
+* niord-uk/web/src/main/resources/application.properties
+* niord-uk/web/src/main/resources/META-INF/persistence.xml
+
+The second file is only required because quarkus doesn't support all the
+desirable configuration for hibernate-search using Lucene indexing, i.e.
+to put all the generated indexes in one directory, so we keep everything tidy.
+
+In the *application.properties* file you will need to enter the details for 
+
+the OIDC client and Keycloak admin configurations:
+
+    quarkus.oidc.auth-server-url=http://<keycloak-server>:8080/auth/realms/niord
+    keycloak.admin.clientId=<client-name>
+    keycloak.admin.clientSecret=<client-secret>
+
+the MySQL database connection (also update the *persistence.xml*):
+
+    quarkus.datasource.jdbc.url=jdbc:mysql://<mysql-db-server>:3306/niord
+    quarkus.datasource.db-kind=mysql
+    quarkus.datasource.username=<mysql-db-username>
+    quarkus.datasource.password=<mysql-db-password>
+
+and finally the Apache Artemis MQ communication:
+
+    # Configures the Artemis MQ properties.
+    quarkus.qpid-jms.url=amqp://<amp-server>:5672
+    quarkus.qpid-jms.username=<amp-username>
+    quarkus.qpid-jms.password=<amp-password>
 
 ### Finishing touches
 
-Import the Danish test base data into Niord:
+To then run Niord under quarkus you should run the quarkus development maven
+goal under the *niord-uk-web* module directory. 
 
-    ./dev/install-base-data.sh
+    mvn quarkus:dev
+
+The final step is to import the Danish test base data into Niord. To do so
+copy the provided *niord-dev-basedata.zip* in the following directory (under
+your own user's) main folder. You will also need to create the full folder
+structure if it doesn't already exist.
+
+    ~/.niord/batch-jobs/batch-sets/
     
-Within a minute or so, this will import domains, areas, categories, etc. needed to run the Niord-DK project. 
-First clean up a bit:
-* In Niord, under Sysadmin -> Domains, click the "Create in Keycloak" button for 
-  the "NW" and "NM" domains. This will create the two domains in Keycloak. 
+Within a minute or so, this will import domains, areas, categories, etc. needed
+to run the Niord-DK project. First clean up a bit:
+* In Niord, under Sysadmin -> Domains, click the "Create in Keycloak" button 
+  for the "NW" and "NM" domains. This will create the two domains in Keycloak. 
 * In Keycloak, edit the "Sysadmin" user group. Under "Role Mappings", in the 
   drop-down "Client Roles" select first "niord-nw" then "niord-nm" and assign 
   the "sysadmin" client roles to the group.
-* While in Keycloak, you may also want to define new user groups for editors and
-  admins, and assign the appropriate client roles for "niord-nw" and "niord-nm"
-  to the groups. Additionally, for admin-related groups (who should be able to
-  manage users in Niord), assign the "manage-clients" and "manage-users" client
-  roles of the "realm-management" client to the groups.
-* Delete the "Master" domain in Niord and the corresponding "niord-client-master"
-  client in Keycloak.
+* While in Keycloak, you may also want to define new user groups for editors
+  and admins, and assign the appropriate client roles for "niord-nw" and
+  "niord-nm" to the groups. Additionally, for admin-related groups (who should
+  be able to manage users in Niord), assign the "manage-clients" and
+  "manage-users" client roles of the "realm-management" client to the groups.
+* Delete the "Master" domain in Niord and the corresponding
+  "niord-client-master" client in Keycloak (Optional).
 * Go through the configuration and settings of the Niord Sysadmin pages and 
   adjust as appropriate.
 
+Finally, success! You can open your browser and point it to the following
+location *http://localhost:8888*. You should be able to see the AngularJS
+front-end of Niord! Login using the sysadmin (both username and password)
+credentials.
 
