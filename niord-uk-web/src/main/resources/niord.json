@@ -16,7 +16,7 @@
   {
     "key"         : "authServerUrl",
     "description" : "The Keycloak URL",
-    "value"       : "http://palatia.grad-rrnav.pub:8090/auth",
+    "value"       : "http://palatia.grad-rrnav.pub:8090",
     "web"         : false,
     "editable"    : true
   },
