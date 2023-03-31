@@ -17,11 +17,13 @@
 package org.niord.s125.utils;
 
 import _int.iala_aism.s125.gml._0_0.*;
-import _int.iho.s100.gml.base._1_0.CurveType;
-import _int.iho.s100.gml.base._1_0.PointType;
-import _int.iho.s100.gml.base._1_0.SurfaceType;
-import _int.iho.s100.gml.base._1_0.*;
+import _int.iala_aism.s125.gml._0_0.S100TruncatedDate;
+import _int.iho.s100.gml.base._5_0.*;
+import _int.iho.s100.gml.base._5_0.CurveType;
+import _int.iho.s100.gml.base._5_0.PointType;
+import _int.iho.s100.gml.base._5_0.SurfaceType;
 import _net.opengis.gml.profiles.*;
+import org.grad.eNav.s125.utils.S125Utils;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -99,17 +101,9 @@ public class S125DatasetBuilder {
         dataSetIdentificationType.setDatasetFileIdentifier(datasetInfo.getFileIdentifier());
         dataSetIdentificationType.setDatasetTitle(datasetInfo.getTitle());
         dataSetIdentificationType.setDatasetReferenceDate(LocalDate.now());
-        dataSetIdentificationType.setDatasetLanguage(ISO6391.EN);
+        dataSetIdentificationType.setDatasetLanguage(Locale.getDefault().getISO3Language());
         dataSetIdentificationType.setDatasetAbstract(datasetInfo.getAbstractText());
         s125Dataset.setDatasetIdentificationInformation(dataSetIdentificationType);
-
-        //====================================================================//
-        //              DATASET STRUCTURE INFORMATION SECTION                 //
-        //====================================================================//
-        DataSetStructureInformationType dataSetStructureInformationType = new DataSetStructureInformationType();
-        dataSetStructureInformationType.setCoordMultFactorX(BigInteger.ONE);
-        dataSetStructureInformationType.setCoordMultFactorY(BigInteger.ONE);
-        dataSetStructureInformationType.setCoordMultFactorZ(BigInteger.ONE);
 
         //====================================================================//
         //                      DATASET MEMBERS SECTION                       //
@@ -267,9 +261,10 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -347,9 +342,10 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return  member;
@@ -423,9 +419,10 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -498,9 +495,10 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -579,9 +577,10 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -649,9 +648,10 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -719,9 +719,10 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -789,9 +790,10 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -853,6 +855,12 @@ public class S125DatasetBuilder {
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Now fix the geometry...
+        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
+
         // And return the populated member
         return member;
     }
@@ -912,6 +920,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
+
+        // Now fix the geometry...
+        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -977,6 +991,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseCategoryOfSpecialPurposeMark)
                 .orElse(null));
+
+        // Now fix the geometry...
+        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -1048,10 +1068,13 @@ public class S125DatasetBuilder {
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
-        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointCurveSurfacePropertyExt);
+        // Now fix the geometry...
+        member.getGeometries().add((S125LandmarkType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
+
+        // And return the populated member
         return member;
     }
 
@@ -1121,10 +1144,13 @@ public class S125DatasetBuilder {
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty pointCurveSurfacePropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointCurveSurfaceProperty();
-        pointCurveSurfacePropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointCurveSurfacePropertyExt);
+        // Now fix the geometry...
+        member.getGeometries().add((S125LandmarkType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
+
+        // And return the populated member
         return member;
     }
 
@@ -1179,10 +1205,11 @@ public class S125DatasetBuilder {
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        // Now fix the geometry...
+        member.getGeometries().add((S125LightVesselType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -1224,10 +1251,11 @@ public class S125DatasetBuilder {
                 .map(S125EnumParser::parseStatus)
                 .orElse(null));
 
-        /// Now fix the geometry...
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        // Now fix the geometry...
+        member.getGeometries().add((S125PhysicalAISAidToNavigationType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -1248,12 +1276,12 @@ public class S125DatasetBuilder {
         member.setEstimatedRangeOfTransmission(Optional.of(s125TagKeyPrefix+"estimated_range_of_transmission")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .map(BigDecimal::new)
+                .map(BigInteger::new)
                 .orElse(null));
         member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .map(BigDecimal::new)
+                .map(BigInteger::new)
                 .orElse(null));
         member.setObjectName(Optional.of("seamark:name")
                 .map(atonNode::getTag)
@@ -1275,10 +1303,11 @@ public class S125DatasetBuilder {
                 .map(S125EnumParser::parseVirtualAisAidToNavigationType)
                 .orElse(S125CategoryOfVirtualAISAidToNavigation.SPECIAL_PURPOSE));
 
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        // Now fix the geometry...
+        member.getGeometries().add((S125VirtualAISAidToNavigationType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
 
         // And return the populated member
         return member;
@@ -1368,10 +1397,13 @@ public class S125DatasetBuilder {
                 .map(BigDecimal::new)
                 .orElse(null));
 
-        // Now fix the geometry... from a point to a curve???
-        _int.iho.s100.gml.base._1_0_Ext.PointProperty pointPropertyExt = new _int.iho.s100.gml.base._1_0_Ext.PointProperty();
-        pointPropertyExt.setPointProperty(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())));
-        member.setGeometry(pointPropertyExt);
+        // Now fix the geometry...
+        member.getGeometries().add((S125LightType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                member.getClass(),
+                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
+        );
+
+        // And return the populated member
         return member;
     }
 
@@ -1393,11 +1425,6 @@ public class S125DatasetBuilder {
         // Now populate the fields
         member.setId(this.generateId());
         member.setBoundedBy(this.generateBoundingShape(Collections.singletonList(atonNode)));
-        FeatureObjectIdentifier featureObjectIdentifier = new FeatureObjectIdentifier();
-        featureObjectIdentifier.setAgency(datasetInfo.getAgency());
-        featureObjectIdentifier.setFeatureIdentificationNumber(atonNode.getId());
-        featureObjectIdentifier.setFeatureIdentificationSubdivision(0);
-        member.setFeatureObjectIdentifier(featureObjectIdentifier);
         member.setAtonNumber(Optional.of("mrn")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1487,7 +1514,7 @@ public class S125DatasetBuilder {
         PosList posList = new PosList();
 
         // Populate with the geometry data
-        posList.getValues().addAll(coords);
+        posList.setValue(coords.toArray(new Double[0]));
 
         // Populate the elements
         linearRingType.setPosList(posList);
@@ -1496,7 +1523,7 @@ public class S125DatasetBuilder {
         patches.getAbstractSurfacePatches().add(this.opengisGMLFactory.createPolygonPatch(polygonPatchType));
         surfaceType.setPatches(patches);
         surfaceType.setId(this.generateId());
-        surfaceProperty.setAbstractSurface(this.opengisGMLFactory.createSurface(surfaceType));
+        surfaceProperty.setSurface(surfaceType);
 
         // And return the output
         return surfaceProperty;
@@ -1518,7 +1545,7 @@ public class S125DatasetBuilder {
         PosList posList = new PosList();
         
         // Populate with the geometry data
-        posList.getValues().addAll(coords);
+        posList.setValue(coords.toArray(new Double[0]));
         
         // Populate the elements
         lineStringSegmentType.setPosList(posList);
@@ -1545,7 +1572,7 @@ public class S125DatasetBuilder {
         Pos pos = new Pos();
 
         // Populate with the geometry data
-        pos.getValues().addAll(coords);
+        pos.setValue(coords.toArray(new Double[0]));
 
         // Populate the elements
         pointType.setPos(pos);
@@ -1571,11 +1598,9 @@ public class S125DatasetBuilder {
                 .forEach(g -> this.enclosingEnvelopFromGeometry(envelope, g));
 
         Pos lowerCorner = new Pos();
-        lowerCorner.getValues().add(envelope.getMinX());
-        lowerCorner.getValues().add(envelope.getMaxY());
+        lowerCorner.setValue(new Double[]{envelope.getMinX(), envelope.getMaxY()});
         Pos upperCorner = new Pos();
-        upperCorner.getValues().add(envelope.getMaxX());
-        upperCorner.getValues().add(envelope.getMaxY());
+        upperCorner.setValue(new Double[]{envelope.getMaxX(), envelope.getMaxY()});
 
         // And create the bounding by envelope
         BoundingShapeType boundingShapeType = new BoundingShapeType();
