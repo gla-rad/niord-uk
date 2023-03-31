@@ -261,10 +261,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBeaconType.Geometry.class::isInstance)
+                .map(S125GenericBeaconType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -342,10 +346,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBeaconType.Geometry.class::isInstance)
+                .map(S125GenericBeaconType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return  member;
@@ -419,10 +427,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBeaconType.Geometry.class::isInstance)
+                .map(S125GenericBeaconType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -495,10 +507,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBeaconType.Geometry.class::isInstance)
+                .map(S125GenericBeaconType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -577,10 +593,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBeaconType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBeaconType.Geometry.class::isInstance)
+                .map(S125GenericBeaconType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -648,10 +668,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBuoyType.Geometry.class::isInstance)
+                .map(S125GenericBuoyType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -719,10 +743,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBuoyType.Geometry.class::isInstance)
+                .map(S125GenericBuoyType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -790,10 +818,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBuoyType.Geometry.class::isInstance)
+                .map(S125GenericBuoyType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -856,10 +888,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBuoyType.Geometry.class::isInstance)
+                .map(S125GenericBuoyType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -922,10 +958,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBuoyType.Geometry.class::isInstance)
+                .map(S125GenericBuoyType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -993,10 +1033,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125GenericBuoyType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125GenericBuoyType.Geometry.class::isInstance)
+                .map(S125GenericBuoyType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -1069,10 +1113,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125LandmarkType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125LandmarkType.Geometry.class::isInstance)
+                .map(S125LandmarkType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -1145,10 +1193,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125LandmarkType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125LandmarkType.Geometry.class::isInstance)
+                .map(S125LandmarkType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -1206,10 +1258,14 @@ public class S125DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125LightVesselType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125LightVesselType.Geometry.class::isInstance)
+                .map(S125LightVesselType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -1252,10 +1308,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125PhysicalAISAidToNavigationType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125PhysicalAISAidToNavigationType.Geometry.class::isInstance)
+                .map(S125PhysicalAISAidToNavigationType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -1304,10 +1364,14 @@ public class S125DatasetBuilder {
                 .orElse(S125CategoryOfVirtualAISAidToNavigation.SPECIAL_PURPOSE));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125VirtualAISAidToNavigationType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125VirtualAISAidToNavigationType.Geometry.class::isInstance)
+                .map(S125VirtualAISAidToNavigationType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
@@ -1398,10 +1462,14 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        member.getGeometries().add((S125LightType.Geometry) S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                member.getClass(),
-                Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat()))))
-        );
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(S125LightType.Geometry.class::isInstance)
+                .map(S125LightType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
 
         // And return the populated member
         return member;
