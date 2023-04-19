@@ -1498,11 +1498,11 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .orElse(atonNode.getAtonUid()));
         member.setIdCode("aton.uk." + atonNode.getAtonUid().toLowerCase());
-        member.setTextualDescription(String.format("%s %s", atonType.getDescription(), Optional.of("seamark:name")
+        member.setTextualDescription(String.format("%s", Optional.of("seamark:name")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse("Unknown")));
-        member.setTextualDescriptionInNationalLanguage(String.format("%s", atonType.getDescription(), Optional.of("seamark:name")
+        member.setTextualDescriptionInNationalLanguage(String.format("%s", Optional.of("seamark:name")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse("Unknown")));
