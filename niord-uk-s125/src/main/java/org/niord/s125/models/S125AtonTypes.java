@@ -88,13 +88,49 @@ public enum S125AtonTypes {
             "Supplementary Information",
             "Major Floating Light (P6)"
     }),
-    PHYSICAL_AIS_ATON("radio_station", "Physical AIS AtoN", false, new String[] {
-            "Supplementary Information",
-            "AIS transmitter (S17.1-S17.2)"
-    }),
     VIRTUAL_ATON("virtual_aton", "Virtual AtoN", false, new String[] {
             "Supplementary Information",
             "Virtual AIS transmitter (S18.1-S18.7)"
+    }),
+    DAYMARK("daymark", "Daymark", true, new String[] {
+            "Supplementary Information",
+            "Topmarks in General"
+    }),
+    ENVIRONMENT_OBSERVATION("environment_observation", "Environment Observation", true, new String[] {
+            "Supplementary Information",
+            "Observation Platform(L13)"
+    }),
+    FOR_SIGNAL("fog_signal", "For Signal", true, new String[] {
+            "Supplementary Information",
+            "Fog Signal (R1-R22)"
+    }),
+    LIGHT("light", "Light", true, new String[] {
+            "Supplementary Information",
+            "Sectored Lights (P40-46)"
+    }),
+    RADAR_REFLECTOR("radar_reflector", "Radar Reflector", true, new String[] {
+            "Supplementary Information",
+            "Radar Reflector (Q10-11)"
+    }),
+    RETRO_REFLECTOR("retro_reflector", "Retro Reflector", true, new String[] {
+            "Supplementary Information"
+    }),
+    SILOS_AND_TANKS("silos_and_tanks", "Silos and Tanks", true, new String[] {
+            "Supplementary Information",
+            "Silos (E33)",
+            "Tanks (E32)"
+    }),
+    TOPMARK("topmark", "Topmark", true, new String[] {
+            "Supplementary Information",
+            "Topmarks in General"
+    }),
+    RADIO_STATION("radio_station", "Radio Station", true, new String[] {
+            "Supplementary Information",
+            "Radio Transponder (S10-S16)"
+    }),
+    PHYSICAL_AIS_ATON("physical_ais_aton", "Physical AIS AtoN", true, new String[] {
+            "Supplementary Information",
+            "AIS transmitter (S17.1-S17.2)"
     });
 
     // Enum Variables
