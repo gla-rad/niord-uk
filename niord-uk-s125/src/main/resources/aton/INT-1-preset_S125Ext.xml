@@ -37,12 +37,9 @@
     <group name="P: Lights">
 
         <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
-            <key key="seamark:type" value="light"/>
-        </group>
 
-        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
-
-            <item name="Major and Minor Lights (P1)" type="node,closedway">
+            <item name="Lights in General" type="node,closedway">
+                <key key="seamark:type" value="light"/>
                 <text key="s125:aidsToNavigation:lighthouse:height" text="Height" type="real"/>
                 <multiselect key="s125:aidsToNavigation:lighthouse:nature_or_construction" text="Nature of Construction">
                     <reference ref="construction"/>
@@ -256,8 +253,18 @@
 
     <group name="S: Electronic Position-Fixing Systems">
 
+        <item name="Radar Reflector (S4)">
+            <space/>
+            <key key="seamark:type" value="radar_reflector"/>
+        </item>
+
+        <item name="Retro Reflector (S6)">
+            <space/>
+            <key key="seamark:type" value="retro_reflector"/>
+        </item>
+
         <item name="AIS transmitter (S17.1-S17.2)" type="node,closedway">
-            <key key="seamark:type" value="radio_station"/>
+            <key key="seamark:type" value="ais_station"/>
             <combo key="s125:aidsToNavigation:ais_aid_to_navigation:category_ais_aid_to_navigation" text="AIS AtoN Type">
                 <list_entry value="physical_ais_aton"/>
                 <list_entry value="synthetic_ais_aton"/>
