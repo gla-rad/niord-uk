@@ -21,36 +21,88 @@
         <list_entry value="monitored" diplay_value="Monitored"/>
     </chunk>
 
-    <chunk id="daymarks">
-        <label text="Q9: Daymarks"/>
-        <combo key="seamark:daymark:shape" text="Topmark Shape"  >
-            <reference ref="topshapes"/>
-        </combo>
-        <multiselect key="seamark:daymark:colour" text="Topmark Colour(s)"  >
-            <reference ref="lightcolours"/>
-            <reference ref="othercolours"/>
-        </multiselect>
-        <combo key="seamark:daymark:colour_pattern" text="Colour Pattern">
-            <list_entry value="horizontal"/>
-            <list_entry value="vertical"/>
-            <list_entry value="diagonal"/>
-            <list_entry value="squared"/>
-            <list_entry value="border"/>
-        </combo>
-    </chunk>
+    <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
+
+        <item name="Landmarks in General">
+            <text key="s125:aidsToNavigation:landmark:height" text="Height" type="real"/>
+            <multiselect key="s125:aidsToNavigation:landmark:nature_or_construction" text="Nature of Construction">
+                <reference ref="construction"/>
+            </multiselect>
+            <check key="s125:aidsToNavigation:landmark:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:landmark:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+        </item>
+
+    </group>
+
+    <group name="P: Lights">
+
+        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
+            <key key="seamark:type" value="light"/>
+        </group>
+
+        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
+
+            <item name="Major and Minor Lights (P1)" type="node,closedway">
+                <text key="s125:aidsToNavigation:lighthouse:height" text="Height" type="real"/>
+                <multiselect key="s125:aidsToNavigation:lighthouse:nature_or_construction" text="Nature of Construction">
+                    <reference ref="construction"/>
+                </multiselect>
+                <check key="s125:aidsToNavigation:lighthouse:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+                <check key="s125:aidsToNavigation:lighthouse:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            </item>
+
+        </group>
+
+        <item name="Major Floating Light (P6)" type="node,closedway">
+            <multiselect key="s125:aidsToNavigation:light_vessel:nature_or_construction" text="Nature of Construction">
+                <reference ref="construction"/>
+            </multiselect>
+            <check key="s125:aidsToNavigation:light_vessel:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s125:aidsToNavigation:light_vessel:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+        </item>
+
+    </group>
 
     <group name="Daymarks (Q9)">
         <item name="Daymarks in General" type="node">
-            <reference ref="daymarks"/>
             <key key="seamark:type" value="daymark"/>
+            <label text="Q9: Daymarks"/>
+            <combo key="seamark:daymark:shape" text="Topmark Shape"  >
+                <reference ref="topshapes"/>
+            </combo>
+            <multiselect key="seamark:daymark:colour" text="Topmark Colour(s)"  >
+                <reference ref="lightcolours"/>
+                <reference ref="othercolours"/>
+            </multiselect>
+            <combo key="seamark:daymark:colour_pattern" text="Colour Pattern">
+                <list_entry value="horizontal"/>
+                <list_entry value="vertical"/>
+                <list_entry value="diagonal"/>
+                <list_entry value="squared"/>
+                <list_entry value="border"/>
+            </combo>
         </item>
 
     </group>
 
     <group name="Topmarks (Q9)">
         <item name="Topmarks in General" type="node">
-            <reference ref="topmarks"/>
             <key key="seamark:type" value="topmark"/>
+            <label text="Q9: Daymarks"/>
+            <combo key="seamark:topmark:shape" text="Topmark Shape"  >
+                <reference ref="topshapes"/>
+            </combo>
+            <multiselect key="seamark:topmark:colour" text="Topmark Colour(s)"  >
+                <reference ref="lightcolours"/>
+                <reference ref="othercolours"/>
+            </multiselect>
+            <combo key="seamark:topmark:colour_pattern" text="Colour Pattern">
+                <list_entry value="horizontal"/>
+                <list_entry value="vertical"/>
+                <list_entry value="diagonal"/>
+                <list_entry value="squared"/>
+                <list_entry value="border"/>
+            </combo>
         </item>
     </group>
 
@@ -196,48 +248,6 @@
                 <reference ref="construction"/>
             </multiselect>
             <check key="s125:aidsToNavigation:generic_buoy:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-        </item>
-
-    </group>
-
-    <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
-
-        <item name="Landmarks in General">
-            <text key="s125:aidsToNavigation:landmark:height" text="Height" type="real"/>
-            <multiselect key="s125:aidsToNavigation:landmark:nature_or_construction" text="Nature of Construction">
-                <reference ref="construction"/>
-            </multiselect>
-            <check key="s125:aidsToNavigation:landmark:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            <check key="s125:aidsToNavigation:landmark:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-        </item>
-
-    </group>
-
-    <group name="P: Lights">
-
-        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
-            <key key="seamark:type" value="light"/>
-        </group>
-
-        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
-
-            <item name="Major and Minor Lights (P1)" type="node,closedway">
-                <text key="s125:aidsToNavigation:lighthouse:height" text="Height" type="real"/>
-                <multiselect key="s125:aidsToNavigation:lighthouse:nature_or_construction" text="Nature of Construction">
-                    <reference ref="construction"/>
-                </multiselect>
-                <check key="s125:aidsToNavigation:lighthouse:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-                <check key="s125:aidsToNavigation:lighthouse:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            </item>
-
-        </group>
-
-        <item name="Major Floating Light (P6)" type="node,closedway">
-            <multiselect key="s125:aidsToNavigation:light_vessel:nature_or_construction" text="Nature of Construction">
-                <reference ref="construction"/>
-            </multiselect>
-            <check key="s125:aidsToNavigation:light_vessel:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            <check key="s125:aidsToNavigation:light_vessel:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
         </item>
 
     </group>
