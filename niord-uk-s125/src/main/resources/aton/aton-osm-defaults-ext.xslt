@@ -17,7 +17,7 @@
     </xsl:template>
 
     <!-- Match the groups we are interested in -->
-    <xsl:template match="group[@name='Seamarks' or ancestor-or-self::group[@name='E: Landmarks' or @name='Observation Platform(L13)' or @name='M: Tracks, Routes' or @name='P: Lights' or @name='Q: Buoys, Beacons, Notices' or  @name='Q: Buoys, Beacons, Notices' or @name='R: Fog Signals' or @name='S: Electronic Position-Fixing Systems']]">
+    <xsl:template match="group[@name='Seamarks' or ancestor-or-self::group[@name='E: Landmarks' or @name='L: Offshore Installations' or @name='M: Tracks, Routes' or @name='P: Lights' or @name='Q: Buoys, Beacons, Notices' or  @name='Q: Buoys, Beacons, Notices' or @name='R: Fog Signals' or @name='S: Electronic Position-Fixing Systems']]">
         <xsl:if test="not(starts-with(@name,$ialaSkipSystem))">
             <xsl:apply-templates/>
         </xsl:if>
