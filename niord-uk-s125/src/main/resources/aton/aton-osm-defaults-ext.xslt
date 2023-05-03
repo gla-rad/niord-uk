@@ -17,7 +17,7 @@
     </xsl:template>
 
     <!-- Match the groups we are interested in -->
-    <xsl:template match="group[@name='Seamarks' or ancestor-or-self::group[@name='Beacons (Q80-Q125)' or @name='Buoys and Floats (Q20-Q71)' or @name='E: Landmarks' or @name='P: Lights' or @name='Q: Buoys, Beacons, Notices' or @name='R: Fog Signals' or @name='S: Electronic Position-Fixing Systems']]">
+    <xsl:template match="group[@name='Seamarks' or ancestor-or-self::group[@name='E: Landmarks' or @name='M: Tracks, Routes' or @name='P: Lights' or @name='Q: Buoys, Beacons, Notices' or  @name='Q: Buoys, Beacons, Notices' or @name='R: Fog Signals' or @name='S: Electronic Position-Fixing Systems']]">
         <xsl:if test="not(starts-with(@name,$ialaSkipSystem))">
             <xsl:apply-templates/>
         </xsl:if>
@@ -27,7 +27,7 @@
     <xsl:template match="group" />
 
     <!-- Filter chunks by ID -->
-    <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns']">
+    <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns' or @id='colour_pattern']">
         <tag-values>
             <xsl:attribute name="id">
                 <xsl:value-of select="@id"/>

@@ -94,19 +94,19 @@ public enum S125AtonTypes {
     }),
     DAYMARK("daymark", "Daymark", true, new String[] {
             "Supplementary Information",
-            "Topmarks in General"
+            "Daymarks in General"
     }),
     ENVIRONMENT_OBSERVATION("environment_observation", "Environment Observation", true, new String[] {
             "Supplementary Information",
             "Observation Platform(L13)"
     }),
-    FOR_SIGNAL("fog_signal", "For Signal", true, new String[] {
+    FOG_SIGNAL("fog_signal", "Fog Signal", true, new String[] {
             "Supplementary Information",
             "Fog Signal (R1-R22)"
     }),
     LIGHT("light", "Light", true, new String[] {
             "Supplementary Information",
-            "Sectored Lights (P40-46)"
+            "Lights in General"
     }),
     RADAR_REFLECTOR("radar_reflector", "Radar Reflector", true, new String[] {
             "Supplementary Information",
