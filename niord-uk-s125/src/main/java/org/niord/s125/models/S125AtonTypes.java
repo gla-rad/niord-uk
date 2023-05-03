@@ -96,7 +96,7 @@ public enum S125AtonTypes {
             "Supplementary Information",
             "Daymarks in General"
     }),
-    ENVIRONMENT_OBSERVATION("environment_observation", "Environment Observation", true, new String[] {
+    ENVIRONMENT_OBSERVATION("platform", "Environment Observation", true, new String[] {
             "Supplementary Information",
             "Observation Platform(L13)"
     }),
@@ -110,12 +110,13 @@ public enum S125AtonTypes {
     }),
     RADAR_REFLECTOR("radar_reflector", "Radar Reflector", true, new String[] {
             "Supplementary Information",
-            "Radar Reflector (Q10-11)"
+            "Radar Reflector (S4)"
     }),
     RETRO_REFLECTOR("retro_reflector", "Retro Reflector", true, new String[] {
-            "Supplementary Information"
+            "Supplementary Information",
+            "Retro Reflector (S6)"
     }),
-    SILOS_AND_TANKS("silos_and_tanks", "Silos and Tanks", true, new String[] {
+    SILOS_AND_TANKS("tank", "Silos and Tanks", true, new String[] {
             "Supplementary Information",
             "Silos (E33)",
             "Tanks (E32)"
@@ -128,7 +129,7 @@ public enum S125AtonTypes {
             "Supplementary Information",
             "Radio Transponder (S10-S16)"
     }),
-    PHYSICAL_AIS_ATON("physical_ais_aton", "Physical AIS AtoN", true, new String[] {
+    PHYSICAL_AIS_ATON("ais_station", "Physical AIS AtoN", true, new String[] {
             "Supplementary Information",
             "AIS transmitter (S17.1-S17.2)"
     });
