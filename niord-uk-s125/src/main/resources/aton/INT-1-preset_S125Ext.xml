@@ -251,6 +251,13 @@
         </group>
     </group>
 
+    <group name="R: Fog Signals" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/R/R1.svg">
+
+        <item name="Fog Signal (R1-R22)">
+            <key key="seamark:type" value="fog_signal"/>
+        </item>
+    </group>
+
     <group name="S: Electronic Position-Fixing Systems">
 
         <item name="Radar Reflector (S4)">
