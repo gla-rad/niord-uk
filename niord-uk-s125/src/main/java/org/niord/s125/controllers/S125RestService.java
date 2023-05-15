@@ -17,6 +17,7 @@
 package org.niord.s125.controllers;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -60,12 +61,12 @@ public class S125RestService {
     S125Service s125Service;
 
     /**
-     * Returns the S-125 GML representation for the given AtoN.
+     * Returns the S-125 GML representation for multiple AtoN.
      */
     @GET
-    @Path("/atons/{atonUID}")
+    @Path("/atons")
     @Operation(
-            description = "Returns S-125 GML representation for the aton." +
+            description = "Returns S-125 GML representation for a list of AtoN UIDs." +
                     "NB: Only use this service for test purposes, not for production."
     )
     @APIResponse(
@@ -77,8 +78,8 @@ public class S125RestService {
     )
     @Produces({"application/gml+xml;charset=UTF-8"})
     public Response s125AtonDetails(
-            @Parameter(description = "The aton UID or aton ID", example = "aton-001")
-            @PathParam("atonUID") String atonUID,
+            @Parameter(description = "The aton UIDs or aton ID", example = "aton-001")
+            @QueryParam("atonUID") List<String> atonUID,
             @Parameter(description = "Indentation of the XML output", example = "4")
             @QueryParam("indent") @DefaultValue("4") Integer indent,
             @Parameter(description = "Two-letter ISO 639-1 language code", example = "en")
@@ -88,27 +89,27 @@ public class S125RestService {
         long t0 = System.currentTimeMillis();
 
         try {
-            String result = s125Service.generateGML(atonUID, language);
+            String result = s125Service.generateGML(language, String.format("aton-dataset-export-%d", t0), atonUID.toArray(String[]::new));
 
             // Pretty print the result
             result = XmlUtils.xmlPrettyPrint(result, indent);
 
-            log.info("Generated GML for AtoN " + atonUID + " in " + (System.currentTimeMillis() - t0) + " ms");
+            log.info("Generated GML for AtoNs " + String.join(",", atonUID) + " in " + (System.currentTimeMillis() - t0) + " ms");
             return Response.ok(result)
                     .type("application/gml+xml;charset=UTF-8")
                     .build();
 
-        } catch (IllegalArgumentException e) {
-            log.error("AtoN does not exist: " + atonUID);
+        } catch (IllegalArgumentException ex) {
+            log.error(ex.getMessage());
             return Response
                     .status(Response.Status.NOT_FOUND)
-                    .entity("No aton found with UID: " + atonUID)
+                    .entity("Error on input parameters: " + ex.getMessage())
                     .build();
-        } catch (Exception e) {
-            log.error("Error generating S-125 GML for aton " + atonUID + ": " + e);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
             return Response.status(Response.Status.BAD_REQUEST)
                     .type(MediaType.TEXT_HTML_TYPE)
-                    .entity("Error generating GML: " + e.getMessage())
+                    .entity("Error generating GML: " + ex.getMessage())
                     .build();
         }
     }
@@ -140,8 +141,7 @@ public class S125RestService {
                     .type("application/gml+xml;charset=UTF-8")
                     .build();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
             log.error("XSD does not exist: " + xsdFile);
             return Response
                     .status(Response.Status.NOT_FOUND)
