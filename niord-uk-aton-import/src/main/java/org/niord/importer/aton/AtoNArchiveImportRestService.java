@@ -46,7 +46,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Imports AtoN in JSON format from achive files.
+ * Imports AtoN in JSON format from archive files.
  */
 @Path("/import/atons")
 @RequestScoped
@@ -99,7 +99,6 @@ public class AtoNArchiveImportRestService extends AbstractBatchableRestService {
         params.put("assignNewUids", batchData.getAssignNewUids() != null && batchData.getAssignNewUids());
     }
 
-
     /** Checks for a valid "aton.xml" zip file entry **/
     private boolean checkForMessagesFileInImportArchive(InputStream in) throws Exception {
         try (ZipInputStream zipFile = new ZipInputStream(in)) {
@@ -122,8 +121,6 @@ public class AtoNArchiveImportRestService extends AbstractBatchableRestService {
         }
         return false;
     }
-
-
 
     /***************************
      * Helper classes

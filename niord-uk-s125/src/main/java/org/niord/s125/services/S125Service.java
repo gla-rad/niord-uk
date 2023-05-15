@@ -26,7 +26,7 @@ import org.niord.s125.utils.S125DatasetBuilder;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -49,23 +49,23 @@ public class S125Service {
 
     /**
      * Generates S-125 compliant GML for the message
-     * @param atonUID the aton UID
+     * @param gmlDatasetId the GML dataset identifier string
      * @param language the language
+     * @param atonUIDs the aton UID
      * @return the generated GML
      */
-    public String generateGML(String atonUID, String language) throws Exception {
+    public String generateGML(String language, String gmlDatasetId, String... atonUIDs) throws Exception {
         // Try to access the AtoN
-        AtonNode atonNode = this.atonService.findByAtonUid(atonUID);
+        List<AtonNode> atonNodes = this.atonService.findByAtonUids(atonUIDs);
 
         // Validate the AtoN
-        if (atonNode == null) {
-            throw new IllegalArgumentException("AtoN not found " + atonUID);
+        if (atonNodes == null || atonNodes.isEmpty()) {
+            throw new IllegalArgumentException("No AtoN not found for UIDs: " + atonUIDs);
         }
 
         // Use the utilities to translate the AtoN node to an S-125 dataset
-        return Optional.ofNullable(atonNode)
-                .map(Collections::singletonList)
-                .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(atonNode.getAtonUid(), app.getOrganisation(), l), l))
+        return Optional.ofNullable(atonNodes)
+                .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(gmlDatasetId, app.getOrganisation(), l), l))
                 .map(d -> {try {return S125Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
                 .orElse(null);
     }
