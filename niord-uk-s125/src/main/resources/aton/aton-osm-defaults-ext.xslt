@@ -26,8 +26,21 @@
     <!-- Discard all other groups -->
     <xsl:template match="group" />
 
+    <xsl:template match="item[descendant::node()[contains(@key, ':2:') or contains(@key, ':3:') or contains(@key, ':4:') or contains(@key, ':5:') or contains(@key, ':6:')]]">
+        <!-- skip if sub-node has indexed keys > 1 -->
+    </xsl:template>
+
+    <xsl:template match="item">
+        <node-type>
+            <xsl:attribute name="name">
+                <xsl:value-of select="@name"/>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+        </node-type>
+    </xsl:template>
+
     <!-- Filter chunks by ID -->
-    <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns' or @id='colour_pattern']">
+    <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns' or @id='colour_pattern' or @id='construction']">
         <tag-values>
             <xsl:attribute name="id">
                 <xsl:value-of select="@id"/>
@@ -47,7 +60,7 @@
     </xsl:template>
 
     <!-- Filter extension chunks by ID -->
-    <xsl:template match="chunk[ @id='categoryOfPhysicalAISAidToNavigation' or @id='categoryOfSyntheticAISAidToNavigation' or @id='marksNavigationalSystemOf']">
+    <xsl:template match="chunk[ @id='categoryOfPhysicalAISAidToNavigation' or @id='categoryOfSyntheticAISAidToNavigation' or @id='marksNavigationalSystemOf' or @id='categoryOfBuildingShape']">
         <tag-values>
             <xsl:attribute name="id">
                 <xsl:value-of select="@id"/>
@@ -66,19 +79,6 @@
             </xsl:attribute>
             <xsl:apply-templates/>
         </tag-value>
-    </xsl:template>
-
-    <xsl:template match="item[descendant::node()[contains(@key, ':2:') or contains(@key, ':3:') or contains(@key, ':4:') or contains(@key, ':5:') or contains(@key, ':6:')]]">
-        <!-- skip if sub-node has indexed keys > 1 -->
-    </xsl:template>
-
-    <xsl:template match="item">
-        <node-type>
-            <xsl:attribute name="name">
-                <xsl:value-of select="@name"/>
-            </xsl:attribute>
-            <xsl:apply-templates/>
-        </node-type>
     </xsl:template>
 
     <xsl:template match="key">
