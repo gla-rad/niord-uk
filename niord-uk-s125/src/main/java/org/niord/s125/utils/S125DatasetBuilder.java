@@ -16,17 +16,22 @@
 
 package org.niord.s125.utils;
 
-import _int.iala_aism.s125.gml._0_0.*;
+import _int.iala_aism.s125.gml._0_0.AggregationType;
 import _int.iala_aism.s125.gml._0_0.S100TruncatedDate;
-import _int.iho.s100.gml.base._5_0.*;
+import _int.iala_aism.s125.gml._0_0.*;
+import _int.iho.s100.gml.base._5_0.AbstractFeatureType;
 import _int.iho.s100.gml.base._5_0.CurveType;
 import _int.iho.s100.gml.base._5_0.PointType;
 import _int.iho.s100.gml.base._5_0.SurfaceType;
+import _int.iho.s100.gml.base._5_0.*;
 import _net.opengis.gml.profiles.*;
+import org.apache.commons.lang3.StringUtils;
 import org.grad.eNav.s125.utils.S125Utils;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
+import org.niord.core.aton.AtonLink;
+import org.niord.core.aton.AtonLinkType;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonTag;
 import org.niord.s125.models.S125AtonTypes;
@@ -41,13 +46,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.function.Predicate.not;
 import static org.niord.core.aton.AtonTag.TAG_ATON_TYPE;
 
 /**
  * The S-125 Dataset Builder Class.
  *
- * This class is entrusted with the generation of the S-125 dataset based on a
+ * This class is entrusted with the generation of the S-125 Dataset based on a
  * list of provided AtoN nodes. These are originally generated through Niord
  * and follow the Openstreet Maps Seachart extension format.
  *
@@ -58,8 +66,32 @@ import static org.niord.core.aton.AtonTag.TAG_ATON_TYPE;
  */
 public class S125DatasetBuilder {
 
+    /*
+     * The standard parent reference archole.
+     */
+    protected static final String PARENT_REF_ARCHOLE = "urn:IALA:S125:roles:parent";
+
+    /*
+     * The standard child reference archole.
+     */
+    protected static final String CHILD_REF_ARCHOLE = "urn:IALA:S125:roles:child";
+
+    /*
+    /*
+     * The standard aggregation reference archole.
+     */
+    protected static final String AGGREGATION_REF_ARCHOLE = "urn:IALA:S125:roles:aggregation";
+
+    /*
+     * The standard association reference archole.
+     */
+    protected static final String ASSOCIATION_REF_ARCHOLE = "urn:IALA:S125:roles:association";
+
     // Class Variables
+    private String idFormat;
     private AtomicInteger idIndex;
+    private Map<Integer, String> idMap;
+    private HashSet<Integer> linksSet;
     private _int.iala_aism.s125.gml._0_0.ObjectFactory s125GMLFactory;
     private _net.opengis.gml.profiles.ObjectFactory opengisGMLFactory;
 
@@ -67,23 +99,31 @@ public class S125DatasetBuilder {
      * Class Constructor.
      */
     public S125DatasetBuilder() {
+        this.idFormat = String.format("ID%%0%dd", 3);
         this.idIndex = new AtomicInteger(1);
+        this.idMap = new HashMap<>();
+        this.linksSet = new HashSet<>();
         this.s125GMLFactory = new _int.iala_aism.s125.gml._0_0.ObjectFactory();
         this.opengisGMLFactory = new _net.opengis.gml.profiles.ObjectFactory();
     }
     
     /**
-     * This is the main   the provided list of AtoN nodess into an S125 dataset as
+     * This is the main   the provided list of AtoN nodess into an S125 Dataset as
      * dictated by the NIPWG S-125 data product specification.
      *
-     * @param datasetInfo   The dataset information
+     * @param DatasetInfo   The Dataset information
      * @param atonNodes     The list of S-125 AtoN nodes
      */
-    public DataSet packageToDataset(S125DatasetInfo datasetInfo,
+    public Dataset packageToDataset(S125DatasetInfo DatasetInfo,
                                     List<AtonNode> atonNodes) {
-        // Initialise the dataset
-        DataSet s125Dataset = new DataSet();
-        s125Dataset.setId(datasetInfo.getDatasetId());
+        // Update the ID format based on the number of inputs. The general
+        // guideline is that it should look like "ID001" with the number of
+        // digits being enough to enumerate all the AtoN node entries available.
+        this.idFormat = String.format("ID%%0%dd", Math.max(1, String.format("%d", atonNodes.size()).length() + 2));
+
+        // Initialise the Dataset
+        Dataset s125Dataset = new Dataset();
+        s125Dataset.setId(DatasetInfo.getDatasetId());
 
         //====================================================================//
         //                       BOUNDED BY SECTION                           //
@@ -91,31 +131,37 @@ public class S125DatasetBuilder {
         s125Dataset.setBoundedBy(this.generateBoundingShape(atonNodes));
 
         //====================================================================//
-        //                  DATASET IDENTIFICATION SECTION                    //
+        //                  Dataset IDENTIFICATION SECTION                    //
         //====================================================================//
-        DataSetIdentificationType dataSetIdentificationType = new DataSetIdentificationType();
-        dataSetIdentificationType.setEncodingSpecification(datasetInfo.getEncodingSpecification());
-        dataSetIdentificationType.setEncodingSpecificationEdition(datasetInfo.getEncodingSpecificationEdition());
-        dataSetIdentificationType.setProductIdentifier(datasetInfo.getProductionIdentifier());
-        dataSetIdentificationType.setProductEdition(datasetInfo.getProductionEdition());
-        dataSetIdentificationType.setDatasetFileIdentifier(datasetInfo.getFileIdentifier());
-        dataSetIdentificationType.setDatasetTitle(datasetInfo.getTitle());
-        dataSetIdentificationType.setDatasetReferenceDate(LocalDate.now());
-        dataSetIdentificationType.setDatasetLanguage(Locale.getDefault().getISO3Language());
-        dataSetIdentificationType.setDatasetAbstract(datasetInfo.getAbstractText());
-        s125Dataset.setDatasetIdentificationInformation(dataSetIdentificationType);
+        DataSetIdentificationType DatasetIdentificationType = new DataSetIdentificationType();
+        DatasetIdentificationType.setEncodingSpecification(DatasetInfo.getEncodingSpecification());
+        DatasetIdentificationType.setEncodingSpecificationEdition(DatasetInfo.getEncodingSpecificationEdition());
+        DatasetIdentificationType.setProductIdentifier(DatasetInfo.getProductionIdentifier());
+        DatasetIdentificationType.setProductEdition(DatasetInfo.getProductionEdition());
+        DatasetIdentificationType.setDatasetFileIdentifier(DatasetInfo.getFileIdentifier());
+        DatasetIdentificationType.setDatasetTitle(DatasetInfo.getTitle());
+        DatasetIdentificationType.setDatasetReferenceDate(LocalDate.now());
+        DatasetIdentificationType.setDatasetLanguage(Locale.getDefault().getISO3Language());
+        DatasetIdentificationType.setDatasetAbstract(DatasetInfo.getAbstractText());
+        s125Dataset.setDatasetIdentificationInformation(DatasetIdentificationType);
 
         //====================================================================//
-        //                      DATASET MEMBERS SECTION                       //
+        //                      Dataset MEMBERS SECTION                       //
         //====================================================================//
         Optional.ofNullable(atonNodes)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(aton -> this.generateAidsToNavigation(datasetInfo, aton))
+                .flatMap(aton ->
+                    Stream.of(
+                            Stream.of(this.generateAidsToNavigation(aton)),
+                            aton.getChildren().stream().map(this::generateAidsToNavigation),
+                            this.generateAidsToNavigationLinks(aton).stream()
+                    ).flatMap(i -> i)
+                )
                 .map(jaxb -> { MemberType m = new MemberType(); m.setAbstractFeature(jaxb); return m; })
                 .forEach(s125Dataset.getImembersAndMembers()::add);
 
-        // Return the dataset
+        // Return the Dataset
         return s125Dataset;
     }
 
@@ -125,64 +171,96 @@ public class S125DatasetBuilder {
      * S-125 format messages based on the specifications specified by the
      * IHO/IALA NIPWG.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The Niord AtoN node object
      * @return The generated S-125 data message
      */
-    public JAXBElement<? extends S125AidsToNavigationType> generateAidsToNavigation(S125DatasetInfo datasetInfo, AtonNode atonNode) {
+    public JAXBElement<? extends AbstractFeatureType> generateAidsToNavigation(AtonNode atonNode) {
         // First read the AtoN type information from the input
         S125AtonTypes atonType = S125AtonTypes.fromSeamarkType(atonNode.getTagValue(TAG_ATON_TYPE));
         // Now initialise the JAXB object factory to generate the member
-        JAXBElement<? extends S125AidsToNavigationType> jaxbElement =  null;
+        JAXBElement<? extends AidsToNavigationType> jaxbElement =  null;
         // Handle each possible type, cause a different object should be created
         switch(atonType) {
+            /***************************
+             *    STRUCTURE OBJECTS    *
+             ***************************/
             case CARDINAL_BEACON:
-                jaxbElement = this.s125GMLFactory.createS125BeaconCardinal(this.generateBeaconCardinal(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBeaconCardinal(this.generateBeaconCardinal(atonNode));
                 break;
             case LATERAL_BEACON:
-                jaxbElement = this.s125GMLFactory.createS125BeaconLateral(this.generateBeaconLateral(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBeaconLateral(this.generateBeaconLateral(atonNode));
                 break;
             case ISOLATED_DANGER_BEACON:
-                jaxbElement = this.s125GMLFactory.createS125BeaconIsolatedDanger(this.generateBeaconIsolatedDanger(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBeaconIsolatedDanger(this.generateBeaconIsolatedDanger(atonNode));
                 break;
             case SAFE_WATER_BEACON:
-                jaxbElement = this.s125GMLFactory.createS125BeaconSafeWater(this.generateBeaconSafeWater(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBeaconSafeWater(this.generateBeaconSafeWater(atonNode));
                 break;
             case SPECIAL_PURPOSE_BEACON:
-                jaxbElement = this.s125GMLFactory.createS125BeaconSpecialPurposeGeneral(this.generateBeaconSpecialPurpose(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBeaconSpecialPurposeGeneral(this.generateBeaconSpecialPurpose(atonNode));
                 break;
             case CARDINAL_BUOY:
-                jaxbElement = this.s125GMLFactory.createS125BuoyCardinal(this.generateBuoyCardinal(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBuoyCardinal(this.generateBuoyCardinal(atonNode));
                 break;
             case LATERAL_BUOY:
-                jaxbElement = this.s125GMLFactory.createS125BuoyLateral(this.generateBuoyLateral(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBuoyLateral(this.generateBuoyLateral(atonNode));
                 break;
             case INSTALLATION_BUOY:
-                jaxbElement = this.s125GMLFactory.createS125BuoyInstallation(this.generateBuoyInstallation(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBuoyInstallation(this.generateBuoyInstallation(atonNode));
                 break;
             case ISOLATED_DANGER_BUOY:
-                jaxbElement = this.s125GMLFactory.createS125BuoyIsolatedDanger(this.generateBuoyIsolatedDanger(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBuoyIsolatedDanger(this.generateBuoyIsolatedDanger(atonNode));
                 break;
             case SAFE_WATER_BUOY:
-                jaxbElement = this.s125GMLFactory.createS125BuoySafeWater(this.generateBuoySafeWater(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBuoySafeWater(this.generateBuoySafeWater(atonNode));
                 break;
             case SPECIAL_PURPOSE_BUOY:
-                jaxbElement = this.s125GMLFactory.createS125BuoySpecialPurposeGeneral(this.generateBuoySpecialPurpose(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createBuoySpecialPurposeGeneral(this.generateBuoySpecialPurpose(atonNode));
                 break;
             case LANDMARK:
-                jaxbElement = this.s125GMLFactory.createS125Landmark(this.generateLandmark(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createLandmark(this.generateLandmark(atonNode));
                 break;
             case LIGHTHOUSE_MAJOR: case LIGHTHOUSE_MINOR:
-                jaxbElement = this.s125GMLFactory.createS125Lighthouse(this.generateLighthouse(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createLighthouse(this.generateLighthouse(atonNode));
                 break;
             case LIGHT_VESSEL:
-                jaxbElement = this.s125GMLFactory.createS125LightVessel(this.generateLightVessel(datasetInfo, atonNode));
-                break;
-            case PHYSICAL_AIS_ATON:
-                jaxbElement = this.s125GMLFactory.createS125PhysicalAISAidToNavigation(this.generatePhysicalAISAtoN(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createLightVessel(this.generateLightVessel(atonNode));
                 break;
             case VIRTUAL_ATON:
-                jaxbElement = this.s125GMLFactory.createS125VirtualAISAidToNavigation(this.generateVirtualAtoN(datasetInfo, atonNode));
+                jaxbElement = this.s125GMLFactory.createVirtualAISAidToNavigation(this.generateVirtualAtoN(atonNode));
+                break;
+            /***************************
+             *    EQUIPMENT OBJECTS    *
+             ***************************/
+            case DAYMARK:
+                jaxbElement = this.s125GMLFactory.createDaymark(this.generateDaymark(atonNode));
+                break;
+            case ENVIRONMENT_OBSERVATION:
+                jaxbElement = this.s125GMLFactory.createEnvironmentObservationEquipment(this.generateEnvironmentObservationEquipment(atonNode));
+                break;
+            case FOG_SIGNAL:
+                jaxbElement = this.s125GMLFactory.createFogSignal(this.generateFogSignal(atonNode));
+                break;
+            case LIGHT:
+                jaxbElement = this.s125GMLFactory.createLight(this.generateLight(atonNode));
+                break;
+            case RADAR_REFLECTOR:
+                jaxbElement = this.s125GMLFactory.createRadarReflector(this.generateRadarReflector(atonNode));
+                break;
+            case RETRO_REFLECTOR:
+                jaxbElement = this.s125GMLFactory.createRetroReflector(this.generateRetroReflector(atonNode));
+                break;
+            case SILOS_AND_TANKS:
+                jaxbElement = this.s125GMLFactory.createSiloTank(this.generateSiloTank(atonNode));
+                break;
+            case TOPMARK:
+                jaxbElement = this.s125GMLFactory.createTopmark(this.generateTopmark(atonNode));
+                break;
+            case RADIO_STATION:
+                jaxbElement = this.s125GMLFactory.createRadioStation(this.generateRadioStation( atonNode));
+                break;
+            case PHYSICAL_AIS_ATON:
+                jaxbElement = this.s125GMLFactory.createPhysicalAISAidToNavigation(this.generatePhysicalAISAtoN(atonNode));
                 break;
         }
         // And return what was generated
@@ -190,17 +268,61 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Beacon Cardinal AtoNs.
+     * This is another entry method static function of the utility. It will
+     * examine the provided AtoN Node links from Niord and generate a standardised
+     * list of S-125 aggregation or association entries.
      *
-     * @param datasetInfo   The dataset information
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @param atonNode      The AtoN node to generate the aggregation/association links for
+     * @return the generated collection of aggregation/association links
      */
-    protected S125BeaconCardinalType generateBeaconCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BeaconCardinalType member = new S125BeaconCardinalType();
+    public Collection<JAXBElement<? extends AbstractFeatureType>> generateAidsToNavigationLinks(AtonNode atonNode) {
+        // Sanity Check
+        if(atonNode == null || atonNode.getLinks() == null || atonNode.getLinks().isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Create a new link collection
+        final List<JAXBElement<? extends AbstractFeatureType>> linkCollection = new ArrayList<>();
+
+        // Add the aggregation links
+        atonNode.getLinks().stream()
+                .filter(link -> link.getLinkCategory().getAtonLinkType() == AtonLinkType.AGGREGATION)
+                .filter(not(link -> this.linksSet.contains(link.getId())))
+                .map(this::generateAggregation)
+                .filter(Objects::nonNull)
+                .map(this.s125GMLFactory::createAggregation)
+                .forEach(linkCollection::add);
+
+        // Add the association links
+        atonNode.getLinks().stream()
+                .filter(link -> link.getLinkCategory().getAtonLinkType() == AtonLinkType.ASSOCIATION)
+                .filter(not(link -> this.linksSet.contains(link.getId())))
+                .map(this::generateAssociation)
+                .filter(Objects::nonNull)
+                .map(this.s125GMLFactory::createAssociation)
+                .forEach(linkCollection::add);
+
+        // Add the link IDs to the link-set so that they don't get duplicated
+        this.linksSet.addAll(atonNode.getLinks()
+                .stream()
+                .map(AtonLink::getId)
+                .collect(Collectors.toSet()));
+
+        // Return the generated list
+        return linkCollection;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Beacon Cardinal AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected BeaconCardinalType generateBeaconCardinal(AtonNode atonNode) {
+        final BeaconCardinalType member = new BeaconCardinalType();
         final String tagKeyPrefix = "seamark:beacon_cardinal:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -219,6 +341,7 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
         member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
@@ -226,7 +349,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -266,8 +389,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBeaconType.Geometry.class::isInstance)
-                .map(S125GenericBeaconType.Geometry.class::cast)
+                .filter(GenericBeaconType.Geometry.class::isInstance)
+                .map(GenericBeaconType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -275,17 +398,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Beacon Lateral AtoNs.
+     * Generate the S-125 Dataset member section for Beacon Lateral AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BeaconLateralType generateBeaconLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BeaconLateralType member = new S125BeaconLateralType();
+    protected BeaconLateralType generateBeaconLateral(AtonNode atonNode) {
+        final BeaconLateralType member = new BeaconLateralType();
         final String tagKeyPrefix = "seamark:beacon_lateral:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -304,6 +426,7 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
         member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
@@ -311,7 +434,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -351,8 +474,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBeaconType.Geometry.class::isInstance)
-                .map(S125GenericBeaconType.Geometry.class::cast)
+                .filter(GenericBeaconType.Geometry.class::isInstance)
+                .map(GenericBeaconType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -360,18 +483,17 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Beacon Isolated Danger
+     * Generate the S-125 Dataset member section for Beacon Isolated Danger
      * AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BeaconIsolatedDangerType generateBeaconIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BeaconIsolatedDangerType member = new S125BeaconIsolatedDangerType();
+    protected BeaconIsolatedDangerType generateBeaconIsolatedDanger(AtonNode atonNode) {
+        final BeaconIsolatedDangerType member = new BeaconIsolatedDangerType();
         final String tagKeyPrefix = "seamark:beacon_isolated_danger:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -390,6 +512,7 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
         member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
@@ -397,7 +520,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -432,8 +555,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBeaconType.Geometry.class::isInstance)
-                .map(S125GenericBeaconType.Geometry.class::cast)
+                .filter(GenericBeaconType.Geometry.class::isInstance)
+                .map(GenericBeaconType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -441,17 +564,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Beacon Safe Water AtoNs.
+     * Generate the S-125 Dataset member section for Beacon Safe Water AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BeaconSafeWaterType generateBeaconSafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BeaconSafeWaterType member = new S125BeaconSafeWaterType();
+    protected BeaconSafeWaterType generateBeaconSafeWater(AtonNode atonNode) {
+        final BeaconSafeWaterType member = new BeaconSafeWaterType();
         final String tagKeyPrefix = "seamark:beacon_safe_water:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBeaconShape(Optional.of("seamark:beacon_safe_water:shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -470,6 +592,7 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
         member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
@@ -477,7 +600,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -512,8 +635,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBeaconType.Geometry.class::isInstance)
-                .map(S125GenericBeaconType.Geometry.class::cast)
+                .filter(GenericBeaconType.Geometry.class::isInstance)
+                .map(GenericBeaconType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -521,18 +644,17 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Beacon Special Purpose
+     * Generate the S-125 Dataset member section for Beacon Special Purpose
      * AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BeaconSpecialPurposeGeneralType generateBeaconSpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BeaconSpecialPurposeGeneralType member = new S125BeaconSpecialPurposeGeneralType();
+    protected BeaconSpecialPurposeGeneralType generateBeaconSpecialPurpose(AtonNode atonNode) {
+        final BeaconSpecialPurposeGeneralType member = new BeaconSpecialPurposeGeneralType();
         final String tagKeyPrefix = "seamark:beacon_special_purpose:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_beacon:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -551,6 +673,7 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
         member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
@@ -558,7 +681,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -598,8 +721,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBeaconType.Geometry.class::isInstance)
-                .map(S125GenericBeaconType.Geometry.class::cast)
+                .filter(GenericBeaconType.Geometry.class::isInstance)
+                .map(GenericBeaconType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -607,17 +730,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Buoy Cardinal AtoNs.
+     * Generate the S-125 Dataset member section for Buoy Cardinal AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BuoyCardinalType generateBuoyCardinal(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BuoyCardinalType member = new S125BuoyCardinalType();
+    protected BuoyCardinalType generateBuoyCardinal(AtonNode atonNode) {
+        final BuoyCardinalType member = new BuoyCardinalType();
         final String tagKeyPrefix = "seamark:buoy_cardinal:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_cardinal:shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -638,7 +760,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -673,8 +795,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBuoyType.Geometry.class::isInstance)
-                .map(S125GenericBuoyType.Geometry.class::cast)
+                .filter(GenericBuoyType.Geometry.class::isInstance)
+                .map(GenericBuoyType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -682,17 +804,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Buoy Lateral AtoNs.
+     * Generate the S-125 Dataset member section for Buoy Lateral AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BuoyLateralType generateBuoyLateral(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BuoyLateralType member = new S125BuoyLateralType();
+    protected BuoyLateralType generateBuoyLateral(AtonNode atonNode) {
+        final BuoyLateralType member = new BuoyLateralType();
         final String tagKeyPrefix = "seamark:buoy_lateral:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_lateral:shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -713,7 +834,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -748,8 +869,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBuoyType.Geometry.class::isInstance)
-                .map(S125GenericBuoyType.Geometry.class::cast)
+                .filter(GenericBuoyType.Geometry.class::isInstance)
+                .map(GenericBuoyType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -757,17 +878,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Buoy Installation AtoNs.
+     * Generate the S-125 Dataset member section for Buoy Installation AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BuoyInstallationType generateBuoyInstallation(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BuoyInstallationType member = new S125BuoyInstallationType();
+    protected BuoyInstallationType generateBuoyInstallation(AtonNode atonNode) {
+        final BuoyInstallationType member = new BuoyInstallationType();
         final String tagKeyPrefix = "seamark:buoy_installation:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBuoyShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -788,7 +908,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -823,8 +943,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBuoyType.Geometry.class::isInstance)
-                .map(S125GenericBuoyType.Geometry.class::cast)
+                .filter(GenericBuoyType.Geometry.class::isInstance)
+                .map(GenericBuoyType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -832,17 +952,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Buoy Isolated Dander AtoNs.
+     * Generate the S-125 Dataset member section for Buoy Isolated Dander AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BuoyIsolatedDangerType generateBuoyIsolatedDanger(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BuoyIsolatedDangerType member = new S125BuoyIsolatedDangerType();
+    protected BuoyIsolatedDangerType generateBuoyIsolatedDanger(AtonNode atonNode) {
+        final BuoyIsolatedDangerType member = new BuoyIsolatedDangerType();
         final String tagKeyPrefix = "seamark:buoy_isolated_danger:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_isolated_danger:shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -863,7 +982,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -893,8 +1012,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBuoyType.Geometry.class::isInstance)
-                .map(S125GenericBuoyType.Geometry.class::cast)
+                .filter(GenericBuoyType.Geometry.class::isInstance)
+                .map(GenericBuoyType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -902,17 +1021,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Buoy Safe Water AtoNs.
+     * Generate the S-125 Dataset member section for Buoy Safe Water AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BuoySafeWaterType generateBuoySafeWater(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BuoySafeWaterType member = new S125BuoySafeWaterType();
+    protected BuoySafeWaterType generateBuoySafeWater(AtonNode atonNode) {
+        final BuoySafeWaterType member = new BuoySafeWaterType();
         final String tagKeyPrefix = "seamark:buoy_safe_water:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_safe_water:shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -933,7 +1051,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -963,8 +1081,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBuoyType.Geometry.class::isInstance)
-                .map(S125GenericBuoyType.Geometry.class::cast)
+                .filter(GenericBuoyType.Geometry.class::isInstance)
+                .map(GenericBuoyType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -972,17 +1090,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Buoy Special Purpose AtoNs.
+     * Generate the S-125 Dataset member section for Buoy Special Purpose AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125BuoySpecialPurposeGeneralType generateBuoySpecialPurpose(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125BuoySpecialPurposeGeneralType member = new S125BuoySpecialPurposeGeneralType();
+    protected BuoySpecialPurposeGeneralType generateBuoySpecialPurpose(AtonNode atonNode) {
+        final BuoySpecialPurposeGeneralType member = new BuoySpecialPurposeGeneralType();
         final String tagKeyPrefix = "seamark:buoy_special_purpose:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:generic_buoy:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setBuoyShape(Optional.of("seamark:buoy_special_purpose:shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1003,7 +1120,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
                 .orElse(null));
-        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfconstuctions().add(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseNatureOfConstruction)
@@ -1038,8 +1155,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125GenericBuoyType.Geometry.class::isInstance)
-                .map(S125GenericBuoyType.Geometry.class::cast)
+                .filter(GenericBuoyType.Geometry.class::isInstance)
+                .map(GenericBuoyType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -1047,17 +1164,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Landmark AtoNs.
+     * Generate the S-125 Dataset member section for Landmark AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125LandmarkType generateLandmark(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LandmarkType member = new S125LandmarkType();
-        final String tagKeyPrefix = "seamark:landmark";
+    protected LandmarkType generateLandmark(AtonNode atonNode) {
+        final LandmarkType member = new LandmarkType();
+        final String tagKeyPrefix = "seamark:landmark:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:landmark:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.getCategoryOfLandmarks().addAll(Optional.of(tagKeyPrefix+"category")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1081,9 +1197,10 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().addAll(Optional.of(tagKeyPrefix+"construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
@@ -1101,7 +1218,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"conspicuity")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
@@ -1118,8 +1235,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125LandmarkType.Geometry.class::isInstance)
-                .map(S125LandmarkType.Geometry.class::cast)
+                .filter(LandmarkType.Geometry.class::isInstance)
+                .map(LandmarkType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -1127,17 +1244,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Lighthouse AtoNs.
+     * Generate the S-125 Dataset member section for Lighthouse AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125LighthouseType generateLighthouse(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LighthouseType member = new S125LighthouseType();
-        final String tagKeyPrefix = "seamark:light:";
+    protected LighthouseType generateLighthouse(AtonNode atonNode) {
+        final LighthouseType member = new LighthouseType();
+        final String tagKeyPrefix = "seamark:landmark:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:lighthouse:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.getCategoryOfLandmarks().addAll(Optional.of(tagKeyPrefix+"category")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1161,9 +1277,10 @@ public class S125DatasetBuilder {
         member.setHeight(Optional.of(s125TagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().addAll(Optional.of(tagKeyPrefix+"construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
@@ -1181,7 +1298,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseRadarConspicuous)
                 .orElse(null));
-        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
+        member.setVisuallyConspicuous(Optional.of(tagKeyPrefix+"conspicuity")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseVisuallyConspicuous)
@@ -1198,8 +1315,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125LandmarkType.Geometry.class::isInstance)
-                .map(S125LandmarkType.Geometry.class::cast)
+                .filter(LighthouseType.Geometry.class::isInstance)
+                .map(LighthouseType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -1207,17 +1324,16 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Light Vessel AtoNs.
+     * Generate the S-125 Dataset member section for Light Vessel AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125LightVesselType generateLightVessel(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LightVesselType member = new S125LightVesselType();
+    protected LightVesselType generateLightVessel(AtonNode atonNode) {
+        final LightVesselType member = new LightVesselType();
         final String tagKeyPrefix = "seamark:light_vessel:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:light_vessel:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1228,7 +1344,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_or_construction")
+        member.getNatureOfConstructions().addAll(Optional.of(s125TagKeyPrefix+"nature_of_construction")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
@@ -1263,8 +1379,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125LightVesselType.Geometry.class::isInstance)
-                .map(S125LightVesselType.Geometry.class::cast)
+                .filter(LightVesselType.Geometry.class::isInstance)
+                .map(LightVesselType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -1272,75 +1388,26 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for physical AtoNs.
+     * Generate the S-125 Dataset member section for Virtual AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125PhysicalAISAidToNavigationType generatePhysicalAISAtoN(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125PhysicalAISAidToNavigationType member = new S125PhysicalAISAidToNavigationType();
-        final String tagKeyPrefix = "seamark:radio_station:";
-        final String s125TagKeyPrefix = "s125:aidsToNavigation:ais_aid_to_navigation:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
-        member.setEstimatedRangeOfTransmission(Optional.of(s125TagKeyPrefix+"estimated_range_of_transmission")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
-        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(BigDecimal::new)
-                .orElse(null));
-        member.setObjectName(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .orElse(null));
-        member.setStatus(Optional.of("seamark:status")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S125EnumParser::parseStatus)
-                .orElse(null));
-
-        // Now fix the geometry...
-        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
-                        member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
-                )
-                .stream()
-                .filter(S125PhysicalAISAidToNavigationType.Geometry.class::isInstance)
-                .map(S125PhysicalAISAidToNavigationType.Geometry.class::cast)
-                .forEach(member.getGeometries()::add);
-
-        // And return the populated member
-        return member;
-    }
-
-    /**
-     * Generate the S-125 dataset member section for Virtual AtoNs.
-     *
-     * @param datasetInfo   The dataset information
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
-     */
-    protected S125VirtualAISAidToNavigationType generateVirtualAtoN(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125VirtualAISAidToNavigationType member = new S125VirtualAISAidToNavigationType();
+    protected VirtualAISAidToNavigationType generateVirtualAtoN(AtonNode atonNode) {
+        final VirtualAISAidToNavigationType member = new VirtualAISAidToNavigationType();
         final String tagKeyPrefix = "seamark:radio_station:";
         final String s125TagKeyPrefix = "s125:aidsToNavigation:virtual_ais_aid_to_navigation:";
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setEstimatedRangeOfTransmission(Optional.of(s125TagKeyPrefix+"estimated_range_of_transmission")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigInteger::new)
                 .orElse(null));
         member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigInteger::new)
                 .orElse(null));
         member.setObjectName(Optional.of("seamark:name")
@@ -1361,7 +1428,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(v -> v.replace(" ", "_"))
                 .map(S125EnumParser::parseVirtualAisAidToNavigationType)
-                .orElse(S125CategoryOfVirtualAISAidToNavigation.SPECIAL_PURPOSE));
+                .orElse(VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE));
 
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
@@ -1369,8 +1436,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125VirtualAISAidToNavigationType.Geometry.class::isInstance)
-                .map(S125VirtualAISAidToNavigationType.Geometry.class::cast)
+                .filter(VirtualAISAidToNavigationType.Geometry.class::isInstance)
+                .map(VirtualAISAidToNavigationType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -1378,22 +1445,174 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Generate the S-125 dataset member section for Light AtoNs.
+     * Generate the S-125 Dataset member section for Daymark AtoNs.
      *
-     * @param datasetInfo   The dataset information
      * @param atonNode      The AtoN node to be used for the member
-     * @return The S-125 dataset member section generated
+     * @return The S-125 Dataset member section generated
      */
-    protected S125LightType generateLight(S125DatasetInfo datasetInfo, AtonNode atonNode) {
-        final S125LightType member = new S125LightType();
-        final String tagKeyPrefix = atonNode.getTags()
+    protected DaymarkType generateDaymark(AtonNode atonNode) {
+        final DaymarkType member = new DaymarkType();
+        final String tagKeyPrefix = "seamark:daymark:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:daymark:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.setCategoryOfSpecialPurposeMark(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseCategoryOfSpecialPurposeMark)
+                .orElse(null));
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getNatureOfConstructions().addAll(Optional.of(tagKeyPrefix+"nature_of_construction")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseNatureOfConstruction))
+                .orElse(Collections.emptyList()));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+        member.setTopmarkDaymarkShape(Optional.of(tagKeyPrefix + "shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseTopmarkDaymarkShape)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
                 .stream()
-                .filter(t -> t.getK().startsWith("seamark:light:"))
-                .findFirst()
-                .map(AtonTag::getK)
-                .map(s -> s.substring(0, s.lastIndexOf(":")+1))
-                .orElse("seamark:light");
-        this.populateS125AidsToNavigationFields(member, datasetInfo, atonNode);
+                .filter(DaymarkType.Geometry.class::isInstance)
+                .map(DaymarkType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Environment Observation
+     * Equipment Type AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected EnvironmentObservationEquipmentType generateEnvironmentObservationEquipment(AtonNode atonNode) {
+        final EnvironmentObservationEquipmentType member = new EnvironmentObservationEquipmentType();
+        final String tagKeyPrefix = "seamark:platform:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:environment_observation_equipment:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+        member.setHeight(Optional.of(tagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getTypeOfEnvironmentObservationEquipments().addAll(Optional.of(s125TagKeyPrefix + "type")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                 .map(t -> t.split(","))
+                .map(Arrays::asList)
+                .orElse(Collections.emptyList()));
+        member.setTypeOfBattery(Optional.of(s125TagKeyPrefix + "type_of_battery")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(EnvironmentObservationEquipmentType.Geometry.class::isInstance)
+                .map(EnvironmentObservationEquipmentType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Fog Signal Type AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected FogSignalType generateFogSignal(AtonNode atonNode) {
+        final FogSignalType member = new FogSignalType();
+        final String tagKeyPrefix = "seamark:fog_signal:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:fog_signal:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+        member.setCategoryOfFogSignal(Optional.of(tagKeyPrefix + "category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseFogSignalCategory)
+                .orElse(null));
+        member.setSignalSequence(Optional.of(s125TagKeyPrefix+"signal_sequence")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(FogSignalType.Geometry.class::isInstance)
+                .map(FogSignalType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Light AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected LightType generateLight(AtonNode atonNode) {
+        final LightType member = new LightType();
+        final String tagKeyPrefix = "seamark:light:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:light:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
         member.setColour(Optional.of(tagKeyPrefix+"colour")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1415,11 +1634,12 @@ public class S125DatasetBuilder {
         member.setExhibitionConditionOfLight(Optional.of(tagKeyPrefix+"exhibition")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .map(v -> {try {return S125ExhibitionConditionOfLight.fromValue(v + " light");} catch (Exception ex) {return null;}})
+                .map(v -> {try {return ExhibitionConditionOfLightType.fromValue(v + " light");} catch (Exception ex) {return null;}})
                 .orElse(null));
         member.setHeight(Optional.of(tagKeyPrefix+"height")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
         member.setLightCharacteristic(Optional.of(tagKeyPrefix+"character")
@@ -1430,19 +1650,21 @@ public class S125DatasetBuilder {
         member.getLightVisibilities().add(Optional.of(tagKeyPrefix+"visibility")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .map(v -> {try {return S125LightVisibility.fromValue(v);} catch (Exception ex) {return null;}})
+                .map(v -> {try {return LightVisibilityType.fromValue(v);} catch (Exception ex) {return null;}})
                 .orElse(null));
-        member.setOrientation(Optional.of(tagKeyPrefix+"orientation")
+        member.setOrientation(Optional.of(s125TagKeyPrefix+"orientation")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
-                .orElse(BigDecimal.ONE));
+                .orElse(null));
         member.setMultiplicityOfLights(Optional.of(tagKeyPrefix+"multiple")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigInteger::new)
                 .orElse(BigInteger.ONE));
-        member.setSignalPeriod(Optional.of(tagKeyPrefix+"group")
+        member.setSignalGroup(Optional.of(tagKeyPrefix+"group")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .orElse(null));
@@ -1458,6 +1680,7 @@ public class S125DatasetBuilder {
         member.setValueOfNominalRange(Optional.of(tagKeyPrefix+"range")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
 
@@ -1467,8 +1690,8 @@ public class S125DatasetBuilder {
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
                 )
                 .stream()
-                .filter(S125LightType.Geometry.class::isInstance)
-                .map(S125LightType.Geometry.class::cast)
+                .filter(LightType.Geometry.class::isInstance)
+                .map(LightType.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member
@@ -1476,22 +1699,312 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * Many of the fields in the S125 dataset features are common, i.e. they
+     * Generate the S-125 Dataset member section for Radar Reflector AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected RadarReflectorType generateRadarReflector(AtonNode atonNode) {
+        final RadarReflectorType member = new RadarReflectorType();
+        final String tagKeyPrefix = "seamark:radar_reflector:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:radar_reflector:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+        member.setHeight(Optional.of(tagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(RadarReflectorType.Geometry.class::isInstance)
+                .map(RadarReflectorType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Retro Reflector AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected RetroReflectorType generateRetroReflector(AtonNode atonNode) {
+        final RetroReflectorType member = new RetroReflectorType();
+        final String tagKeyPrefix = "seamark:retro_reflector:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:retro_reflector:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.getColours().addAll(Optional.of(s125TagKeyPrefix+"colours")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(s125TagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseMarksNavigationalSystemOf)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(RetroReflectorType.Geometry.class::isInstance)
+                .map(RetroReflectorType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Silo and Tank AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected SiloTankType generateSiloTank(AtonNode atonNode) {
+        final SiloTankType member = new SiloTankType();
+        final String tagKeyPrefix = "seamark:tank:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:silo_tank:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.setBuildingShape(Optional.of(tagKeyPrefix+"shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseBuildingShape)
+                .orElse(null));
+        member.setCategoryOfSiloTank(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseSiloTankCategory)
+                .orElse(null));
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setRadarConspicuous(Optional.of(s125TagKeyPrefix+"radar_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseRadarConspicuous)
+                .orElse(null));
+        member.setVisuallyConspicuous(Optional.of(s125TagKeyPrefix+"visually_conspicuous")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseVisuallyConspicuous)
+                .orElse(null));
+        member.setHeight(Optional.of(s125TagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(SiloTankType.Geometry.class::isInstance)
+                .map(SiloTankType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Topmark AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected TopmarkType generateTopmark(AtonNode atonNode) {
+        final TopmarkType member = new TopmarkType();
+        final String tagKeyPrefix = "seamark:topmark:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:topmark:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))
+                .orElse(Collections.emptyList()));
+        member.getColourPatterns().addAll(Optional.of(tagKeyPrefix+"colour_pattern")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
+                .orElse(Collections.emptyList()));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+        member.setTopmarkDaymarkShape(Optional.of(tagKeyPrefix + "shape")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseTopmarkDaymarkShape)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(TopmarkType.Geometry.class::isInstance)
+                .map(TopmarkType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Radio Station AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected RadioStationType generateRadioStation(AtonNode atonNode) {
+        final RadioStationType member = new RadioStationType();
+        final String tagKeyPrefix = "seamark:radio_station:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:radio_station:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.setCategoryOfRadioStation(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseRadioStationCategory)
+                .orElse(null));
+        member.setStatus(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseStatus)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(TopmarkType.Geometry.class::isInstance)
+                .map(TopmarkType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for physical AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected PhysicalAISAidToNavigationType generatePhysicalAISAtoN(AtonNode atonNode) {
+        final PhysicalAISAidToNavigationType member = new PhysicalAISAidToNavigationType();
+        final String tagKeyPrefix = "seamark:radio_station:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:ais_aid_to_navigation:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.setEstimatedRangeOfTransmission(Optional.of(s125TagKeyPrefix+"estimated_range_of_transmission")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setObjectName(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setObjectNameInNationalLanguage(Optional.of("seamark:name")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setStatus(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseStatus)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(PhysicalAISAidToNavigationType.Geometry.class::isInstance)
+                .map(PhysicalAISAidToNavigationType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Many of the fields in the S125 Dataset features are common, i.e. they
      * are shared between all structure and equipment types. Therefore this
      * helper function can be used to populated them easily for each type.
      *
      * @param member            The S-125 databaset member
-     * @param datasetInfo       The general S-125 dataset information
      * @param atonNode          The AtoN node to populate the information from
      * @param <R> the type of class of the AtoN feature to be populated
      */
-    public <R extends S125AidsToNavigationType> void populateS125AidsToNavigationFields(R member, S125DatasetInfo datasetInfo, AtonNode atonNode) {
+    public <R extends AidsToNavigationType> void populateS125AidsToNavigationFields(R member, AtonNode atonNode) {
         // First read the AtoN type information from the input
         final S125AtonTypes atonType = S125AtonTypes.fromSeamarkType(atonNode.getTagValue(TAG_ATON_TYPE));
         final String s125TagKeyPrefix = "s125:aidsToNavigation:";
 
         // Now populate the fields
-        member.setId(this.generateId());
+        member.setId(this.generateId(atonNode.getId()));
         member.setBoundedBy(this.generateBoundingShape(Collections.singletonList(atonNode)));
         member.setAtonNumber(Optional.of("mrn")
                 .map(atonNode::getTag)
@@ -1539,8 +2052,109 @@ public class S125DatasetBuilder {
         member.setScaleMinimum(Optional.of(s125TagKeyPrefix+"scale_minimum")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
                 .map(BigInteger::new)
-                .orElse(BigInteger.ONE));
+                .orElse(null));
+
+        // Also process the child and parent links
+        processAidsToNavigationTypeRelationships(member, atonNode);
+    }
+
+    /**
+     * This helper function will handle the parent-child relationships between
+     * the AtoN node entries included in the dataset. It will use the member
+     * type to identify if this is a parent or child entry, and then with the
+     * help of the ID maps will either generate a new ID for the linked
+     * elements or will use the already generated ones.
+     *
+     * @param member        The member entry of the dataset to assign the link
+     * @param atonNode      The AtoN node which contains the links
+     * @return the updated dataset member entry
+     */
+    protected AidsToNavigationType processAidsToNavigationTypeRelationships(AidsToNavigationType member, AtonNode atonNode) {
+        // If this is a structure try to populate its child references
+        if(member instanceof StructureObjectType) {
+            ((StructureObjectType)member).setchildren(atonNode.getChildren().stream()
+                    .map(child -> {
+                        ReferenceType referenceType = new ReferenceType();
+                        referenceType.setHref("#" + generateId(child.getId()));
+                        referenceType.setRole("child");
+                        referenceType.setArcrole(CHILD_REF_ARCHOLE);
+                        return referenceType;
+                    })
+                    .collect(Collectors.toList()));
+        }
+
+        // If this is an equipment try to populate its parent references
+        if(member instanceof EquipmentType) {
+            ReferenceType referenceType = new ReferenceType();
+            referenceType.setHref("#" + generateId(atonNode.getParent().getId()));
+            referenceType.setRole("parent");
+            referenceType.setArcrole(PARENT_REF_ARCHOLE);
+            ((EquipmentType)member).setParent(referenceType);
+        }
+
+        return member;
+    }
+
+    /**
+     * Based on the provided AtoN link information this function will generate
+     * the appropriate S-125 aggregation link XML entry.
+     *
+     * @param atonLink      The AtoN link to generate the aggregation for
+     * @return the generate aggregation link entry
+     */
+    protected AggregationType generateAggregation(AtonLink atonLink) {
+        // Sanity Check
+        if(atonLink.getLinkCategory().getAtonLinkType() != AtonLinkType.AGGREGATION) {
+            return null;
+        }
+
+        // Otherwise create the aggregation
+        AggregationType aggregationType = new AggregationType();
+        aggregationType.setCategoryOfAggregation(CategoryOfAggregationType.fromValue(atonLink.getLinkCategory().getValue()));
+        aggregationType.setPeers(atonLink.getPeers().stream()
+                .map(peer -> {
+                    ReferenceType referenceType = new ReferenceType();
+                    referenceType.setHref("#" + generateId(peer.getId()));
+                    referenceType.setRole("aggregation");
+                    referenceType.setArcrole(AGGREGATION_REF_ARCHOLE);
+                    return referenceType;
+                })
+                .collect(Collectors.toList()));
+
+        // And return the result
+        return aggregationType;
+    }
+
+    /**
+     * Based on the provided AtoN link information this function will generate
+     * the appropriate S-125 association link XML entry.
+     *
+     * @param atonLink      The AtoN link to generate the association for
+     * @return the generate association link entry
+     */
+    protected AssociationType generateAssociation(AtonLink atonLink) {
+        // Sanity Check
+        if(atonLink.getLinkCategory().getAtonLinkType() != AtonLinkType.ASSOCIATION) {
+            return null;
+        }
+
+        // Otherwise create the association
+        AssociationType associationType = new AssociationType();
+        associationType.setCategoryOfAssociation(CategoryOfAssociationType.fromValue(atonLink.getLinkCategory().getValue()));
+        associationType.setPeers(atonLink.getPeers().stream()
+                .map(peer -> {
+                    ReferenceType referenceType = new ReferenceType();
+                    referenceType.setHref("#" + generateId(peer.getId()));
+                    referenceType.setRole("association");
+                    referenceType.setArcrole(ASSOCIATION_REF_ARCHOLE);
+                    return referenceType;
+                })
+                .collect(Collectors.toList()));
+
+        // And return the result
+        return associationType;
     }
 
     /**
@@ -1590,7 +2204,7 @@ public class S125DatasetBuilder {
         polygonPatchType.setExterior(abstractRingPropertyType);
         patches.getAbstractSurfacePatches().add(this.opengisGMLFactory.createPolygonPatch(polygonPatchType));
         surfaceType.setPatches(patches);
-        surfaceType.setId(this.generateId());
+        surfaceType.setId(this.generateId(null));
         surfaceProperty.setSurface(surfaceType);
 
         // And return the output
@@ -1619,7 +2233,7 @@ public class S125DatasetBuilder {
         lineStringSegmentType.setPosList(posList);
         segments.getAbstractCurveSegments().add(this.opengisGMLFactory.createLineStringSegment(lineStringSegmentType));
         curveType.setSegments(segments);
-        curveType.setId(this.generateId());
+        curveType.setId(this.generateId(null));
         curveProperty.setCurve(curveType);
 
         // And return the output
@@ -1644,7 +2258,7 @@ public class S125DatasetBuilder {
 
         // Populate the elements
         pointType.setPos(pos);
-        pointType.setId(this.generateId());
+        pointType.setId(this.generateId(null));
         pointProperty.setPoint(pointType);
 
         // And return the output
@@ -1652,7 +2266,7 @@ public class S125DatasetBuilder {
     }
 
     /**
-     * For easy generation of the bounding shapes for the dataset or individual
+     * For easy generation of the bounding shapes for the Dataset or individual
      * features, we are using this function.
      *
      * @param atonNodes     The AtoN nodes to generate the bounding shape from
@@ -1700,12 +2314,27 @@ public class S125DatasetBuilder {
 
     /**
      * A helper function that is used to generate a homogenous set of IDs for
-     * the S-125 dataset.
+     * the S-125 Dataset.
      *
+     * @param id    The ID of the element used to generate the dataset ID
      * @return the generated ID string
      */
-    protected String generateId() {
-        return String.format("ID%03d", this.idIndex.getAndIncrement());
+    protected String generateId(Integer id) {
+        // If an element ID was provided add it in the maps for a lookup
+        if(id != null && this.idMap.containsKey(id)) {
+            return this.idMap.get(id);
+        }
+
+        // Generate a new dataset ID
+        final String datasetId = String.format(this.idFormat, this.idIndex.getAndIncrement());
+
+        // If again we have an element ID, add the generated value to the lookup maps
+        if(id != null) {
+            this.idMap.put(id, datasetId);
+        }
+
+        // And return the output
+        return datasetId;
     }
 
 }

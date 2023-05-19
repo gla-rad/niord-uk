@@ -72,16 +72,18 @@ public enum S125AtonTypes {
             "Supplementary Information",
             "Special Purpose Buoy"
     }),
-    LANDMARK("landmark", "Cardinal Beacon", false, new String[] {
+    LANDMARK("landmark", "Landmark", false, new String[] {
             "Supplementary Information",
             "Landmarks in General"
     }),
     LIGHTHOUSE_MAJOR("light_major", "Lighthouse - Major", false, new String[] {
             "Supplementary Information",
+            "Landmarks in General",
             "Major and Minor Lights (P1)"
     }),
     LIGHTHOUSE_MINOR("light_minor", "Lighthouse - Minor", false, new String[] {
             "Supplementary Information",
+            "Landmarks in General",
             "Major and Minor Lights (P1)"
     }),
     LIGHT_VESSEL("light_vessel", "Light Vessel", false, new String[] {
