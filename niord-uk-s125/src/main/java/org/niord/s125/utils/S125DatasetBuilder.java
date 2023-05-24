@@ -2077,6 +2077,7 @@ public class S125DatasetBuilder {
             ((StructureObjectType)member).setchildren(atonNode.getChildren().stream()
                     .map(child -> {
                         ReferenceType referenceType = new ReferenceType();
+                        referenceType.setTitle(child.getAtonUid());
                         referenceType.setHref("#" + generateId(child.getId()));
                         referenceType.setRole("child");
                         referenceType.setArcrole(CHILD_REF_ARCHOLE);
@@ -2088,6 +2089,7 @@ public class S125DatasetBuilder {
         // If this is an equipment try to populate its parent references
         if(member instanceof EquipmentType) {
             ReferenceType referenceType = new ReferenceType();
+            referenceType.setTitle(atonNode.getParent().getAtonUid());
             referenceType.setHref("#" + generateId(atonNode.getParent().getId()));
             referenceType.setRole("parent");
             referenceType.setArcrole(PARENT_REF_ARCHOLE);
@@ -2112,10 +2114,12 @@ public class S125DatasetBuilder {
 
         // Otherwise create the aggregation
         AggregationType aggregationType = new AggregationType();
+        aggregationType.setId(this.generateId(null));
         aggregationType.setCategoryOfAggregation(CategoryOfAggregationType.fromValue(atonLink.getLinkCategory().getValue()));
         aggregationType.setPeers(atonLink.getPeers().stream()
                 .map(peer -> {
                     ReferenceType referenceType = new ReferenceType();
+                    referenceType.setTitle(peer.getAtonUid());
                     referenceType.setHref("#" + generateId(peer.getId()));
                     referenceType.setRole("aggregation");
                     referenceType.setArcrole(AGGREGATION_REF_ARCHOLE);
@@ -2142,10 +2146,12 @@ public class S125DatasetBuilder {
 
         // Otherwise create the association
         AssociationType associationType = new AssociationType();
+        associationType.setId(this.generateId(null));
         associationType.setCategoryOfAssociation(CategoryOfAssociationType.fromValue(atonLink.getLinkCategory().getValue()));
         associationType.setPeers(atonLink.getPeers().stream()
                 .map(peer -> {
                     ReferenceType referenceType = new ReferenceType();
+                    referenceType.setTitle(peer.getAtonUid());
                     referenceType.setHref("#" + generateId(peer.getId()));
                     referenceType.setRole("association");
                     referenceType.setArcrole(ASSOCIATION_REF_ARCHOLE);
