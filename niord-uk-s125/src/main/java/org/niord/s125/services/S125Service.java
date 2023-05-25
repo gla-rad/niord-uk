@@ -27,10 +27,7 @@ import org.niord.s125.utils.S125DatasetBuilder;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;
@@ -63,6 +60,8 @@ public class S125Service {
     public String generateGML(String language, String gmlDatasetId, String... atonUIDs) throws Exception {
         // Try to access the AtoN
         final List<AtonNode> atonNodes = this.atonService.findByAtonUids(atonUIDs);
+
+        // Iterate through the AtoN links and pick up all references
         this.iterativeLinkRetrieval(atonNodes);
 
         // Validate the AtoN
@@ -87,21 +86,22 @@ public class S125Service {
      */
     protected void iterativeLinkRetrieval(List<AtonNode> atonNodes) {
         // Get the linked AtoN nodes to be appended
-        final List<AtonNode> appended = atonNodes.stream()
+        final Set<AtonNode> appended = atonNodes.stream()
                 .map(AtonNode::getLinks)
                 .flatMap(Set::stream)
                 .map(AtonLink::getPeers)
                 .flatMap(Set::stream)
                 .filter(not(atonNodes::contains))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
         // If there are appended node, iterate through those as well
         if(appended.size() > 0) {
-            iterativeLinkRetrieval(appended);
-        }
+            // Append the results to the original list
+            atonNodes.addAll(appended);
 
-        // And append the results to the original list
-        atonNodes.addAll(appended);
+            // And iterate again
+            iterativeLinkRetrieval(atonNodes);
+        }
     }
 
 }
