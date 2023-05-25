@@ -18,6 +18,7 @@ package org.niord.s125.services;
 
 import org.grad.eNav.s125.utils.S125Utils;
 import org.niord.core.NiordApp;
+import org.niord.core.aton.AtonLink;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
 import org.niord.s125.models.S125DatasetInfo;
@@ -26,8 +27,13 @@ import org.niord.s125.utils.S125DatasetBuilder;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.function.Predicate.not;
 
 /**
  * The S-125 Service
@@ -56,18 +62,46 @@ public class S125Service {
      */
     public String generateGML(String language, String gmlDatasetId, String... atonUIDs) throws Exception {
         // Try to access the AtoN
-        List<AtonNode> atonNodes = this.atonService.findByAtonUids(atonUIDs);
+        final List<AtonNode> atonNodes = this.atonService.findByAtonUids(atonUIDs);
+        this.iterativeLinkRetrieval(atonNodes);
 
         // Validate the AtoN
-        if (atonNodes == null || atonNodes.isEmpty()) {
-            throw new IllegalArgumentException("No AtoN not found for UIDs: " + atonUIDs);
+        if (atonNodes.isEmpty()) {
+            throw new IllegalArgumentException("No AtoN not found for UIDs: " + Arrays.toString(atonUIDs));
         }
 
         // Use the utilities to translate the AtoN node to an S-125 dataset
-        return Optional.ofNullable(atonNodes)
+        return Optional.of(atonNodes)
                 .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(gmlDatasetId, app.getOrganisation(), l), l))
                 .map(d -> {try {return S125Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
                 .orElse(null);
+    }
+
+    /**
+     * This is a small helper function that iterates over the provided list
+     * of AtoN nodes and will pick up the included links in order to append
+     * them to the provided list. This way we can construct a dataset with
+     * all the AtoN nodes that are applicable.
+     *
+     * @param atonNodes the AtoN nodes list to be iterated through
+     */
+    protected void iterativeLinkRetrieval(List<AtonNode> atonNodes) {
+        // Get the linked AtoN nodes to be appended
+        final List<AtonNode> appended = atonNodes.stream()
+                .map(AtonNode::getLinks)
+                .flatMap(Set::stream)
+                .map(AtonLink::getPeers)
+                .flatMap(Set::stream)
+                .filter(not(atonNodes::contains))
+                .collect(Collectors.toList());
+
+        // If there are appended node, iterate through those as well
+        if(appended.size() > 0) {
+            iterativeLinkRetrieval(appended);
+        }
+
+        // And append the results to the original list
+        atonNodes.addAll(appended);
     }
 
 }
