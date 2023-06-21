@@ -15,7 +15,15 @@
  */
 package org.niord.importer.aton;
 
-import org.apache.commons.fileupload.FileItem;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.vo.AtonNodeVo;
 import org.niord.core.aton.vo.AtonOsmVo;
@@ -26,24 +34,22 @@ import org.niord.core.sequence.Sequence;
 import org.niord.core.sequence.SequenceService;
 import org.niord.core.user.Roles;
 import org.niord.core.user.UserService;
-import org.niord.importer.aton.batch.AbstractDkAtonImportProcessor;
+import org.niord.core.util.WebUtils;
+import org.niord.importer.aton.batch.AbstractUkAtonImportProcessor;
 import org.slf4j.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import javax.ws.rs.core.MultivaluedMap;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,46 +83,55 @@ public class AtonImportRestService {
     /**
      * Imports an uploaded AtoN Excel file
      *
-     * @param request the servlet request
+     * @param input the multi-part form input
      * @return a status
      */
     @POST
     @Path("/upload-xls")
+    @RequestBody(
+            content = @Content(
+                    mediaType = MediaType.MULTIPART_FORM_DATA,
+                    schema = @Schema(implementation = org.niord.core.model.MultipartBody.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.TEXT_PLAIN,
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Operation(description = "Performs the import operations from the AtoN xls/xlsx data files.")
     @RolesAllowed(Roles.ADMIN)
-    public String importXls(@Context HttpServletRequest request) throws Exception {
+    public String importXls(@Parameter(hidden = true) @MultipartForm MultipartFormDataInput input) throws Exception {
 
-        List<FileItem> items = repositoryService.parseFileUploadRequest(request);
+        // Initialise the form parsing parameters
+        final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+        final List<String> fileNames = new ArrayList<>();
+        final StringBuilder txt = new StringBuilder();
 
-        StringBuilder txt = new StringBuilder();
-
-        for (FileItem item : items) {
-            if (!item.isFormField()) {
-                String name = item.getName().toLowerCase();
+        // Process the uploaded files
+        final List<InputPart> inputParts = uploadForm.get("file");
+        for (InputPart inputPart : inputParts) {
+            try {
+                final MultivaluedMap<String, String> header = inputPart.getHeaders();
+                final String name = WebUtils.getFileName(header).toLowerCase();
+                final InputStream inputStream = inputPart.getBody(InputStream.class, null);
 
                 // AtoN Import
-                if (name.startsWith("afmmyndighed_table") && name.endsWith(".xls")) {
-                    importAtoN(item.getInputStream(), item.getName(), txt);
+                if (name.startsWith("aton") && (name.endsWith(".xls") || name.endsWith(".xlsx"))) {
+                    importAtoN(inputStream, name, txt);
 
-                } else if (name.startsWith("fyr") && name.endsWith(".xls")) {
-                    importLights(item.getInputStream(), item.getName(), txt);
-
-                } else if (name.startsWith("ais") && name.endsWith(".xls")) {
-                    importAis(item.getInputStream(), item.getName(), txt);
-
-                } else if (name.startsWith("dgps") && name.endsWith(".xls")) {
-                    importDgps(item.getInputStream(), item.getName(), txt);
-
-                } else if (name.startsWith("racon") && name.endsWith(".xls")) {
-                    importRacons(item.getInputStream(), item.getName(), txt);
                 }
+            } catch (Exception ex) {
+                log.error(ex.getMessage());
             }
         }
 
         return txt.toString();
     }
-
 
     /**
      * Extracts the AtoNs from the Excel sheet
@@ -129,107 +144,22 @@ public class AtonImportRestService {
 
         // Start batch job to import AtoNs
         batchService.startBatchJobWithDataFile(
-                "dk-aton-import",
+                "uk-aton-import",
                 inputStream,
                 fileName,
                 initBatchProperties());
 
-        log.info("Started 'dk-aton-import' batch job with file " + fileName);
-        txt.append("Started 'dk-aton-import' batch job with file ").append(fileName);
+        log.info("Started 'uk-aton-import' batch job with file " + fileName);
+        txt.append("Started 'uk-aton-import' batch job with file ").append(fileName);
     }
-
-
-    /**
-     * Extracts the lights from the Excel sheet
-     * @param inputStream the Excel sheet input stream
-     * @param fileName the name of the PDF file
-     * @param txt a log of the import
-     */
-    private void importLights(InputStream inputStream, String fileName, StringBuilder txt) throws Exception {
-        log.info("Extracting Lights from Excel sheet " + fileName);
-
-        // Start batch job to import AtoNs
-        batchService.startBatchJobWithDataFile(
-                "dk-light-import",
-                inputStream,
-                fileName,
-                initBatchProperties());
-
-        log.info("Started 'dk-light-import' batch job with file " + fileName);
-        txt.append("Started 'dk-light-import' batch job with file ").append(fileName);
-    }
-
-    /**
-     * Extracts the AIS from the Excel sheet
-     * @param inputStream the Excel sheet input stream
-     * @param fileName the name of the PDF file
-     * @param txt a log of the import
-     */
-    private void importAis(InputStream inputStream, String fileName, StringBuilder txt) throws Exception {
-        log.info("Extracting AIS from Excel sheet " + fileName);
-
-        // Start batch job to import AtoNs
-        batchService.startBatchJobWithDataFile(
-                "dk-ais-import",
-                inputStream,
-                fileName,
-                initBatchProperties());
-
-        log.info("Started 'dk-ais-import' batch job with file " + fileName);
-        txt.append("Started 'dk-ais-import' batch job with file ").append(fileName);
-    }
-
-
-    /**
-     * Extracts the DGPS transmitters from the Excel sheet
-     * @param inputStream the Excel sheet input stream
-     * @param fileName the name of the PDF file
-     * @param txt a log of the import
-     */
-    private void importDgps(InputStream inputStream, String fileName, StringBuilder txt) throws Exception {
-        log.info("Extracting DGPS from Excel sheet " + fileName);
-
-        // Start batch job to import AtoNs
-        batchService.startBatchJobWithDataFile(
-                "dk-dgps-import",
-                inputStream,
-                fileName,
-                initBatchProperties());
-
-        log.info("Started 'dk-dgps-import' batch job with file " + fileName);
-        txt.append("Started 'dk-dgps-import' batch job with file ").append(fileName);
-    }
-
-
-    /**
-     * Extracts the RACONs from the Excel sheet
-     * @param inputStream the Excel sheet input stream
-     * @param fileName the name of the PDF file
-     * @param txt a log of the import
-     */
-    private void importRacons(InputStream inputStream, String fileName, StringBuilder txt) throws Exception {
-        log.info("Extracting RACONS from Excel sheet " + fileName);
-
-        // Start batch job to import AtoNs
-        batchService.startBatchJobWithDataFile(
-                "dk-racon-import",
-                inputStream,
-                fileName,
-                initBatchProperties());
-
-        log.info("Started 'dk-racon-import' batch job with file " + fileName);
-        txt.append("Started 'dk-racon-import' batch job with file ").append(fileName);
-    }
-
 
     /** Initializes the properties to use with the batch data */
     private Map<String, Object> initBatchProperties() {
         int changeset = (int)sequenceService.nextValue(AFM_SEQUENCE);
         Map<String, Object> properties = new HashMap<>();
-        properties.put(AbstractDkAtonImportProcessor.CHANGE_SET_PROPERTY, changeset);
+        properties.put(AbstractUkAtonImportProcessor.CHANGE_SET_PROPERTY, changeset);
         return properties;
     }
-
 
     /** Converts the list of AtoNs to an OSM Json representation **/
     private AtonOsmVo toOsm(List<AtonNode> atons) {
@@ -239,22 +169,6 @@ public class AtonImportRestService {
                 .map(AtonNode::toVo)
                 .toArray(AtonNodeVo[]::new));
         return osm;
-    }
-
-    /** Prints the result to the command line */
-    private void printResult(List<AtonNode> atons) {
-
-        AtonOsmVo osm = toOsm(atons);
-
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(AtonOsmVo.class);
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(osm, System.out);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
     }
 
 }

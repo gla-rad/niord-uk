@@ -29,9 +29,9 @@ import java.util.regex.Pattern;
 import static org.niord.importer.aton.batch.LightSeamark.Character.*;
 
 /**
- * Parses the light specs of the DK AtoN light list
+ * Parses the light specs of the UK AtoN light list
  */
-public class DkLightParser {
+public class UkLightParser {
 
     public static String LIGHT_PHASES = "FFl|LFl|Fl|F|IVQ|VQ|IQ|IUQ|UQ|Q|Iso|Oc|Al|Mo|Gr";
 
@@ -39,20 +39,21 @@ public class DkLightParser {
 
     public static Pattern LIGHT_CHARACTER_FORMAT = Pattern.compile(
             "^" +
-            "(?<multiple>\\d+[ ]+)?" +
-            "(?<phase>(" + LIGHT_PHASES + ")([\\. +]?(" + LIGHT_PHASES + "))*)[\\. ]?" +
-            "(?<group>\\(\\w+(\\+\\w+)*\\))?[\\. ]?" +
-            "(?<colors>(" + LIGHT_COLORS + ")([\\. ]?(" + LIGHT_COLORS + "))*)?[\\. ]?" +
+            "(?<multiple>\\d+\\s+)?" +
+            "(?<phase>(" + LIGHT_PHASES + "))[. ]?" +
+            "(?<group>\\(\\w+(\\+\\w+)*\\))?[. ]?" +
+            "(?<additional>([+]?[. ]?(" + LIGHT_PHASES + "))*)?[. ]?" +
+            "(?<colors>(" + LIGHT_COLORS + ")([. ]?(" + LIGHT_COLORS + "))*)?[. ]?" +
             "(?<period>\\d+(,\\d)?[sm])?" +
             ".*$"
     );
 
-    public static Pattern LIGHT_FORMAT = Pattern.compile(
-            "[\\. ]?(?<color>" + LIGHT_COLORS + ")"
+    public static Pattern PHASE_FORMAT = Pattern.compile(
+            "[. +]?(?<phase>" + LIGHT_PHASES + ")"
     );
 
-    public static Pattern PHASE_FORMAT = Pattern.compile(
-            "[\\. +]?(?<phase>" + LIGHT_PHASES + ")"
+    public static Pattern LIGHT_FORMAT = Pattern.compile(
+            "[. ]?(?<color>" + LIGHT_COLORS + ")"
     );
 
     public static Pattern RANGE_FORMAT = Pattern.compile(
@@ -60,7 +61,7 @@ public class DkLightParser {
     );
 
     public static Pattern SECTOR_FORMAT = Pattern.compile(
-            "[\\. ]?(?<color>" + LIGHT_COLORS + ")" +
+            "[. ]?(?<color>" + LIGHT_COLORS + ")" +
                     "(?<start>\\d+(,\\d+)?)°-" +
                     "(?<end>\\d+(,\\d+)?)°"
     );
@@ -68,7 +69,7 @@ public class DkLightParser {
     /**
      * No public initialization
      */
-    private DkLightParser() {
+    private UkLightParser() {
     }
 
     /**
@@ -98,6 +99,7 @@ public class DkLightParser {
             String multipleSpec = m.group("multiple");
             String phaseSpec = m.group("phase");
             String groupSpec = m.group("group");
+            String additionalSpec = m.group("additional");
             String colorsSpec = m.group("colors");
             String periodSpec = m.group("period");
 
@@ -108,7 +110,7 @@ public class DkLightParser {
             LightSector sector = light.getSectors().get(0);
 
             // Phases
-            Matcher pm = PHASE_FORMAT.matcher(phaseSpec);
+            Matcher pm = PHASE_FORMAT.matcher(phaseSpec + additionalSpec);
             List<LightSeamark.Character> phases = new ArrayList<>();
             while (pm.find()) {
                 phases.add(valueOfLc(pm.group("phase")));

@@ -1,11 +1,11 @@
-<job id="dk-ais-import" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+<job id="uk-aton-import" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
     <listeners>
         <listener ref="batchJobListener"/>
     </listeners>
     <step id="importAtonsStep">
         <chunk item-count="10">
-            <reader ref="batchDkAisImportReader" />
-            <processor ref="batchDkAisImportProcessor"/>
+            <reader ref="batchUkAtonImportReader" />
+            <processor ref="batchUkAtonImportProcessor"/>
             <writer ref="batchAtonImportWriter" />
         </chunk>
     </step>

@@ -174,7 +174,7 @@ public class LightSeamark {
     /** Variables           **/
     /*************************/
 
-    Type type = Type.light;
+    Type type = Type.light_major;
     Category category;
     Exhibition exhibition;
     List<LightSector> sectors = new ArrayList<>();
@@ -286,8 +286,7 @@ public class LightSeamark {
         /** Checks if the light sector is valid */
         public boolean isValid() {
             return character != null &&
-                    (colours.size() > 0 ||
-                            (character == Character.Mo && group != null));
+                    (colours.size() > 0 || (character == Character.Mo && group != null));
         }
 
         /** Creates a copy of this sector **/

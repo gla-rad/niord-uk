@@ -21,6 +21,13 @@
             <version>${niord.version}</version>
         </dependency>
 
+        <!-- UK dependencies -->
+        <dependency>
+            <groupId>org.niord</groupId>
+            <artifactId>niord-uk-s125</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Read Excel files -->
         <dependency>
             <groupId>org.apache.poi</groupId>

@@ -15,10 +15,13 @@
  */
 package org.niord.importer.aton.batch;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.niord.core.batch.AbstractItemHandler;
 
 import java.io.FileInputStream;
@@ -32,7 +35,7 @@ import java.util.Map;
 /**
  * Base class for Excel-based AtoN import batch reader classes
  */
-public abstract class AbstractDkAtonImportReader extends AbstractItemHandler {
+public abstract class AbstractUkAtonImportReader extends AbstractItemHandler {
 
     Map<String, Integer> colIndex = new HashMap<>();
     Iterator<Row> rowIterator;
@@ -80,8 +83,9 @@ public abstract class AbstractDkAtonImportReader extends AbstractItemHandler {
 
             getLog().info("Reading row " + row);
             row++;
-            return new BatchDkAtonItem(colIndex, rowIterator.next());
+            return new BatchUkAtonItem(colIndex, rowIterator.next());
         }
+        getLog().info("Completed reading all " + totalRowNo + " rows.");
         return null;
     }
 
@@ -103,10 +107,11 @@ public abstract class AbstractDkAtonImportReader extends AbstractItemHandler {
     private Iterator<Row> parseHeaderRow(Path path, Map<String, Integer> colIndex, String[] fields) throws Exception {
 
         try (FileInputStream inputStream = new FileInputStream(path.toFile())) {
-            // Create Workbook instance holding reference to .xls file
-            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+            // Create Workbook instance holding reference to .xls/.xlsx file
+            final boolean xlxs = FilenameUtils.getExtension(path.getFileName().toString()).matches("xlsx");
+            final Workbook workbook = xlxs ? new XSSFWorkbook(inputStream) : new HSSFWorkbook(inputStream);
             // Get first/desired sheet from the workbook
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            final Sheet sheet = workbook.getSheetAt(0);
 
             totalRowNo = sheet.getLastRowNum();
 
@@ -119,6 +124,7 @@ public abstract class AbstractDkAtonImportReader extends AbstractItemHandler {
 
             return rowIterator;
         }
+
     }
 
 

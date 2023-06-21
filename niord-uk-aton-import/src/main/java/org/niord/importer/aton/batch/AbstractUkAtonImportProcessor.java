@@ -23,14 +23,12 @@ import org.niord.core.aton.AtonService;
 import org.niord.core.aton.batch.BatchAtonImportProcessor;
 
 import javax.inject.Inject;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Base class for Excel-based AtoN import batch processor classes
  */
-public abstract class AbstractDkAtonImportProcessor extends BatchAtonImportProcessor {
+public abstract class AbstractUkAtonImportProcessor extends BatchAtonImportProcessor {
 
     public static final String CHANGE_SET_PROPERTY = "changeSet";
 
@@ -47,7 +45,7 @@ public abstract class AbstractDkAtonImportProcessor extends BatchAtonImportProce
      */
     @Override
     protected AtonNode toAtonNode(Object item) throws Exception {
-        BatchDkAtonItem atonItem = (BatchDkAtonItem)item;
+        BatchUkAtonItem atonItem = (BatchUkAtonItem)item;
         this.row = atonItem.getRow();
         this.colIndex = atonItem.getColIndex();
 
@@ -115,6 +113,23 @@ public abstract class AbstractDkAtonImportProcessor extends BatchAtonImportProce
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /** Parses the geographical latitude/longitude into a number. */
+    Double latLonValue(String colKey) {
+        String stringValue = this.stringValue(colKey);
+        // If we actually have a valid value
+        if(stringValue != null) {
+            String[] parts = stringValue.replaceAll(" ","").split("[°']");
+            // Check that we have the three expected parts, e.g. "52 01.123 N"
+            if(parts!= null && parts.length == 3) {
+                Double degrees = Optional.of(parts[0]).map(Double::valueOf).orElse(0.0);
+                Double decimals = Optional.of(parts[1]).map(Double::valueOf).orElse(0.0);
+                int sign = Objects.equals(parts[2], "N") || Objects.equals(parts[2], "E") ? 1 : -1;
+                return sign * (degrees + decimals/60);
+            }
+        }
+        return null;
     }
 
     /** Returns the string representation of the object or null if it is undefined */
