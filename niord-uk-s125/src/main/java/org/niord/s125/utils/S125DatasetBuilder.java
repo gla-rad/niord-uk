@@ -177,6 +177,10 @@ public class S125DatasetBuilder {
     public JAXBElement<? extends AbstractFeatureType> generateAidsToNavigation(AtonNode atonNode) {
         // First read the AtoN type information from the input
         S125AtonTypes atonType = S125AtonTypes.fromSeamarkType(atonNode.getTagValue(TAG_ATON_TYPE));
+        // Fix for AIS stations
+        if(S125AtonTypes.RADIO_STATION == atonType && "ais".equals(atonNode.getTagValue("seamark:radio_station:category"))) {
+            atonType = S125AtonTypes.PHYSICAL_AIS_ATON;
+        }
         // Now initialise the JAXB object factory to generate the member
         JAXBElement<? extends AidsToNavigationType> jaxbElement =  null;
         // Handle each possible type, cause a different object should be created
@@ -220,7 +224,7 @@ public class S125DatasetBuilder {
             case LANDMARK:
                 jaxbElement = this.s125GMLFactory.createLandmark(this.generateLandmark(atonNode));
                 break;
-            case LIGHTHOUSE_MAJOR: case LIGHTHOUSE_MINOR:
+            case LIGHTHOUSE:
                 jaxbElement = this.s125GMLFactory.createLighthouse(this.generateLighthouse(atonNode));
                 break;
             case LIGHT_VESSEL:
@@ -344,7 +348,7 @@ public class S125DatasetBuilder {
                 .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -429,7 +433,7 @@ public class S125DatasetBuilder {
                 .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -515,7 +519,7 @@ public class S125DatasetBuilder {
                 .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -595,7 +599,7 @@ public class S125DatasetBuilder {
                 .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -676,7 +680,7 @@ public class S125DatasetBuilder {
                 .filter(StringUtils::isNotBlank)
                 .map(BigDecimal::new)
                 .orElse(null));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -755,7 +759,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -829,7 +833,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -903,7 +907,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -977,7 +981,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -1046,7 +1050,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -1115,7 +1119,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)
@@ -1756,7 +1760,7 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColourPattern))
                 .orElse(Collections.emptyList()));
-        member.setMarksNavigationalSystemOf(Optional.of(s125TagKeyPrefix+"marks_navigational_system_of")
+        member.setMarksNavigationalSystemOf(Optional.of(tagKeyPrefix+"system")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseMarksNavigationalSystemOf)

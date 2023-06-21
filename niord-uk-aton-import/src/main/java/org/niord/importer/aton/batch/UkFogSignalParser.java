@@ -24,9 +24,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Parses the fog signal specification of the DK AtoN light list
+ * Parses the fog signal specification of the UK AtoN light list
  */
-public class DkFogSignalParser {
+public class UkFogSignalParser {
 
     public static String FOG_CATEGORIES = Arrays.stream(Category.values())
             .map(Enum::toString)
@@ -34,7 +34,7 @@ public class DkFogSignalParser {
 
     public static Pattern FOG_SIGNAL_FORMAT = Pattern.compile(
             "^" +
-            "(?<category>" + FOG_CATEGORIES + ")[\\. ]*" +
+            "(?<category>(" + FOG_CATEGORIES + "))[\\. ]*" +
             "(?<morse>Mo\\([a-z]+\\))?[\\. ]*" +
             "(?<group>\\(\\d+\\))?[\\. ]*" +
             "(?<period>\\d+(,\\d)?[sm])?" +
@@ -55,7 +55,7 @@ public class DkFogSignalParser {
     /**
      * No public initialization
      */
-    private DkFogSignalParser() {
+    private UkFogSignalParser() {
     }
 
     /**

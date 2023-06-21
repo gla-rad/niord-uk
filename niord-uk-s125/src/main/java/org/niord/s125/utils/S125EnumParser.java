@@ -451,6 +451,7 @@ public class S125EnumParser {
             case "squared": return ColourPatternType.SQUARED;
             case "stripes": return ColourPatternType.STRIPES_DIRECTION_UNKNOWN;
             case "border": return ColourPatternType.BORDER_STRIPE;
+            case "single": return ColourPatternType.SINGLE_COLOUR;
             default: return null;
         }
     }
