@@ -119,7 +119,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
         }
 
         // And return
-        return null;
+        return aton;
     }
 
     /********************************/
