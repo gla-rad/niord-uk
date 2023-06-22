@@ -17,13 +17,11 @@
 package org.niord.s125.controllers;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.niord.s125.models.S125AtonTypes;
 import org.niord.s125.services.S125Service;
 import org.niord.s125.utils.XmlUtils;
 import org.slf4j.Logger;
@@ -35,9 +33,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A public REST API for accessing messages as S-125 GML.
@@ -63,7 +59,7 @@ public class S125RestService {
     /**
      * Returns the S-125 GML representation for multiple AtoN.
      */
-    @GET
+    @POST
     @Path("/atons")
     @Operation(
             description = "Returns S-125 GML representation for a list of AtoN UIDs." +
@@ -78,12 +74,12 @@ public class S125RestService {
     )
     @Produces({"application/gml+xml;charset=UTF-8"})
     public Response s125AtonDetails(
-            @Parameter(description = "The aton UIDs or aton ID", example = "aton-001")
-            @QueryParam("atonUID") List<String> atonUID,
             @Parameter(description = "Indentation of the XML output", example = "4")
             @QueryParam("indent") @DefaultValue("4") Integer indent,
             @Parameter(description = "Two-letter ISO 639-1 language code", example = "en")
-            @QueryParam("lang") @DefaultValue("en") String language
+            @QueryParam("lang") @DefaultValue("en") String language,
+            @Parameter(description = "The aton UIDs or aton ID", example = "[aton-001]")
+            List<String> atonUID
     ) {
 
         long t0 = System.currentTimeMillis();
