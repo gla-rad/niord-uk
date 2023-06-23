@@ -110,11 +110,14 @@ public class UkDesignCodeParser {
                     case WEST_CARDINAL:
                     case EAST_CARDINAL:
                         designCode.setShape(DesignCode.Shape.PILLAR);
+                        break;
                     case PORT_PILLAR:
                     case STARBOARD_LATERAL:
                         designCode.setShape(DesignCode.Shape.CONICAL);
+                        break;
                     default:
                         designCode.setShape(DesignCode.Shape.CAN);
+                        break;
                 }
             }
 
