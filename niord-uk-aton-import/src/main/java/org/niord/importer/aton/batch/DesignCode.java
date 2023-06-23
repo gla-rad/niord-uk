@@ -167,10 +167,9 @@ public class DesignCode {
                 case SOUTH_CARDINAL:
                 case SAFE_WATER:
                 case ISOLATED_DANGER:
-                    return "horizontal";
                 case SPECIAL_MARK:
                 case INSTALLATION:
-                    return "vertical";
+                    return "stripes";
                 default:
                     return null;
             }
