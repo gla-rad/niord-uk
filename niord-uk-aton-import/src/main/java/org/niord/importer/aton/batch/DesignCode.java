@@ -89,7 +89,7 @@ public class DesignCode {
                 case SAFE_WATER:
                     return "buoy_safe_water";
                 case SPECIAL_MARK:
-                    return "buoy_special_mark";
+                    return "buoy_special_purpose";
                 case INSTALLATION:
                     return "buoy_installation";
                 case ISOLATED_DANGER:
