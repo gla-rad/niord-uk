@@ -153,7 +153,7 @@ public class DesignCode {
         public String getColourPattern() {
             // For one colour don't bother
             if(this.getColour().split(";").length <= 1) {
-                return "stripes";
+                return "";
             }
 
             // Otherwise check by type
