@@ -109,9 +109,10 @@ public class UkDesignCodeParser {
                     case NORTH_CARDINAL:
                     case WEST_CARDINAL:
                     case EAST_CARDINAL:
+                    case PORT_PILLAR:
                         designCode.setShape(DesignCode.Shape.PILLAR);
                         break;
-                    case PORT_PILLAR:
+                    case PORT_LATERAL:
                     case STARBOARD_LATERAL:
                         designCode.setShape(DesignCode.Shape.CONICAL);
                         break;

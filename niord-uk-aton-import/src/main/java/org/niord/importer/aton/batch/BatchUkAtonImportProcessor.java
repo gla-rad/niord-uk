@@ -169,7 +169,6 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
             case LIGHT_FLOAT:
                 updateAtonTags(aton,
                         "seamark:type", "light_vessel",
-                        "seamark:${type}:category", "tower",
                         "seamark:${type}:colour", "red",
                         "seamark:${type}:colour_pattern", "vertical",
                         "seamark:${type}:height", "",
