@@ -37,8 +37,10 @@ public class BatchUkAtonImportReader extends AbstractUkAtonImportReader {
     public static final String BUOY_TYPE = "Inter-GLA Buoy Type";
     public static final String RADIO_AIDS = "Radio Aids";
     public static final String COMMENT = "Comment";
+    public static final String CONSTRUCTION = "Construction";
     public static final String DESIGN_CODE = "TH Design Code";
     public static final String MMSI = "MMSI";
+    public static final String HEIGHT = "Height";
     public static final String[] FIELDS = {
             AREA,
             NAME,
@@ -51,8 +53,10 @@ public class BatchUkAtonImportReader extends AbstractUkAtonImportReader {
             BUOY_TYPE,
             RADIO_AIDS,
             COMMENT,
+            CONSTRUCTION,
             DESIGN_CODE,
-            MMSI
+            MMSI,
+            HEIGHT
     };
 
     /** {@inheritDoc} **/
