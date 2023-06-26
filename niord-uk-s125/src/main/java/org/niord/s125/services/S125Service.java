@@ -26,6 +26,7 @@ import org.niord.s125.utils.S125DatasetBuilder;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.xml.bind.JAXBException;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +61,7 @@ public class S125Service {
      * @param atonUIDs the aton UID
      * @return the generated GML
      */
+    @Transactional
     public String generateGML(String language, String gmlDatasetId, String... atonUIDs) throws Exception {
         // Try to access the AtoN
         final List<AtonNode> atonNodes = this.atonService.findByAtonUids(atonUIDs);

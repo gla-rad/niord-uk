@@ -2092,12 +2092,17 @@ public class S125DatasetBuilder {
 
         // If this is an equipment try to populate its parent references
         if(member instanceof EquipmentType) {
-            ReferenceType referenceType = new ReferenceType();
-            referenceType.setTitle(atonNode.getParent().getAtonUid());
-            referenceType.setHref("#" + generateId(atonNode.getParent().getId()));
-            referenceType.setRole("parent");
-            referenceType.setArcrole(PARENT_REF_ARCHOLE);
-            ((EquipmentType)member).setParent(referenceType);
+            Optional.of(atonNode)
+                    .map(AtonNode::getParent)
+                    .map(parent -> {
+                        ReferenceType referenceType = new ReferenceType();
+                        referenceType.setTitle(parent.getAtonUid());
+                        referenceType.setHref("#" + generateId(parent.getId()));
+                        referenceType.setRole("parent");
+                        referenceType.setArcrole(PARENT_REF_ARCHOLE);
+                        return  referenceType;
+                    })
+                    .ifPresent(((EquipmentType)member)::setParent);
         }
 
         return member;
