@@ -22,12 +22,17 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Parses the fog design codes of the UK AtoN light list.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
+ */
 public class UkDesignCodeParser {
 
     public static Pattern DESIGN_CODE_FORMAT = Pattern.compile(
             "^" +
                     "(?<glatype>\\+?[\\dN])" +
-                    "((?<power>[S])(?<range>\\d(\\.\\d+)?+)|(?<unlit>UL))" +
+                    "((?<power>[S])(?<range>\\d+(\\.\\d+)?)|(?<unlit>UL))" +
                     "(?<type>\\S\\S)" +
                     "(?<shape>[A-Z][A-Z])?" +
                     "(/?(?<aids>([ABHR]+)))?" +
@@ -87,7 +92,7 @@ public class UkDesignCodeParser {
 
             // Range
             if (StringUtils.isNotBlank(rangeSpec)) {
-                designCode.setRange(Integer.valueOf(rangeSpec.trim()));
+                designCode.setRange(Double.valueOf(rangeSpec.trim()));
             }
 
             // Unlit

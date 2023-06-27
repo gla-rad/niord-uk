@@ -18,11 +18,25 @@ package org.niord.importer.aton.batch;
 
 import org.niord.s125.models.S125AtonTypes;
 
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 /** Each AtoN will have a combination of these values in the "Type" field **/
+
+/**
+ * The Aton Type Enum.
+ *
+ * This enumeration is used to identify botht the import spreadsheet main
+ * types but also the additional aids, so things can get a bit complicated.
+ * <p/>
+ * The main types are supposed to be the structures like lighthouses, light
+ * vessels, buoys, beacons and virtual AtoNs.
+ * <p/>
+ * The equipment however like AIS, RACON, Fog Signals etc should be added
+ * as equipment items in a master type. In the import spreadsheet however, a
+ * lighthouse be referred to as a light etc.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
+ */
 public enum AtonType {
     LIGHT("LIGHT", new S125AtonTypes[]{S125AtonTypes.LIGHT}),                           // 0: Light
     SECTOR_LIGHT("SECTOR LIGHT", new S125AtonTypes[]{S125AtonTypes.LIGHT}),             // 1: Sector Light (Basically a Light)
@@ -53,11 +67,25 @@ public enum AtonType {
 
     String type;
     S125AtonTypes[] s125AtonTypes;
+
+    /**
+     * The Enum Constructor.
+     *
+     * @param type              The name of the enum type
+     * @param s125AtonTypes     The linked S-125 AtoN Types
+     */
     AtonType(String type, S125AtonTypes[] s125AtonTypes) {
         this.type = type;
         this.s125AtonTypes = s125AtonTypes;
     }
 
+    /**
+     * Based on a provided string code, this function will match the name of
+     * the enum type and return the appropriate.
+     *
+     * @param type      The name of the enum type
+     * @return The matching enum type
+     */
     static AtonType findByCode(String type) {
         return Optional.ofNullable(type)
                 .map(String::toUpperCase)
@@ -68,44 +96,68 @@ public enum AtonType {
                 .orElse(null);
     }
 
+    /**
+     * For the master types, all light-related items can be considered as
+     * lighthouses.
+     *
+     * @return Whether the master type is a lighthouse
+     */
     public boolean isLighthouse() {
         return this == LIGHT || this == SECTOR_LIGHT || this == LIGHTHOUSE;
     }
 
+    /**
+     * For master types, all light-vessel related items are light vessels.
+     *
+     * @return Whether the master type is a light vessel
+     */
     public boolean isLightVessel() {
         return this == LIGHT_VESSEL || this == LIGHT_FLOAT;
     }
 
+    /**
+     * For master types, all buoy related items are light vessels.
+     *
+     * @return Whether the master type is a buoy
+     */
     public boolean isBuoy() {
         return this == BUOY;
     }
 
+    /**
+     * For master types, all beacon related items are beacons.
+     *
+     * @return Whether the master type is a beacon
+     */
     public boolean isBeacon() {
         return this == BEACON;
     }
 
+    /**
+     * For equipment types, all fog-signal related items are fog signals.
+     *
+     * @return Whether the equipment type is a fog signal
+     */
     public boolean isFogSignal() {
         return this == FOG_SIGNAL;
     }
 
+    /**
+     * For equipment types, all radio related items are radio.
+     *
+     * @return Whether the equipment type is a radio
+     */
     public boolean isRadio() {
          return this == DGPS || this == RACON;
     }
 
+    /**
+     * For master types, all AIS related items are virtual AtoNs.
+     *
+     * @return Whether the master type is a virtual AtoNs
+     */
     public boolean isVaton() {
         return this == AIS || this == VIRTUAL_ATON;
     }
 
-    public S125AtonTypes getS125AtonType(String subType) {
-        // Sanity check
-        if(this.s125AtonTypes == null) {
-            return null;
-        }
-        // Otherwise search for a matching subtype of simply the first
-        return Arrays.stream(this.s125AtonTypes)
-                .filter(t -> Objects.isNull(subType) || Objects.equals(subType, t.getName()))
-                .findFirst()
-                .orElse(null);
-
-    }
 }

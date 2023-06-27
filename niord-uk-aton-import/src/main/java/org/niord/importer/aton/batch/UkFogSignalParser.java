@@ -24,7 +24,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Parses the fog signal specification of the UK AtoN light list
+ * Parses the fog signal specification of the UK AtoN light list.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 public class UkFogSignalParser {
 
