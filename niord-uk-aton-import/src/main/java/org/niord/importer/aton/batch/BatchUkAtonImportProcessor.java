@@ -72,6 +72,12 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
         // and the rest need to be picked up and imported at a second stage
         // as children entries.
         AtonType masterType = AtonType.findByCode(stringValue(BatchUkAtonImportReader.TYPE));
+        // The main type cannot be equipment
+        if(masterType.isLighthouse()) {
+            masterType = AtonType.LIGHTHOUSE;
+        } else if(masterType.isVaton()) {
+            masterType = AtonType.VIRTUAL_ATON;
+        }
         Set<AtonType> equipmentTypes = new HashSet<>();
         if(StringUtils.isNotBlank(stringValue(BatchUkAtonImportReader.CHARACTER))) {
             equipmentTypes.add(AtonType.LIGHT);
@@ -396,7 +402,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
     /** AtoN Type Parsing   **/
     /*************************/
 
-    /** Parses the "KARAKNR" field into individual types **/
+    /** Parses the "Aids" field into individual types **/
     Set<AtonType> parseAidsTypes(String types) {
         // Each digit denotes a separate type
         return Arrays.stream(String.valueOf(types).split("/"))

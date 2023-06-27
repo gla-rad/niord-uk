@@ -27,7 +27,7 @@ public class UkDesignCodeParser {
     public static Pattern DESIGN_CODE_FORMAT = Pattern.compile(
             "^" +
                     "(?<glatype>\\+?[\\dN])" +
-                    "((?<power>[S])(?<range>\\d+)|(?<unlit>UL))" +
+                    "((?<power>[S])(?<range>\\d(\\.\\d+)?+)|(?<unlit>UL))" +
                     "(?<type>\\S\\S)" +
                     "(?<shape>[A-Z][A-Z])?" +
                     "(/?(?<aids>([ABHR]+)))?" +
