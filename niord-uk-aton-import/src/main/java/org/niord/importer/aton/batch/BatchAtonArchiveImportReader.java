@@ -74,6 +74,8 @@ import java.util.zip.ZipFile;
  *    }
  *  }
  * </pre>
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @Dependent
 @Named("batchAtonArchiveImportReader")

@@ -20,6 +20,11 @@ import javax.inject.Named;
 
 /**
  * Reads AtoNs from Excel.
+ * <p/>
+ * For easier use the Excel columns to be parsed are defined here as
+ * final static variables.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @Dependent
 @Named("batchUkAtonImportReader")

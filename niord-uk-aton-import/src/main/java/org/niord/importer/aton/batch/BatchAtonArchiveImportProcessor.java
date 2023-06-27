@@ -16,18 +16,16 @@
 package org.niord.importer.aton.batch;
 
 import org.niord.core.aton.AtonNode;
-import org.niord.core.aton.AtonService;
 import org.niord.core.aton.AtonTag;
 import org.niord.core.aton.batch.BatchAtonImportProcessor;
-import org.niord.core.aton.vo.AtonNodeVo;
-import org.niord.core.batch.AbstractItemHandler;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
  * Filters AtoNs that need to be added or updated.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @Dependent
 @Named("batchAtonArchiveImportProcessor")

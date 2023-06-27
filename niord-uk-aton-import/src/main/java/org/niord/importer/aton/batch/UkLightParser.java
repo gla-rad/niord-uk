@@ -29,7 +29,9 @@ import java.util.regex.Pattern;
 import static org.niord.importer.aton.batch.LightSeamark.Character.*;
 
 /**
- * Parses the light specs of the UK AtoN light list
+ * Parses the light specs of the UK AtoN light list.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 public class UkLightParser {
 

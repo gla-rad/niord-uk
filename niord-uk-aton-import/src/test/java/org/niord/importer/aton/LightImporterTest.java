@@ -153,10 +153,10 @@ public class LightImporterTest {
     public void testDesignCodeParsing() throws Exception {
         Arrays.stream(DESIGN_CODES).forEach(d -> {
             DesignCode designCode = UkDesignCodeParser.newInstance();
-            UkDesignCodeParser.parseDesignCode(designCode, d);
-            Assert.assertTrue(designCode.isValid());
 
             System.out.println("===== " + d + " =====");
+            UkDesignCodeParser.parseDesignCode(designCode, d);
+            Assert.assertTrue(designCode.isValid());
             System.out.println(designCode);
         });
     }

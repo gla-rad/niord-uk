@@ -34,6 +34,8 @@ import java.util.stream.Collectors;
  * The AtoN model adheres to the OSM seamark specification, please refer to:
  * http://wiki.openstreetmap.org/wiki/Key:seamark
  * and sub-pages.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @Dependent
 @Named("batchUkAtonImportProcessor")
@@ -134,8 +136,10 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
 
     /**
      * Generates type-specific AtoN OSM tags.
-     *
-     * Important: The light details are handled by other Excel imports.
+     * <p/>
+     * This import task handles all types including main types and equipment
+     * based on the provided type. All generated OSM tags will be added to the
+     * aton object provided.
      *
      * @see <a href="http://wiki.openstreetmap.org/wiki/Seamarks/Lights">OpenStreetMap Light definitions</a>
      * @see <a href="http://wiki.openstreetmap.org/wiki/Seamarks/Beacons">OpenStreetMap Beacon definitions</a>

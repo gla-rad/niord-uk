@@ -236,7 +236,7 @@ public class DesignCode {
     private String glaType;
     private boolean unlit;
     private PowerType powerType;
-    private Integer range;
+    private Double range;
     private Type type;
     private Shape shape;
     private Collection<Aids> aids;
@@ -257,7 +257,7 @@ public class DesignCode {
         return String.format("GLA-Type: %s, " +
                         "Unlit: %s, " +
                         "Power: %s, " +
-                        "Range: %d, " +
+                        "Range: %f, " +
                         "Type: %s, " +
                         "Shape: %s, " +
                         "Aids: %s, ",
@@ -292,11 +292,11 @@ public class DesignCode {
         this.powerType = powerType;
     }
 
-    public Integer getRange() {
+    public Double getRange() {
         return range;
     }
 
-    public void setRange(Integer range) {
+    public void setRange(Double range) {
         this.range = range;
     }
 

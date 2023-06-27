@@ -33,6 +33,8 @@ import java.util.List;
  * Dummy no-op item writer that does not persist  the item.
  *
  * Useful for development purposes.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @Dependent
 @Named("noopAtonImportItemWriter")

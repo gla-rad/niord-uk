@@ -21,6 +21,8 @@ import java.util.Map;
 
 /**
  * Encapsulates a row in an Excel sheet + an index of column indexes.
+ *
+ * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @SuppressWarnings("unused")
 public class BatchUkAtonItem {
@@ -37,18 +39,38 @@ public class BatchUkAtonItem {
         this.row = row;
     }
 
+    /**
+     * Gets col index.
+     *
+     * @return the col index
+     */
     public Map<String, Integer> getColIndex() {
         return colIndex;
     }
 
+    /**
+     * Sets col index.
+     *
+     * @param colIndex the col index
+     */
     public void setColIndex(Map<String, Integer> colIndex) {
         this.colIndex = colIndex;
     }
 
+    /**
+     * Gets row.
+     *
+     * @return the row
+     */
     public Row getRow() {
         return row;
     }
 
+    /**
+     * Sets row.
+     *
+     * @param row the row
+     */
     public void setRow(Row row) {
         this.row = row;
     }
