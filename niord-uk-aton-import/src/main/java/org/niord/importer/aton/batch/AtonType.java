@@ -65,8 +65,6 @@ public enum AtonType {
                 .map(String::trim)
                 .map(str -> str.replaceAll("\\s", "_"))
                 .map(AtonType::valueOf)
-                .map(t -> t.isLighthouse() ? AtonType.LIGHTHOUSE : t)
-                .map(t -> t.isVaton() ? AtonType.VIRTUAL_ATON : t)
                 .orElse(null);
     }
 
