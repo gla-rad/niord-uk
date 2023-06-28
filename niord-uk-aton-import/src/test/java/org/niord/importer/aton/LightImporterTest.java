@@ -62,7 +62,8 @@ public class LightImporterTest {
             "1S10SM",
             "NS1SL",
             "1S9SC-AIS/R/MH",
-            "3S4.5NC"
+            "3S4.5NC",
+            "4B4SL"
 
     };
 
