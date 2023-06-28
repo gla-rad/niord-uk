@@ -29,6 +29,7 @@ public class DesignCode {
     /** Power Types **/
     public enum PowerType {
         SOLAR("S"),
+        BATTERY("B"),
         GENERATOR("G");
 
         private String code;
