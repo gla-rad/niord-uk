@@ -56,6 +56,7 @@ public class DesignCode {
         WEST_CARDINAL("WC","west"),
         EAST_CARDINAL("EC","east"),
         SAFE_WATER("SW",""),
+        SPECIAL_PURPOSE("SP",""),
         SPECIAL_MARK("SM","warning"),
         ISOLATED_DANGER("ID",""),
         INSTALLATION("IN","floating");
@@ -89,6 +90,7 @@ public class DesignCode {
                     return "buoy_cardinal";
                 case SAFE_WATER:
                     return "buoy_safe_water";
+                case SPECIAL_PURPOSE:
                 case SPECIAL_MARK:
                     return "buoy_special_purpose";
                 case INSTALLATION:
@@ -113,6 +115,7 @@ public class DesignCode {
                     return "beacon_cardinal";
                 case SAFE_WATER:
                     return "beacon_safe_water";
+                case SPECIAL_PURPOSE:
                 case SPECIAL_MARK:
                     return "beacon_special_purpose";
                 case INSTALLATION:
@@ -140,6 +143,7 @@ public class DesignCode {
                     return "yellow;black";
                 case SAFE_WATER:
                     return "red;white;red;white";
+                case SPECIAL_PURPOSE:
                 case SPECIAL_MARK:
                     return "yellow";
                 case INSTALLATION:
