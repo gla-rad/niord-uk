@@ -97,6 +97,17 @@ public enum AtonType {
     }
 
     /**
+     * Determines whether this AtoN type defines a structure.
+     * @return Whether this AtoN type defines a structure
+     */
+    public boolean isStructure() {
+        return this.isLighthouse() ||
+                this.isLightVessel() ||
+                this.isBeacon() ||
+                this.isBuoy();
+    }
+
+    /**
      * For the master types, all light-related items can be considered as
      * lighthouses.
      *
