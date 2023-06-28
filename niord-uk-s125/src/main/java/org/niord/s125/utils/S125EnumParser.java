@@ -601,6 +601,21 @@ public class S125EnumParser {
     }
 
     /**
+     * Translates the radio transponder category from the INT-1.preset.xml to
+     * the S-125 radio transponder beacon (RACON) category.
+     *
+     * @param radioTransponderBeaconCategory  The INT-1-preset.xml radio transponder category
+     * @return The S-125 radio station category enum
+     */
+    public static CategoryOfRadarTransponderBeaconType parseRadioTransponderBeaconCategory(String radioTransponderBeaconCategory) {
+        switch(radioTransponderBeaconCategory) {
+            case "ramark": return CategoryOfRadarTransponderBeaconType.RAMARK_RADAR_BEACON_TRANSMITTING_CONTINUOUSLY;
+            case "racon": return CategoryOfRadarTransponderBeaconType.RACON_RADAR_TRANSPONDER_BEACON;
+            default: return null;
+        }
+    }
+
+    /**
      * Translates the building shape from the INT-1.preset.xml to the S-125
      * building shape.
      *
