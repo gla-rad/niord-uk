@@ -226,7 +226,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                         "seamark:status", "permanent",
                         "s125:aidsToNavigation:generic_beacon:height", "1",
                         "s125:aidsToNavigation:generic_beacon:radar_conspicuous", "conspicuous",
-                        "s125:aidsToNavigation:generic_beacon:nature_of_construction", "metal"
+                        "s125:aidsToNavigation:generic_beacon:nature_of_construction", "concreted"
                 );
                 break;
             case LIGHT:
