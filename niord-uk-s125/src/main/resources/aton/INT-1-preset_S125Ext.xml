@@ -298,6 +298,14 @@
 
     <group name="S: Electronic Position-Fixing Systems">
 
+        <item name="Racon (S3.1-S3.6)" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/S/S1.svg" type="node">
+            <space/>
+            <multiselect key="seamark:radar_transponder:category" text="Category">
+                <list_entry value="ramark"/>
+                <list_entry value="racon"/>
+            </multiselect>
+        </item>
+
         <item name="Radar Reflector (S4)">
             <space/>
             <key key="seamark:type" value="radar_reflector"/>

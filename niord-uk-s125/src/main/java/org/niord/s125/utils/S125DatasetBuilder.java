@@ -263,6 +263,9 @@ public class S125DatasetBuilder {
             case RADIO_STATION:
                 jaxbElement = this.s125GMLFactory.createRadioStation(this.generateRadioStation( atonNode));
                 break;
+            case RADAR_TRANSPONDER:
+                jaxbElement = this.s125GMLFactory.createRadarTransponderBeacon(this.generateRadarTransponderBeacon( atonNode));
+                break;
             case PHYSICAL_AIS_ATON:
                 jaxbElement = this.s125GMLFactory.createPhysicalAISAidToNavigation(this.generatePhysicalAISAtoN(atonNode));
                 break;
@@ -1926,6 +1929,72 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseStatus)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S125Utils.generateS125AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                )
+                .stream()
+                .filter(TopmarkType.Geometry.class::isInstance)
+                .map(TopmarkType.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-125 Dataset member section for Radio Station AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-125 Dataset member section generated
+     */
+    protected RadarTransponderBeaconType generateRadarTransponderBeacon(AtonNode atonNode) {
+        final RadarTransponderBeaconType member = new RadarTransponderBeaconType();
+        final String tagKeyPrefix = "seamark:radar_transponder:";
+        final String s125TagKeyPrefix = "s125:aidsToNavigation:radar_transponder:";
+        this.populateS125AidsToNavigationFields(member, atonNode);
+        member.setCategoryOfRadarTransponderBeacon(Optional.of(tagKeyPrefix+"category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S125EnumParser::parseRadioTransponderBeaconCategory)
+                .orElse(null));
+        member.setRadarWaveLength(Optional.of(tagKeyPrefix+"wavelength")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setSectorLimitOne(Optional.of(tagKeyPrefix+"sector_start")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                 .map(BigDecimal::new)
+                .orElse(null));
+        member.setSectorLimitTwo(Optional.of(tagKeyPrefix+"sector_end")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
+                .orElse(null));
+        member.setSignalGroup(Optional.of(tagKeyPrefix+"group")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setSignalSequence(Optional.of(tagKeyPrefix+"period")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.getStatuses().addAll(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseStatus))
+                .orElse(Collections.emptyList()));
+        member.setValueOfNominalRange(Optional.of(tagKeyPrefix+"range")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(BigDecimal::new)
                 .orElse(null));
 
         // Now fix the geometry...

@@ -126,6 +126,10 @@ public enum S125AtonTypes {
             "Supplementary Information",
             "Radio Transponder (S10-S16)"
     }),
+    RADAR_TRANSPONDER("radar_transponder", "RACON", true, new String[] {
+            "Supplementary Information",
+            "Racon (S3.1-S3.6)"
+    }),
     PHYSICAL_AIS_ATON("ais_station", "Physical AIS AtoN", true, new String[] {
             "Supplementary Information",
             "AIS transmitter (S17.1-S17.2)"
