@@ -1409,7 +1409,7 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .filter(StringUtils::isNotBlank)
-                .map(BigInteger::new)
+                .map(BigDecimal::new)
                 .orElse(null));
         member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
                 .map(atonNode::getTag)
