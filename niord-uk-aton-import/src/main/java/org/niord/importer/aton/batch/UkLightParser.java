@@ -105,7 +105,8 @@ public class UkLightParser {
             String colorsSpec = m.group("colors");
             String periodSpec = m.group("period");
 
-            if (StringUtils.isBlank(phaseSpec) || (!"Mo".equals(phaseSpec) && StringUtils.isBlank(colorsSpec))) {
+            // We absolutely need the phase... but anything else?
+            if (StringUtils.isBlank(phaseSpec) /*|| (!"Mo".equals(phaseSpec) && StringUtils.isBlank(colorsSpec))*/) {
                 return light;
             }
 

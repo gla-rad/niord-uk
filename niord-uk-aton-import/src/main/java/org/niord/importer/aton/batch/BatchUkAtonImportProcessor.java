@@ -102,28 +102,30 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
         generateAton(aton, masterType);
 
         // Add the equipment types as additional children
-        for(AtonType equipmentType: equipmentTypes) {
-            // Create the new equipment entry
-            AtonNode equipment = new AtonNode();
-            equipment.setVisible(true);
-            equipment.setLat(aton.getLat());
-            equipment.setLon(aton.getLon());
-            equipment.setTimestamp(aton.getTimestamp());
-            equipment.setUser(aton.getUser());
-            equipment.setUid(aton.getUid());
-            equipment.setChangeset(aton.getChangeset());
-            equipment.setVersion(aton.getVersion());
+        if(masterType.isStructure()) {
+            for (AtonType equipmentType : equipmentTypes) {
+                // Create the new equipment entry
+                AtonNode equipment = new AtonNode();
+                equipment.setVisible(true);
+                equipment.setLat(aton.getLat());
+                equipment.setLon(aton.getLon());
+                equipment.setTimestamp(aton.getTimestamp());
+                equipment.setUser(aton.getUser());
+                equipment.setUid(aton.getUid());
+                equipment.setChangeset(aton.getChangeset());
+                equipment.setVersion(aton.getVersion());
 
-            equipment.updateTag(AtonTag.TAG_ATON_UID, String.format("%s-%s", aton.getAtonUid(), equipmentType.type));
+                equipment.updateTag(AtonTag.TAG_ATON_UID, String.format("%s-%s", aton.getAtonUid(), equipmentType.type));
 
-            // Select a custom name for the equipment
-            equipment.updateTag("seamark:name", String.format("%s %s", aton.getTagValue("seamark:name"), equipmentType.type));
+                // Select a custom name for the equipment
+                equipment.updateTag("seamark:name", String.format("%s %s", aton.getTagValue("seamark:name"), equipmentType.type));
 
-            // And now populate the equipment
-            generateAton(equipment, equipmentType);
+                // And now populate the equipment
+                generateAton(equipment, equipmentType);
 
-            // And add the equipment
-            aton.updateChild(equipment);
+                // And add the equipment
+                aton.updateChild(equipment);
+            }
         }
 
         // And return
