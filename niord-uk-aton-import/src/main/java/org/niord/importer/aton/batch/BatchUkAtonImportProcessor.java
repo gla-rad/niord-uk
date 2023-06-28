@@ -286,7 +286,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                 break;
             case VIRTUAL_ATON:
                 updateAtonTags(aton,
-                        "seamark:type", "radio_station",
+                        "seamark:type", "virtual_aton",
                         "seamark:${type}:category", "ais",
                         "seamark:${type}:mmsi", Optional.of(BatchUkAtonImportReader.MMSI)
                                 .map(this::numericValue)
@@ -302,8 +302,8 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                 break;
             case RACON:
                 updateAtonTags(aton,
-                        "seamark:type", "radar_reflector",
-                        "seamark:${type}:height", "",
+                        "seamark:type", "radar_transponder",
+                        "seamark:${type}:category", "racon",
                         "seamark:status", "permanent"
                 );
                 break;
