@@ -105,9 +105,14 @@ public class UkLightParser {
             String colorsSpec = m.group("colors");
             String periodSpec = m.group("period");
 
-            // We absolutely need the phase... but anything else?
-            if (StringUtils.isBlank(phaseSpec) /*|| (!"Mo".equals(phaseSpec) && StringUtils.isBlank(colorsSpec))*/) {
+            // We absolutely need the phase...
+            if (StringUtils.isBlank(phaseSpec)) {
                 return light;
+            }
+
+            // If no colour has been specified and not Morse, always set to a white one
+            if(!"Mo".equals(phaseSpec) && StringUtils.isBlank(colorsSpec)) {
+                colorsSpec = "W";
             }
 
             LightSector sector = light.getSectors().get(0);
@@ -159,6 +164,7 @@ public class UkLightParser {
                     sector.getColours().add(Colour.valueOfLc(cm.group("color")));
                 }
             }
+
             // Multiple
             if (StringUtils.isNotBlank(multipleSpec)) {
                 sector.setMultiple(Integer.valueOf(multipleSpec.trim()));

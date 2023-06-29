@@ -38,7 +38,9 @@ public class LightImporterTest {
             "Oc.WRG.5s",
             "2 Oc.W.R G.1,5s",
             "Q(6)+LFl W 15s",
-            "Fl G 2s"
+            "Fl G 2s",
+            "Fl 5s",
+            "Mo(A) 5s"
     };
 
     String[] FOG_SIGNALS = {
