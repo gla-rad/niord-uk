@@ -21,8 +21,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.vo.AtonNodeVo;
@@ -47,9 +45,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,30 +101,28 @@ public class AtonImportRestService {
     @Produces(MediaType.TEXT_PLAIN)
     @Operation(description = "Performs the import operations from the AtoN xls/xlsx data files.")
     @RolesAllowed(Roles.ADMIN)
-    public String importXls(@Parameter(hidden = true) @MultipartForm MultipartFormDataInput input) throws Exception {
+    public String importXls(@Parameter(hidden = true) MultipartFormDataInput input) throws Exception {
 
         // Initialise the form parsing parameters
-        final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
-        final List<String> fileNames = new ArrayList<>();
+        final Map<String, Object> uploadForm = WebUtils.getMultipartInputFormParams(input);
+        final Map<String, InputStream> files = WebUtils.getMultipartInputFiles(input);
         final StringBuilder txt = new StringBuilder();
 
         // Process the uploaded files
-        final List<InputPart> inputParts = uploadForm.get("file");
-        for (InputPart inputPart : inputParts) {
-            try {
-                final MultivaluedMap<String, String> header = inputPart.getHeaders();
-                final String name = WebUtils.getFileName(header).toLowerCase();
-                final InputStream inputStream = inputPart.getBody(InputStream.class, null);
+        files.entrySet()
+                .forEach(fileEntry -> {
+                    try {
+                        final String name = fileEntry.getKey();
+                        final InputStream contents = fileEntry.getValue();
 
-                // AtoN Import
-                if (name.startsWith("aton") && (name.endsWith(".xls") || name.endsWith(".xlsx"))) {
-                    importAtoN(inputStream, name, txt);
-
-                }
-            } catch (Exception ex) {
-                log.error(ex.getMessage());
-            }
-        }
+                        // AtoN Import
+                        if (name.startsWith("aton") && (name.endsWith(".xls") || name.endsWith(".xlsx"))) {
+                            importAtoN(contents, name, txt);
+                        }
+                    } catch (Exception ex) {
+                        log.error(ex.getMessage());
+                    }
+                });
 
         return txt.toString();
     }
