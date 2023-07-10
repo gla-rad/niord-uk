@@ -28,10 +28,10 @@ import org.niord.core.util.TextUtils;
 import org.niord.model.DataFilter;
 import org.niord.model.message.MessagePartType;
 
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ResourceBundle;
 
 /**

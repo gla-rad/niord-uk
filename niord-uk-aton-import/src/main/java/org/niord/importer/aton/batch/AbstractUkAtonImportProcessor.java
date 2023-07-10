@@ -22,7 +22,7 @@ import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonService;
 import org.niord.core.aton.batch.BatchAtonImportProcessor;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.*;
 
 /**

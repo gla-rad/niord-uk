@@ -24,10 +24,10 @@ import org.niord.core.aton.AtonService;
 import org.niord.s125.models.S125DatasetInfo;
 import org.niord.s125.utils.S125DatasetBuilder;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.xml.bind.JAXBException;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.xml.bind.JAXBException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

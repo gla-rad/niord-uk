@@ -37,7 +37,7 @@ import org.niord.core.aton.AtonTag;
 import org.niord.s125.models.S125AtonTypes;
 import org.niord.s125.models.S125DatasetInfo;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;

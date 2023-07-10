@@ -24,9 +24,9 @@ import org.niord.core.batch.AbstractItemHandler;
 import org.niord.core.repo.RepositoryService;
 import org.niord.model.search.PagedSearchResultVo;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
