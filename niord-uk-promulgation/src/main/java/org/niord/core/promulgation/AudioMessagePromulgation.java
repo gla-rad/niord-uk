@@ -18,9 +18,9 @@ package org.niord.core.promulgation;
 
 import org.niord.core.promulgation.vo.AudioMessagePromulgationVo;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 
 /**
  * Defines the message promulgation entity associated with audio mailing list promulgation.
