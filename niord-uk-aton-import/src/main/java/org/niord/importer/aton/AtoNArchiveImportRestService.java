@@ -18,7 +18,7 @@ package org.niord.importer.aton;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.fileupload.FileItem;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.niord.core.aton.vo.AtonOsmVo;
 import org.niord.core.batch.AbstractBatchableRestService;
 import org.niord.core.domain.DomainService;
@@ -31,13 +31,11 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,7 +62,7 @@ public class AtoNArchiveImportRestService extends AbstractBatchableRestService {
     /**
      * Imports an uploaded AtoN zip archive
      *
-     * @param request the servlet request
+     * @param input the multi-part form data input request
      * @return a status
      */
     @POST
@@ -72,16 +70,16 @@ public class AtoNArchiveImportRestService extends AbstractBatchableRestService {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces("text/plain")
     @RolesAllowed(Roles.ADMIN)
-    public String importMessages(@Context HttpServletRequest request) throws Exception {
-        return executeBatchJobFromUploadedFile(request, "aton-archive-import");
+    public String importMessages(MultipartFormDataInput input) throws Exception {
+        return executeBatchJobFromUploadedFile(input, "aton-archive-import");
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void checkBatchJob(String batchJobName, FileItem fileItem, Map<String, Object> params) throws Exception {
+    protected void checkBatchJob(String batchJobName, String fileName, InputStream inputStream, Map<String, Object> params) throws Exception {
 
         // Check that the zip file contains a messages.json file
-        if (!checkForMessagesFileInImportArchive(fileItem.getInputStream())) {
+        if (!checkForMessagesFileInImportArchive(inputStream)) {
             throw new Exception("Zip archive is missing a valid aton.json entry");
         }
 
