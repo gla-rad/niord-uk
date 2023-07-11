@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.niord.importer.aton;
+package org.niord.uk.importer.aton;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.niord.importer.aton.batch;
+package org.niord.uk.importer.aton.batch;
 
 import org.apache.commons.lang.StringUtils;
-import org.niord.importer.aton.batch.FogSignalSeamark.Category;
+import org.niord.uk.importer.aton.batch.FogSignalSeamark.Category;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;

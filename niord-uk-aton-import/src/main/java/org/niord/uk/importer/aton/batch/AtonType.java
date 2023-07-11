@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.niord.importer.aton.batch;
+package org.niord.uk.importer.aton.batch;
 
-import org.niord.s125.models.S125AtonTypes;
+import org.niord.uk.s125.models.S125AtonTypes;
 
 import java.util.Optional;
 

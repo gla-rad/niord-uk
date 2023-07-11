@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.niord.importer.aton.batch;
+package org.niord.uk.importer.aton.batch;
 
 import java.util.Arrays;
 import java.util.Collection;

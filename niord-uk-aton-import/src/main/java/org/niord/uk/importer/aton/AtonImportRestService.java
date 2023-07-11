@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.niord.importer.aton;
+package org.niord.uk.importer.aton;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -33,7 +33,7 @@ import org.niord.core.sequence.SequenceService;
 import org.niord.core.user.Roles;
 import org.niord.core.user.UserService;
 import org.niord.core.util.WebUtils;
-import org.niord.importer.aton.batch.AbstractUkAtonImportProcessor;
+import org.niord.uk.importer.aton.batch.AbstractUkAtonImportProcessor;
 import org.slf4j.Logger;
 
 import jakarta.annotation.security.PermitAll;
@@ -101,7 +101,7 @@ public class AtonImportRestService {
     @Produces(MediaType.TEXT_PLAIN)
     @Operation(description = "Performs the import operations from the AtoN xls/xlsx data files.")
     @RolesAllowed(Roles.ADMIN)
-    public String importXls(@Parameter(hidden = true) MultipartFormDataInput input) throws Exception {
+    public String importXls(@Parameter(name = "input", hidden = true) MultipartFormDataInput input) throws Exception {
 
         // Initialise the form parsing parameters
         final Map<String, Object> uploadForm = WebUtils.getMultipartInputFormParams(input);

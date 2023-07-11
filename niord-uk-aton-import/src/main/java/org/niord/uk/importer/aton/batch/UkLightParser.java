@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.niord.importer.aton.batch;
+package org.niord.uk.importer.aton.batch;
 
 import org.apache.commons.lang.StringUtils;
-import org.niord.importer.aton.batch.LightSeamark.Colour;
-import org.niord.importer.aton.batch.LightSeamark.LightSector;
+import org.niord.uk.importer.aton.batch.LightSeamark.Colour;
+import org.niord.uk.importer.aton.batch.LightSeamark.LightSector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.niord.importer.aton.batch.LightSeamark.Character.*;
+import static org.niord.uk.importer.aton.batch.LightSeamark.Character.*;
 
 /**
  * Parses the light specs of the UK AtoN light list.

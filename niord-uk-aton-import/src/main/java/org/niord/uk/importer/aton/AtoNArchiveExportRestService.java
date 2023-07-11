@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.niord.importer.aton;
+package org.niord.uk.importer.aton;
 
 import org.jboss.resteasy.annotations.GZIP;
 import org.jboss.resteasy.annotations.cache.NoCache;
