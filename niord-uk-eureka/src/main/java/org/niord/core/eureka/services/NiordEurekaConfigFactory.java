@@ -24,8 +24,8 @@ import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
 import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.EurekaClientConfig;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 /**
  * THe Niord Eureka Config Factory
