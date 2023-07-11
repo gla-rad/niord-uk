@@ -11,7 +11,8 @@
 
         <properties>
             <property name="hibernate.archive.autodetection" value="class" />
-            <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect" />
+            <property name="hibernate.connection.pool_size" value="10" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" />
             <property name="hibernate.connection.url" value="jdbc:mysql://atlas.grad-rrnav.pub:3306/niordq" />
             <property name="hibernate.connection.username" value="niordq" />
@@ -21,6 +22,7 @@
             <property name="hibernate.hbm2ddl.auto" value="update" />
 
             <!-- Hibernate Search Configuration -->
+            <property name="hibernate.search.backend.lucene_version" value="8.11.1" />
             <property name="hibernate.search.backend.directory.root" value=".lucene" />
         </properties>
     </persistence-unit>
