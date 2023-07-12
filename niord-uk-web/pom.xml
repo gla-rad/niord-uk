@@ -80,8 +80,6 @@
     </dependencies>
 
     <build>
-
-        <!-- Update the jar-file versions in persistence.xml -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
