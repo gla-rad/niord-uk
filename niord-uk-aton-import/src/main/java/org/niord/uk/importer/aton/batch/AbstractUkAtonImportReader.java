@@ -54,9 +54,6 @@ public abstract class AbstractUkAtonImportReader extends AbstractItemHandler {
     public void open(Serializable prevCheckpointInfo) throws Exception {
 
         // Get hold of the data file
-
-
-        // Parse the header row of the Excel file and build a column index
         int tries = 0;
         Path path = null;
         // Try a few times - just to handle larger filed
@@ -68,6 +65,13 @@ public abstract class AbstractUkAtonImportReader extends AbstractItemHandler {
                 Thread.sleep(1000);
             }
         }
+
+        // Parse the header row of the Excel file and build a column index
+        if(path == null) {
+            getLog().severe("Importer could not access the data file... please try again!");
+            return;
+        }
+        rowIterator = parseHeaderRow(path, colIndex, getFields());
 
         // Fast forward to the previous row index
         if (prevCheckpointInfo != null) {
