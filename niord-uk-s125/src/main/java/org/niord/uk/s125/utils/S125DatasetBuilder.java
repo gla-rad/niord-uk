@@ -2033,7 +2033,7 @@ public class S125DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .filter(StringUtils::isNotBlank)
-                .map(BigDecimal::new)
+                .map(BigInteger::new)
                 .orElse(null));
         member.setObjectName(Optional.of("seamark:name")
                 .map(atonNode::getTag)
