@@ -186,7 +186,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                                 .orElse("hard-surfaced"),
                         "seamark:landmark:conspicuity", "conspicuous",
                         "seamark:status", "permanent",
-                        "s125:aidsToNavigation:lighthouse:height", "conspicuous", Optional.of(BatchUkAtonImportReader.HEIGHT)
+                        "s125:aidsToNavigation:lighthouse:height", Optional.of(BatchUkAtonImportReader.HEIGHT)
                                 .map(this::numericValue)
                                 .map(decimalFormat::format)
                                 .orElse(""),
