@@ -181,15 +181,15 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                         "seamark:landmark:colour", "white",
                         "seamark:landmark:colour_pattern", "vertical",
                         "seamark:landmark:function", "light_support",
-                        "seamark:landmark:height", Optional.of(BatchUkAtonImportReader.HEIGHT)
-                                .map(this::numericValue)
-                                .map(decimalFormat::format)
-                                .orElse(""),
                         "seamark:landmark:construction", Optional.of(BatchUkAtonImportReader.CONSTRUCTION)
                                 .map(this::stringValue)
                                 .orElse("hard-surfaced"),
                         "seamark:landmark:conspicuity", "conspicuous",
                         "seamark:status", "permanent",
+                        "s125:aidsToNavigation:lighthouse:height", "conspicuous", Optional.of(BatchUkAtonImportReader.HEIGHT)
+                                .map(this::numericValue)
+                                .map(decimalFormat::format)
+                                .orElse(""),
                         "s125:aidsToNavigation:lighthouse:radar_conspicuous", "conspicuous"
                 );
                 break;
