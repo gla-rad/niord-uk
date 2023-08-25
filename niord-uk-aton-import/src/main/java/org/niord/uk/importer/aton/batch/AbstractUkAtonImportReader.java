@@ -68,7 +68,7 @@ public abstract class AbstractUkAtonImportReader extends AbstractItemHandler {
 
         // Parse the header row of the Excel file and build a column index
         if(path == null) {
-            getLog().severe("Importer could not access the data file... please try again!");
+            //getLog().severe("Importer could not access the data file... please try again!");
             return;
         }
         rowIterator = parseHeaderRow(path, colIndex, getFields());
@@ -81,7 +81,7 @@ public abstract class AbstractUkAtonImportReader extends AbstractItemHandler {
             rowIterator.next();
         }
 
-        getLog().info("Start processing Excel from row " + row);
+        //getLog().info("Start processing Excel from row " + row);
     }
 
 
