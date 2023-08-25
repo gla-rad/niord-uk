@@ -15,13 +15,14 @@
  */
 package org.niord.uk.importer.aton.batch;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.niord.core.aton.AtonNode;
 import org.niord.core.aton.AtonTag;
 import org.niord.core.user.User;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Named;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,20 @@ import java.util.stream.Collectors;
 @Named("batchUkAtonImportProcessor")
 public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
 
+    /**
+     * Formatting number to an appropriate format.
+     */
+    private final DecimalFormat decimalFormat = new DecimalFormat("0");
+
+    /**
+     * Class Constructor.
+     */
+    public void AbstractUkAtonImportProcessor() {
+        // Configure the decimal number formatter
+        this.decimalFormat.setMaximumIntegerDigits(12);
+        this.decimalFormat.setMaximumFractionDigits(2);
+        this.decimalFormat.setGroupingSize(0);
+    }
 
     /** {@inheritDoc} **/
     @Override
@@ -49,6 +64,16 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
         User user = job.getUser();
 
         AtonNode aton = new AtonNode();
+
+        // Generate the AtoN UID using lowercase and underscores
+        aton.updateTag(AtonTag.TAG_ATON_UID, this.generateAtonUuid());
+
+        // And look for a name... if this doesn't exist don't bother to continue
+        if (StringUtils.isNotBlank(stringValue(BatchUkAtonImportReader.NAME))) {
+            aton.updateTag("seamark:name", stringValue(BatchUkAtonImportReader.NAME));
+        } else {
+            return null;
+        }
 
         // TODO: aton.setId();
         aton.setVisible(true);
@@ -59,15 +84,6 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
         aton.setUid(user != null ? user.getId() : -1);
         aton.setChangeset(getChangeSet());
         aton.setVersion(1);     // Unknown version
-
-        // Generate the AtoN UID using lowercase and underscores
-        aton.updateTag(AtonTag.TAG_ATON_UID, this.generateAtonUuid());
-
-        if (StringUtils.isNotBlank(stringValue(BatchUkAtonImportReader.NAME))) {
-            aton.updateTag("seamark:name", stringValue(BatchUkAtonImportReader.NAME));
-        } else {
-            return null;
-        }
 
         // An AtoN consists of a master type (e.g. "lighthouse") and a set of
         // equipment types (e.g. AIS). The master type will be imported first
@@ -167,7 +183,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                         "seamark:landmark:function", "light_support",
                         "seamark:landmark:height", Optional.of(BatchUkAtonImportReader.HEIGHT)
                                 .map(this::numericValue)
-                                .map(String::valueOf)
+                                .map(decimalFormat::format)
                                 .orElse(""),
                         "seamark:landmark:construction", Optional.of(BatchUkAtonImportReader.CONSTRUCTION)
                                 .map(this::stringValue)
@@ -251,7 +267,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                         "seamark:${type}:orientation", "",
                         "seamark:${type}:range", Optional.of(BatchUkAtonImportReader.RANGE)
                                 .map(this::numericValue)
-                                .map(String::valueOf)
+                                .map(decimalFormat::format)
                                 .orElse(""),
                         "seamark:status", "permanent"
                 );
@@ -263,12 +279,12 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                         "seamark:${type}:category", "ais",
                         "seamark:${type}:mmsi", Optional.of(BatchUkAtonImportReader.MMSI)
                                 .map(this::numericValue)
-                                .map(String::valueOf)
+                                .map(decimalFormat::format)
                                 .orElse(""),
                         "seamark:status", "permanent",
                         "s125:aidsToNavigation:generic_beacon:estimated_range_of_transmission", Optional.of(BatchUkAtonImportReader.RANGE)
                                 .map(this::numericValue)
-                                .map(String::valueOf)
+                                .map(decimalFormat::format)
                                 .orElse("")
                 );
                 break;
@@ -292,13 +308,13 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
                         "seamark:${type}:category", "ais",
                         "seamark:${type}:mmsi", Optional.of(BatchUkAtonImportReader.MMSI)
                                 .map(this::numericValue)
-                                .map(String::valueOf)
+                                .map(decimalFormat::format)
                                 .orElse(""),
                         "seamark:virtual_aton:category", "special_purpose",
                         "seamark:status", "permanent",
                         "s125:aidsToNavigation:virtual_ais_aid_to_navigation:estimated_range_of_transmission", Optional.of(BatchUkAtonImportReader.RANGE)
                                 .map(this::numericValue)
-                                .map(String::valueOf)
+                                .map(decimalFormat::format)
                                 .orElse("")
                 );
                 break;
