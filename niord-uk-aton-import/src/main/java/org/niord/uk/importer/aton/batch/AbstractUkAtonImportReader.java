@@ -54,10 +54,20 @@ public abstract class AbstractUkAtonImportReader extends AbstractItemHandler {
     public void open(Serializable prevCheckpointInfo) throws Exception {
 
         // Get hold of the data file
-        Path path = batchService.getBatchJobDataFile(jobContext.getInstanceId());
+
 
         // Parse the header row of the Excel file and build a column index
-        rowIterator = parseHeaderRow(path, colIndex, getFields());
+        int tries = 0;
+        Path path = null;
+        // Try a few times - just to handle larger filed
+        while(path == null && tries < 3) {
+            path = batchService.getBatchJobDataFile(jobContext.getInstanceId());
+            // No luck? Try again...
+            if(path == null) {
+                tries += 1;
+                Thread.sleep(1000);
+            }
+        }
 
         // Fast forward to the previous row index
         if (prevCheckpointInfo != null) {
