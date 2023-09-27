@@ -118,6 +118,7 @@ public class UkDesignCodeParser {
                         designCode.setShape(DesignCode.Shape.PILLAR);
                         break;
                     case PORT_LATERAL:
+                        designCode.setShape(DesignCode.Shape.CAN);
                     case STARBOARD_LATERAL:
                         designCode.setShape(DesignCode.Shape.CONICAL);
                         break;
