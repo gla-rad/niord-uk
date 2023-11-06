@@ -61,7 +61,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
     @Override
     protected AtonNode parseAtonExcelRow() throws Exception {
 
-        User user = job.getUser();
+        User user = this.job.getUser();
 
         AtonNode aton = new AtonNode();
 
