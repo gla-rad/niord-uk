@@ -25,12 +25,11 @@ import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
-import org.niord.uk.eureka.models.EurekaHealth;
-import org.slf4j.Logger;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import org.niord.uk.eureka.models.EurekaHealth;
+import org.slf4j.Logger;
 
 /**
  * The Eureka Client Implementation.
