@@ -23,6 +23,7 @@ import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
+import com.netflix.discovery.shared.transport.jersey3.Jersey3TransportClientFactories;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -100,7 +101,7 @@ public class EurekaClientService {
      */
     EurekaClient initializeEurekaClient() {
         if (this.eurekaClient == null) {
-            this.eurekaClient = new DiscoveryClient(this.applicationInfoManager, this.eurekaClientConfig);
+            this.eurekaClient = new DiscoveryClient(this.applicationInfoManager, this.eurekaClientConfig, Jersey3TransportClientFactories.getInstance());
         }
 
         return this.eurekaClient;
