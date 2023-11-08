@@ -43,12 +43,6 @@
             <artifactId>niord-uk-aton-import</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- Eureka Client if part of an e-Nav Architecture -->
-        <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-uk-eureka</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.niord</groupId>
             <artifactId>niord-uk-promulgation</artifactId>
@@ -63,6 +57,12 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jdbc-mysql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.fmcejudo</groupId>
+            <artifactId>quarkus-eureka</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
