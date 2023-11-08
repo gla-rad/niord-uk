@@ -15,6 +15,10 @@ FROM openjdk:17-jdk-slim
 
 LABEL org.opencontainers.image.source="https://github.com/gla-rad/niord-uk"
 
+# Install some dependencies
+RUN apt-get update && apt-get install -y libpng-dev
+RUN apt-get update && apt-get install -y libfreetype6-dev
+
 # Set the working directory in the container
 WORKDIR /app
 
