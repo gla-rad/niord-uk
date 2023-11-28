@@ -98,22 +98,21 @@ This image can be used in just like a normal Docker container, but providing
 the necessary environment variables while running it. The available environment
 variables for configuring the application are presented in the following table.
 
-| Variable        | Description                                               | Default Value |
-|-----------------|-----------------------------------------------------------|---------------|
-| KEYCLOAK_SERVER | The server hostname of the OpenID Connect Keycloak server | localhost     |
-| KEYCLOAK_PORT   | The port of the OpenID Connect Keycloak server            | 8080          |
-| KEYCLOAK_REALM  | The realm used for the OpenID Connect authentication      | niord         |
-| KEYCLOAK_SECRET | The secret used for the OpenID Connect authentication     | secret        |
-| AMQP_SERVER     | The server hostname of the AMQP (Apache Artemis) server   | localhost     |
-| AMQP_PORT       | The port used for the AMQP connection                     | 5672          |
-| AMQP_USERNAME   | The username for the AMQP connection                      | username      |
-| AMQP_PASSWORD   | The password for the AMQP connection                      | password      |
-| DB_SERVER       | The server hostname of the database (MySQL) server        | localhost     |
-| DB_PORT         | The port used for the database (MySQL) connection         | 3306          |
-| DB_NAME         | The name of the database to connect to                    | niordq        |
-| DB_USERNAME     | The username for the database connection                  | username      |
-| DB_PASSWORD     | The password for the database connection                  | password      |
-| EUREKA_SERVER   | The server hostname of the eureka server                  | N/A           |
+| Variable        | Description                                             | Default Value         |
+|-----------------|---------------------------------------------------------|-----------------------|
+| KEYCLOAK_URL    | The URL of the OpenID Connect Keycloak server           | http://localhost:8080 |
+| KEYCLOAK_REALM  | The realm used for the OpenID Connect authentication    | niord                 |
+| KEYCLOAK_SECRET | The secret used for the OpenID Connect authentication   | secret                |
+| AMQP_SERVER     | The server hostname of the AMQP (Apache Artemis) server | localhost             |
+| AMQP_PORT       | The port used for the AMQP connection                   | 5672                  |
+| AMQP_USERNAME   | The username for the AMQP connection                    | username              |
+| AMQP_PASSWORD   | The password for the AMQP connection                    | password              |
+| DB_SERVER       | The server hostname of the database (MySQL) server      | localhost             |
+| DB_PORT         | The port used for the database (MySQL) connection       | 3306                  |
+| DB_NAME         | The name of the database to connect to                  | niordq                |
+| DB_USERNAME     | The username for the database connection                | username              |
+| DB_PASSWORD     | The password for the database connection                | password              |
+| EUREKA_SERVER   | The server hostname of the eureka server                | N/A                   |
 
 ### Environment Variables Configuration
 
@@ -126,8 +125,7 @@ This can be done in the following way:
     docker run -t -i --rm \
         -p 8888:8888 \
         -v /path/to/config-directory/on/machine:/conf \
-        -e KEYCLOAK_SERVER='keycloak.server.com' \
-        -e KEYCLOAK_PORT='8080' \
+        -e KEYCLOAK_URL='https://keycloak.server.com' \
         -e KEYCLOAK_REALM='niord' \
         -e KEYCLOAK_SECRET='secret' \
         -e AMQP_SERVER='amqp.server.com' \
