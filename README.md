@@ -21,11 +21,11 @@ and Ireland.
 
 ## Prerequisites
 
-* Java 11 (Java 17 is also supported but jBerret causes issues)
-* Maven 3.8.1
+* Java 21
+* Maven 3.8.8
 * MySQL 8.0.30+ (NB: proper spatial support is a requirement)
 * Quarkus 2.7+
-* JBoss Keycloak 16+
+* JBoss Keycloak 21+
 * Apache ActiveMQ (preferably Artemis - Optional)
 
 ## Development Set-Up
