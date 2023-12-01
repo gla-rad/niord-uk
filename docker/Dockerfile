@@ -10,8 +10,8 @@
 #     docker push glarad/niord-uk:tagname
 #
 
-# Use the official OpenJDK 17 image as the base image
-FROM openjdk:17-jdk-slim
+# Use the official OpenJDK 21 image as the base image
+FROM eclipse-temurin:21-jre-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/gla-rad/niord-uk"
 
