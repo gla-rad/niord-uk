@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <niord.version>4.0.0-SNAPSHOT</niord.version>
+        <niord.version>4.0.1-SNAPSHOT</niord.version>
         <poi.version>3.13</poi.version>
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
     </properties>

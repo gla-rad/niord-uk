@@ -47,7 +47,7 @@
         <list_entry value="experimental"/>
         <list_entry value="temporarily discontinued"/>
         <list_entry value="temporarily relocated"/>
-    </chunk>|
+    </chunk>
 
     <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
 
