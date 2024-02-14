@@ -1842,7 +1842,7 @@ public class S125DatasetBuilder {
         member.setIdCode(Optional.of("mrn")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
-                .orElse(atonNode.getAtonUid()));
+                .orElse("aton.uk." + atonNode.getAtonUid()));
         member.setDateStart(Optional.of(s125TagKeyPrefix+"date_start")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
