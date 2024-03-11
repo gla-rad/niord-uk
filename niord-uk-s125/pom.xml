@@ -23,7 +23,7 @@
     <parent>
         <artifactId>niord-uk-parent</artifactId>
         <groupId>org.niord</groupId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -43,8 +43,7 @@
         <dependency>
             <groupId>org.grad.eNav</groupId>
             <artifactId>S125</artifactId>
-            <version>0.5.41</version>
-            <classifier>jakarta</classifier>
+            <version>0.5.63</version>
         </dependency>
 
     </dependencies>

@@ -29,6 +29,26 @@
         <list_entry value="cubic"/>
     </chunk>
 
+    <chunk id="atonStatus">
+        <list_entry value="permanent"/>
+        <list_entry value="not_in_use"/>
+        <list_entry value="periodic/intermittent"/>
+        <list_entry value="temporary"/>
+        <list_entry value="private"/>
+        <list_entry value="public"/>
+        <list_entry value="watched"/>
+        <list_entry value="unwatched"/>
+        <list_entry value="confirmed"/>
+        <list_entry value="candidate"/>
+        <list_entry value="under_modification"/>
+        <list_entry value="candidate_for_modification"/>
+        <list_entry value="under_removal/deletion"/>
+        <list_entry value="removed/deleted"/>
+        <list_entry value="experimental"/>
+        <list_entry value="temporarily discontinued"/>
+        <list_entry value="temporarily relocated"/>
+    </chunk>
+
     <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
 
         <item name="Landmarks in General" type="node,closedway">
@@ -44,13 +64,13 @@
                 <reference ref="lightcolours"/>
                 <reference ref="othercolours"/>
             </multiselect>
-            <multiselect key="seamark:tank:colour_pattern" text="Colour Pattern">
+            <combo key="seamark:tank:colour_pattern" text="Colour Pattern">
                 <list_entry value="horizontal"/>
                 <list_entry value="vertical"/>
                 <list_entry value="diagonal"/>
                 <list_entry value="squared"/>
                 <list_entry value="border"/>
-            </multiselect>
+            </combo>
             <check key="s125:aidsToNavigation:tank:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             <check key="s125:aidsToNavigation:tank:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
             <text key="s125:aidsToNavigation:tank:height" text="Height" type="real"/>
@@ -108,13 +128,13 @@
                     <reference ref="lightcolours"/>
                     <reference ref="othercolours"/>
                 </multiselect>
-                <multiselect key="seamark:daymark:colour_pattern" text="Colour Pattern">
+                <combo key="seamark:daymark:colour_pattern" text="Colour Pattern">
                     <list_entry value="horizontal"/>
                     <list_entry value="vertical"/>
                     <list_entry value="diagonal"/>
                     <list_entry value="squared"/>
                     <list_entry value="border"/>
-                </multiselect>
+                </combo>
                 <combo key="seamark:daymark:category" text="Category">
                     <reference ref="specials"/>
                 </combo>
@@ -136,13 +156,13 @@
                     <reference ref="lightcolours"/>
                     <reference ref="othercolours"/>
                 </multiselect>
-                <multiselect key="seamark:topmark:colour_pattern" text="Colour Pattern">
+                <combo key="seamark:topmark:colour_pattern" text="Colour Pattern">
                     <list_entry value="horizontal"/>
                     <list_entry value="vertical"/>
                     <list_entry value="diagonal"/>
                     <list_entry value="squared"/>
                     <list_entry value="border"/>
-                </multiselect>
+                </combo>
                 <combo key="seamark:topmark:category" text="Category">
                     <reference ref="specials"/>
                 </combo>
@@ -319,13 +339,13 @@
                 <reference ref="lightcolours"/>
                 <reference ref="othercolours"/>
             </multiselect>
-            <multiselect key="s125:aidsToNavigation:colour_pattern" text="Colour Pattern">
+            <combo key="s125:aidsToNavigation:colour_pattern" text="Colour Pattern">
                 <list_entry value="horizontal"/>
                 <list_entry value="vertical"/>
                 <list_entry value="diagonal"/>
                 <list_entry value="squared"/>
                 <list_entry value="border"/>
-            </multiselect>
+            </combo>
             <combo key="s125:aidsToNavigation:retro_reflector:marks_navigational_system_of" text="Marks Navigational System of">
                 <reference ref="marksNavigationalSystemOf"/>
             </combo>
@@ -360,6 +380,9 @@
         <text key="s125:aidsToNavigation:period_end" text="Period End" type="date"/>
         <text key="s125:aidsToNavigation:pictorial_representation" text="Pictorial Representation" type="text"/>
         <text key="s125:aidsToNavigation:scale_minimum" text="Scale Minimum" type="int"/>
+        <combo key="seamark:status" text="Status" default="">
+            <reference ref="atonStatus"/>
+        </combo>|
     </item>
 
 </presets>

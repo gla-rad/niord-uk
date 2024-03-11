@@ -15,12 +15,9 @@
  */
 package org.niord.uk.s125.utils;
 
-import _int.iala_aism.s125.gml._0_0.*;
+import _int.iho.s125.gml.cs0._1.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,6 +47,7 @@ public class S125EnumParser {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(function)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -61,30 +59,16 @@ public class S125EnumParser {
      * @return the S-125 Category of Landmark enum entry
      */
     public static CategoryOfLandmarkType parseCategoryOfLandmark(String categoryOfLandmark) {
-        switch(categoryOfLandmark) {
-            case "cairn": return CategoryOfLandmarkType.CAIRN;
-            case "cemetery": return CategoryOfLandmarkType.CEMETERY;
-            case "chimney": return CategoryOfLandmarkType.CHIMNEY;
-            case "dish_aerial": return CategoryOfLandmarkType.DISH_AERIAL;
-            case "flagstaff": return CategoryOfLandmarkType.FLAGSTAFF_FLAGPOLE;
-            case "flare_stack": return CategoryOfLandmarkType.FLARE_STACK;
-            case "mast": return CategoryOfLandmarkType.MAST;
-            case "windsock": return CategoryOfLandmarkType.WIND_SOCK;
-            case "monument": return CategoryOfLandmarkType.MONUMENT;
-            case "column": return CategoryOfLandmarkType.COLUMN_PILLAR;
-            case "memorial": return CategoryOfLandmarkType.MEMORIAL_PLAQUE;
-            case "obelisk": return CategoryOfLandmarkType.OBELISK;
-            case "statue": return CategoryOfLandmarkType.STATUE;
-            case "cross": return CategoryOfLandmarkType.CROSS;
-            case "dome": return CategoryOfLandmarkType.DOME;
-            case "radar_scanner": return CategoryOfLandmarkType.RADAR_SCANNER;
-            case "tower": return CategoryOfLandmarkType.TOWER;
-            case "windmill": return CategoryOfLandmarkType.WINDMILL;
-            case "windmotor": return CategoryOfLandmarkType.WINDMOTOR;
-            case "spire": return CategoryOfLandmarkType.SPIRE_MINARET;
-            case "boulder": return CategoryOfLandmarkType.LARGE_ROCK_OR_BOULDER_ON_LAND;
-            default: return null;
-        }
+        return switch (categoryOfLandmark) {
+            case "chimney" -> CategoryOfLandmarkType.CHIMNEY;
+            case "mast" -> CategoryOfLandmarkType.MAST;
+            case "monument" -> CategoryOfLandmarkType.MONUMENT;
+            case "dome" -> CategoryOfLandmarkType.DOME;
+            case "radar_scanner" -> CategoryOfLandmarkType.RADAR_SCANNER;
+            case "tower" -> CategoryOfLandmarkType.TOWER;
+            case "windmotor" -> CategoryOfLandmarkType.WINDMOTOR;
+            default -> null;
+        };
     }
 
     /**
@@ -95,21 +79,21 @@ public class S125EnumParser {
      * @return the S-125 Virtual AIS Aid Navigation Purpose Type
      */
     public static VirtualAISAidToNavigationTypeType parseVirtualAisAidToNavigationType(String virtualAisAidsToNavigationType) {
-        switch(virtualAisAidsToNavigationType) {
-            case "north_cardinal": return VirtualAISAidToNavigationTypeType.NORTH_CARDINAL;
-            case "south_cardinal": return VirtualAISAidToNavigationTypeType.SOUTH_CARDINAL;
-            case "east_cardinal": return VirtualAISAidToNavigationTypeType.EAST_CARDINAL;
-            case "west_cardinal": return VirtualAISAidToNavigationTypeType.WEST_CARDINAL;
-            case "port_lateral": return VirtualAISAidToNavigationTypeType.PORT_LATERAL;
-            case "starboard_lateral": return VirtualAISAidToNavigationTypeType.STARBOARD_LATERAL;
-            case "preferred_port": return VirtualAISAidToNavigationTypeType.PREFERRED_CHANNEL_TO_PORT;
-            case "preferred_starboard": return VirtualAISAidToNavigationTypeType.PREFERRED_CHANNEL_TO_STARBOARD;
-            case "isolated_danger": return VirtualAISAidToNavigationTypeType.ISOLATED_DANGER;
-            case "safe_water": return VirtualAISAidToNavigationTypeType.SAFE_WATER;
-            case "special_purpose": return VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE;
-            case "wreck": return VirtualAISAidToNavigationTypeType.NEW_DANGER_MARKING;
-            default: return null;
-        }
+        return switch (virtualAisAidsToNavigationType) {
+            case "north_cardinal" -> VirtualAISAidToNavigationTypeType.NORTH_CARDINAL;
+            case "south_cardinal" -> VirtualAISAidToNavigationTypeType.SOUTH_CARDINAL;
+            case "east_cardinal" -> VirtualAISAidToNavigationTypeType.EAST_CARDINAL;
+            case "west_cardinal" -> VirtualAISAidToNavigationTypeType.WEST_CARDINAL;
+            case "port_lateral" -> VirtualAISAidToNavigationTypeType.PORT_LATERAL;
+            case "starboard_lateral" -> VirtualAISAidToNavigationTypeType.STARBOARD_LATERAL;
+            case "preferred_port" -> VirtualAISAidToNavigationTypeType.PREFERRED_CHANNEL_TO_PORT;
+            case "preferred_starboard" -> VirtualAISAidToNavigationTypeType.PREFERRED_CHANNEL_TO_STARBOARD;
+            case "isolated_danger" -> VirtualAISAidToNavigationTypeType.ISOLATED_DANGER;
+            case "safe_water" -> VirtualAISAidToNavigationTypeType.SAFE_WATER;
+            case "special_purpose" -> VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE;
+            case "wreck" -> VirtualAISAidToNavigationTypeType.NEW_DANGER_MARKING;
+            default -> null;
+        };
     }
     
     /**
@@ -120,17 +104,18 @@ public class S125EnumParser {
      * @return the S-125 Nature Of Construction enum entry
      */
     public static NatureOfConstructionType parseNatureOfConstruction(String natureOfConstruction) {
-        switch(natureOfConstruction) {
-            case "masonry": return NatureOfConstructionType.MASONRY;
-            case "concreted": return NatureOfConstructionType.CONCRETED;
-            case "loose_boulders": return NatureOfConstructionType.LOOSE_BOULDERS;
-            case "hard-surfaced": return NatureOfConstructionType.HARD_SURFACE;
-            case "wooden": return NatureOfConstructionType.WOODEN;
-            case "metal": return NatureOfConstructionType.METAL;
-            case "grp": return NatureOfConstructionType.GLASS_REINFORCED_PLASTIC_GRP;
-            case "painted": return NatureOfConstructionType.PAINTED;
-            default: return null;
-        }
+        return switch (natureOfConstruction) {
+            case "masonry" -> NatureOfConstructionType.MASONRY;
+            case "hard-surfaced" -> NatureOfConstructionType.HARD_SURFACE;
+            case "concreted" -> NatureOfConstructionType.CONCRETED;
+            case "loose_boulders" -> NatureOfConstructionType.LOOSE_BOULDERS;
+            case "wooden" -> NatureOfConstructionType.WOODEN;
+            case "metal" -> NatureOfConstructionType.METAL;
+            case "painted" -> NatureOfConstructionType.PAINTED;
+            case "grp" -> NatureOfConstructionType.FIBERGLASS;
+            case "plastic" -> NatureOfConstructionType.PLASTIC;
+            default -> null;
+        };
     }
 
     /**
@@ -140,26 +125,26 @@ public class S125EnumParser {
      * @return the S-125 Status enum entry
      */
     public static StatusType parseStatus(String status) {
-        switch(status) {
-            case "permanent": return StatusType.PERMANENT;
-            case "occasional": return StatusType.OCCASIONAL;
-            case "recommended": return StatusType.RECOMMENDED;
-            case "not_in_use": return StatusType.NOT_IN_USE;
-            case "intermittent": return StatusType.PERIODIC_INTERMITTENT;
-            case "reserved": return StatusType.RESERVED;
-            case "temporary": return StatusType.TEMPORARY;
-            case "private": return StatusType.PRIVATE;
-            case "mandatory": return StatusType.MANDATORY;
-            case "extinguished": return StatusType.EXTINGUISHED;
-            case "illuminated": return StatusType.ILLUMINATED;
-            case "historic": return StatusType.HISTORIC;
-            case "public": return StatusType.PUBLIC;
-            case "synchronised": return StatusType.SYNCHRONIZED;
-            case "watched": return StatusType.WATCHED;
-            case "unwatched": return StatusType.UN_WATCHED;
-            case "existence_doubtful": return StatusType.EXISTENCE_DOUBTFUL;
-            default: return null;
-        }
+        return switch (status) {
+            case "permanent" -> StatusType.PERMANENT;
+            case "not_in_use" -> StatusType.NOT_IN_USE;
+            case "periodic/intermittent" -> StatusType.PERIODIC_INTERMITTENT;
+            case "temporary" -> StatusType.TEMPORARY;
+            case "private" -> StatusType.PRIVATE;
+            case "public" -> StatusType.PUBLIC;
+            case "watched" -> StatusType.WATCHED;
+            case "unwatched" -> StatusType.UN_WATCHED;
+            case "confirmed" -> StatusType.CONFIRMED;
+            case "candidate" -> StatusType.CANDIDATE;
+            case "under_modification" -> StatusType.UNDER_MODIFICATION;
+            case "candidate_for_modification" -> StatusType.CANDIDATE_FOR_MODIFICATION;
+            case "under_removal/deletion" -> StatusType.UNDER_REMOVAL_DELETION;
+            case "removed/deleted" -> StatusType.REMOVED_DELETED;
+            case "experimental" -> StatusType.EXPERIMENTAL;
+            case "temporarily discontinued" -> StatusType.TEMPORARILY_DISCONTINUED;
+            case "temporarily relocated" -> StatusType.TEMPORARILY_RELOCATED;
+            default -> null;
+        };
     }
     
     /**
@@ -170,11 +155,11 @@ public class S125EnumParser {
      * @return the S-125 Radar Conspicuous System enum entry
      */
     public static RadarConspicuousType parseRadarConspicuous(String radarConspicuous) {
-        switch(radarConspicuous) {
-            case "conspicuous": return RadarConspicuousType.RADAR_CONSPICUOUS;
-            case "not_conspicuous": return  RadarConspicuousType.NOT_RADAR_CONSPICUOUS;
-            default: return null;
-        }
+        return switch (radarConspicuous) {
+            case "conspicuous" -> RadarConspicuousType.RADAR_CONSPICUOUS;
+            case "not_conspicuous" -> RadarConspicuousType.NOT_RADAR_CONSPICUOUS;
+            default -> null;
+        };
     }
 
     /**
@@ -184,12 +169,12 @@ public class S125EnumParser {
      * @param visuallyConspicuous     The INT-1-preset.xml visually conspicuous
      * @return the S-125 Visually Conspicuous System enum entry
      */
-    public static VisualProminenceType parseVisuallyConspicuous(String visuallyConspicuous) {
-        switch(visuallyConspicuous) {
-            case "conspicuous": return VisualProminenceType.VISUALLY_CONSPICUOUS;
-            case "not_conspicuous": return  VisualProminenceType.NOT_VISUALLY_CONSPICUOUS;
-            default: return null;
-        }
+    public static VisualProminenceType parseVisualProminence(String visuallyConspicuous) {
+        return switch (visuallyConspicuous) {
+            case "conspicuous" -> VisualProminenceType.VISUALLY_CONSPICUOUS;
+            case "not_conspicuous" -> VisualProminenceType.NOT_VISUALLY_CONSPICUOUS;
+            default -> null;
+        };
     }
 
     /**
@@ -200,13 +185,13 @@ public class S125EnumParser {
      * @return the S-125 Marks Navigational System Of enum entry
      */
     public static MarksNavigationalSystemOfType parseMarksNavigationalSystemOf(String marksNavigationalSystemOf) {
-        switch(marksNavigationalSystemOf) {
-            case "iala-a": return MarksNavigationalSystemOfType.IALA_A;
-            case "iala-b": return  MarksNavigationalSystemOfType.IALA_B;
-            case "cevni": return MarksNavigationalSystemOfType.OTHER_SYSTEM;
-            case "none": return MarksNavigationalSystemOfType.NO_SYSTEM;
-            default: return null;
-        }
+        return switch (marksNavigationalSystemOf) {
+            case "iala-a" -> MarksNavigationalSystemOfType.IALA_A;
+            case "iala-b" -> MarksNavigationalSystemOfType.IALA_B;
+            case "cevni" -> MarksNavigationalSystemOfType.OTHER_SYSTEM;
+            case "none" -> MarksNavigationalSystemOfType.NO_SYSTEM;
+            default -> null;
+        };
     }
 
     /**
@@ -217,11 +202,11 @@ public class S125EnumParser {
      * @return the S-125 Category of Installation Buoy enum entry
      */
     public static CategoryOfInstallationBuoyType parseCategoryOfInstallationBuoy(String installationBuoy) {
-        switch (installationBuoy) {
-            case "calm": return CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING_CALM;
-            case "sbm": return CategoryOfInstallationBuoyType.SINGLE_BUOY_MOORING_SBM_OR_SPM;
-            default: return null;
-        }
+        return switch (installationBuoy) {
+            case "calm" ->  CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING_CALM;
+            case "sbm" -> CategoryOfInstallationBuoyType.SINGLE_BUOY_MOORING_SBM_OR_SPM;
+            default -> null;
+        };
     }
 
     /**
@@ -232,64 +217,64 @@ public class S125EnumParser {
      * @return the S-125 Category of Special Purpose Mark enum entry
      */
     public static CategoryOfSpecialPurposeMarkType parseCategoryOfSpecialPurposeMark(String specialPurposeMark) {
-        switch (specialPurposeMark) {
-            case("firing_danger_area"): return CategoryOfSpecialPurposeMarkType.FIRING_DANGER_MARK;
-            case("target"): return CategoryOfSpecialPurposeMarkType.TARGET_MARK;
-            case("marker_ship"): return CategoryOfSpecialPurposeMarkType.MARKER_SHIP_MARK;
-            case("degaussing_range"): return CategoryOfSpecialPurposeMarkType.DEGAUSSING_RANGE_MARK;
-            case("barge"): return CategoryOfSpecialPurposeMarkType.BARGE_MARK;
-            case("cable"): return CategoryOfSpecialPurposeMarkType.CABLE_MARK;
-            case("spoil_ground"): return CategoryOfSpecialPurposeMarkType.SPOIL_GROUND_MARK;
-            case("outfall"): return CategoryOfSpecialPurposeMarkType.OUTFALL_MARK;
-            case("odas"): return CategoryOfSpecialPurposeMarkType.ODAS_OCEAN_DATA_ACQUISITION_SYSTEM;
-            case("recording"): return CategoryOfSpecialPurposeMarkType.RECORDING_MARK;
-            case("seaplane_anchorage"): return CategoryOfSpecialPurposeMarkType.SEAPLANE_ANCHORAGE_MARK;
-            case("recreation_zone"): return CategoryOfSpecialPurposeMarkType.RECREATION_ZONE_MARK;
-            case("private"): return CategoryOfSpecialPurposeMarkType.PRIVATE_MARK;
-            case("mooring"): return CategoryOfSpecialPurposeMarkType.MOORING_MARK;
-            case("lanby"): return CategoryOfSpecialPurposeMarkType.LANBY_LARGE_AUTOMATIC_NAVIGATIONAL_BUOY;
-            case("leading"): return CategoryOfSpecialPurposeMarkType.LEADING_MARK;
-            case("measured_distance"): return CategoryOfSpecialPurposeMarkType.MEASURED_DISTANCE_MARK;
-            case("notice"): return CategoryOfSpecialPurposeMarkType.NOTICE_MARK;
-            case("tss"): return CategoryOfSpecialPurposeMarkType.TSS_MARK_TRAFFIC_SEPARATION_SCHEME;
-            case("no_anchoring"): return CategoryOfSpecialPurposeMarkType.ANCHORING_PROHIBITED_MARK;
-            case("no_berthing"): return CategoryOfSpecialPurposeMarkType.BERTHING_PROHIBITED_MARK;
-            case("no_overtaking"): return CategoryOfSpecialPurposeMarkType.OVERTAKING_PROHIBITED_MARK;
-            case("no_two-way_traffic"): return CategoryOfSpecialPurposeMarkType.TWO_WAY_TRAFFIC_PROHIBITED_MARK;
-            case("reduced_wake"): return CategoryOfSpecialPurposeMarkType.REDUCED_WAKE_MARK;
-            case("speed_limit"): return CategoryOfSpecialPurposeMarkType.SPEED_LIMIT_MARK;
-            case("stop"): return CategoryOfSpecialPurposeMarkType.STOP_MARK;
-            case("warning"): return CategoryOfSpecialPurposeMarkType.GENERAL_WARNING_MARK;
-            case("sound_ship_siren"): return CategoryOfSpecialPurposeMarkType.SOUND_SHIP_S_SIREN_MARK;
-            case("restricted_vertical_clearance"): return CategoryOfSpecialPurposeMarkType.RESTRICTED_VERTICAL_CLEARANCE_MARK;
-            case("maximum_vessel_draught"): return CategoryOfSpecialPurposeMarkType.MAXIMUM_VESSEL_S_DRAUGHT_MARK;
-            case("restricted_horizontal_clearance"): return CategoryOfSpecialPurposeMarkType.RESTRICTED_HORIZONTAL_CLEARANCE_MARK;
-            case("strong_current"): return CategoryOfSpecialPurposeMarkType.STRONG_CURRENT_WARNING_MARK;
-            case("berthing"): return CategoryOfSpecialPurposeMarkType.BERTHING_PERMITTED_MARK;
-            case("overhead_power_cable"): return CategoryOfSpecialPurposeMarkType.OVERHEAD_POWER_CABLE_MARK;
-            case("channel_edge_gradient"): return CategoryOfSpecialPurposeMarkType.CHANNEL_EDGE_GRADIENT_MARK;
-            case("telephone"): return CategoryOfSpecialPurposeMarkType.TELEPHONE_MARK;
-            case("ferry_crossing"): return CategoryOfSpecialPurposeMarkType.FERRY_CROSSING_MARK;
-            case("pipeline"): return CategoryOfSpecialPurposeMarkType.PIPELINE_MARK;
-            case("anchorage"): return CategoryOfSpecialPurposeMarkType.ANCHORAGE_MARK;
-            case("clearing"): return CategoryOfSpecialPurposeMarkType.CLEARING_MARK;
-            case("control"): return CategoryOfSpecialPurposeMarkType.CONTROL_MARK;
-            case("diving"): return CategoryOfSpecialPurposeMarkType.DIVING_MARK;
-            case("refuge_beacon"): return CategoryOfSpecialPurposeMarkType.REFUGE_BEACON;
-            case("foul_ground"): return CategoryOfSpecialPurposeMarkType.FOUL_GROUND_MARK;
-            case("yachting"): return CategoryOfSpecialPurposeMarkType.YACHTING_MARK;
-            case("heliport"): return CategoryOfSpecialPurposeMarkType.HELIPORT_MARK;
-            case("gps"): return CategoryOfSpecialPurposeMarkType.GNSS_MARK;
-            case("seaplane_landing"): return CategoryOfSpecialPurposeMarkType.SEAPLANE_LANDING_MARK;
-            case("no_entry"): return CategoryOfSpecialPurposeMarkType.ENTRY_PROHIBITED_MARK;
-            case("work_in_progress"): return CategoryOfSpecialPurposeMarkType.WORK_IN_PROGRESS_MARK;
-            case("unknown_purpose"): return CategoryOfSpecialPurposeMarkType.MARK_WITH_UNKNOWN_PURPOSE;
-            case("wellhead"): return CategoryOfSpecialPurposeMarkType.WELLHEAD_MARK;
-            case("channel_separation"): return CategoryOfSpecialPurposeMarkType.CHANNEL_SEPARATION_MARK;
-            case("marine_farm"): return CategoryOfSpecialPurposeMarkType.MARINE_FARM_MARK;
-            case("artificial_reef"): return CategoryOfSpecialPurposeMarkType.ARTIFICIAL_REEF_MARK;
-            default: return null;
-        }
+        return switch (specialPurposeMark) {
+            case ("firing_danger_area") -> CategoryOfSpecialPurposeMarkType.FIRING_DANGER_MARK;
+            case ("target") -> CategoryOfSpecialPurposeMarkType.TARGET_MARK;
+            case ("marker_ship") -> CategoryOfSpecialPurposeMarkType.MARKER_SHIP_MARK;
+            case ("degaussing_range") -> CategoryOfSpecialPurposeMarkType.DEGAUSSING_RANGE_MARK;
+            case ("barge") -> CategoryOfSpecialPurposeMarkType.BARGE_MARK;
+            case ("cable") -> CategoryOfSpecialPurposeMarkType.CABLE_MARK;
+            case ("spoil_ground") -> CategoryOfSpecialPurposeMarkType.SPOIL_GROUND_MARK;
+            case ("outfall") -> CategoryOfSpecialPurposeMarkType.OUTFALL_MARK;
+            case ("odas") -> CategoryOfSpecialPurposeMarkType.ODAS_OCEAN_DATA_ACQUISITION_SYSTEM;
+            case ("recording") -> CategoryOfSpecialPurposeMarkType.RECORDING_MARK;
+            case ("seaplane_anchorage") -> CategoryOfSpecialPurposeMarkType.SEAPLANE_ANCHORAGE_MARK;
+            case ("recreation_zone") -> CategoryOfSpecialPurposeMarkType.RECREATION_ZONE_MARK;
+            case ("private") -> CategoryOfSpecialPurposeMarkType.PRIVATE_MARK;
+            case ("mooring") -> CategoryOfSpecialPurposeMarkType.MOORING_MARK;
+            case ("lanby") -> CategoryOfSpecialPurposeMarkType.LANBY_LARGE_AUTOMATIC_NAVIGATIONAL_BUOY;
+            case ("leading") -> CategoryOfSpecialPurposeMarkType.LEADING_MARK;
+            case ("measured_distance") -> CategoryOfSpecialPurposeMarkType.MEASURED_DISTANCE_MARK;
+            case ("notice") -> CategoryOfSpecialPurposeMarkType.NOTICE_MARK;
+            case ("tss") -> CategoryOfSpecialPurposeMarkType.TSS_MARK_TRAFFIC_SEPARATION_SCHEME;
+            case ("no_anchoring") -> CategoryOfSpecialPurposeMarkType.ANCHORING_PROHIBITED_MARK;
+            case ("no_berthing") -> CategoryOfSpecialPurposeMarkType.BERTHING_PROHIBITED_MARK;
+            case ("no_overtaking") -> CategoryOfSpecialPurposeMarkType.OVERTAKING_PROHIBITED_MARK;
+            case ("no_two-way_traffic") -> CategoryOfSpecialPurposeMarkType.TWO_WAY_TRAFFIC_PROHIBITED_MARK;
+            case ("reduced_wake") -> CategoryOfSpecialPurposeMarkType.REDUCED_WAKE_MARK;
+            case ("speed_limit") -> CategoryOfSpecialPurposeMarkType.SPEED_LIMIT_MARK;
+            case ("stop") -> CategoryOfSpecialPurposeMarkType.STOP_MARK;
+            case ("warning") -> CategoryOfSpecialPurposeMarkType.GENERAL_WARNING_MARK;
+            case ("sound_ship_siren") -> CategoryOfSpecialPurposeMarkType.SOUND_SHIP_S_SIREN_MARK;
+            case ("restricted_vertical_clearance") -> CategoryOfSpecialPurposeMarkType.RESTRICTED_VERTICAL_CLEARANCE_MARK;
+            case ("maximum_vessel_draught") -> CategoryOfSpecialPurposeMarkType.MAXIMUM_VESSEL_S_DRAUGHT_MARK;
+            case ("restricted_horizontal_clearance") -> CategoryOfSpecialPurposeMarkType.RESTRICTED_HORIZONTAL_CLEARANCE_MARK;
+            case ("strong_current") -> CategoryOfSpecialPurposeMarkType.STRONG_CURRENT_WARNING_MARK;
+            case ("berthing") -> CategoryOfSpecialPurposeMarkType.BERTHING_PERMITTED_MARK;
+            case ("overhead_power_cable") -> CategoryOfSpecialPurposeMarkType.OVERHEAD_POWER_CABLE_MARK;
+            case ("channel_edge_gradient") -> CategoryOfSpecialPurposeMarkType.CHANNEL_EDGE_GRADIENT_MARK;
+            case ("telephone") -> CategoryOfSpecialPurposeMarkType.TELEPHONE_MARK;
+            case ("ferry_crossing") -> CategoryOfSpecialPurposeMarkType.FERRY_CROSSING_MARK;
+            case ("pipeline") -> CategoryOfSpecialPurposeMarkType.PIPELINE_MARK;
+            case ("anchorage") -> CategoryOfSpecialPurposeMarkType.ANCHORAGE_MARK;
+            case ("clearing") -> CategoryOfSpecialPurposeMarkType.CLEARING_MARK;
+            case ("control") -> CategoryOfSpecialPurposeMarkType.CONTROL_MARK;
+            case ("diving") -> CategoryOfSpecialPurposeMarkType.DIVING_MARK;
+            case ("refuge_beacon") -> CategoryOfSpecialPurposeMarkType.REFUGE_BEACON;
+            case ("foul_ground") -> CategoryOfSpecialPurposeMarkType.FOUL_GROUND_MARK;
+            case ("yachting") -> CategoryOfSpecialPurposeMarkType.YACHTING_MARK;
+            case ("heliport") -> CategoryOfSpecialPurposeMarkType.HELIPORT_MARK;
+            case ("gps") -> CategoryOfSpecialPurposeMarkType.GNSS_MARK;
+            case ("seaplane_landing") -> CategoryOfSpecialPurposeMarkType.SEAPLANE_LANDING_MARK;
+            case ("no_entry") -> CategoryOfSpecialPurposeMarkType.ENTRY_PROHIBITED_MARK;
+            case ("work_in_progress") -> CategoryOfSpecialPurposeMarkType.WORK_IN_PROGRESS_MARK;
+            case ("unknown_purpose") -> CategoryOfSpecialPurposeMarkType.MARK_WITH_UNKNOWN_PURPOSE;
+            case ("wellhead") -> CategoryOfSpecialPurposeMarkType.WELLHEAD_MARK;
+            case ("channel_separation") ->  CategoryOfSpecialPurposeMarkType.CHANNEL_SEPARATION_MARK;
+            case ("marine_farm") -> CategoryOfSpecialPurposeMarkType.MARINE_FARM_MARK;
+            case ("artificial_reef") -> CategoryOfSpecialPurposeMarkType.ARTIFICIAL_REEF_MARK;
+            default -> null;
+        };
     }
 
     /**
@@ -300,13 +285,13 @@ public class S125EnumParser {
      * @return the S-125 Category of Lateral Mark enum entry
      */
     public static CategoryOfLateralMarkType parseCategoryOfLateralMark(String lateralMark) {
-        switch (lateralMark) {
-            case "port": return CategoryOfLateralMarkType.PORT_HAND_LATERAL_MARK;
-            case "starboard": return CategoryOfLateralMarkType.STARBOARD_HAND_LATERAL_MARK;
-            case "preferred_channel_starboard": return CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
-            case "preferred_channel_port": return CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
-            default: return null;
-        }
+        return switch (lateralMark) {
+            case "port" -> CategoryOfLateralMarkType.PORT_HAND_LATERAL_MARK;
+            case "starboard" -> CategoryOfLateralMarkType.STARBOARD_HAND_LATERAL_MARK;
+            case "preferred_channel_starboard" ->CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
+            case "preferred_channel_port" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
+            default -> null;
+        };
     }
 
     /**
@@ -317,13 +302,13 @@ public class S125EnumParser {
      * @return the S-125 Category of Cardinal Mark enum entry
      */
     public static CategoryOfCardinalMarkType parseCategoryOfCardinalMark(String cardinalMark) {
-        switch (cardinalMark) {
-            case "north": return CategoryOfCardinalMarkType.NORTH_CARDINAL_MARK;
-            case "east": return CategoryOfCardinalMarkType.EAST_CARDINAL_MARK;
-            case "south": return CategoryOfCardinalMarkType.SOUTH_CARDINAL_MARK;
-            case "west": return CategoryOfCardinalMarkType.WEST_CARDINAL_MARK;
-            default: return null;
-        }
+        return switch (cardinalMark) {
+            case "north" -> CategoryOfCardinalMarkType.NORTH_CARDINAL_MARK;
+            case "east" -> CategoryOfCardinalMarkType.EAST_CARDINAL_MARK;
+            case "south" -> CategoryOfCardinalMarkType.SOUTH_CARDINAL_MARK;
+            case "west" -> CategoryOfCardinalMarkType.WEST_CARDINAL_MARK;
+            default -> null;
+        };
     }
 
     /**
@@ -334,16 +319,13 @@ public class S125EnumParser {
      * @return the S-125 Beacon Shape enum entry
      */
     public static BeaconShapeType parseBeaconShape(String beaconShape) {
-        switch (beaconShape) {
-            case "stake": case "pole": case "perch": case "post": return BeaconShapeType.STAKE_POLE_PERCH_POST;
-            case "withy": return BeaconShapeType.WITHY;
-            case "tower": return BeaconShapeType.BEACON_TOWER;
-            case "lattice": return BeaconShapeType.LATTICE_BEACON;
-            case "pile": return BeaconShapeType.PILE_BEACON;
-            case "cairn": return BeaconShapeType.CAIRN;
-            case "buoyant": return BeaconShapeType.BUOYANT_BEACON;
-            default: return null;
-        }
+        return switch (beaconShape) {
+            case "stake", "pole", "perch", "post" -> BeaconShapeType.STAKE_POLE_PERCH_POST;
+            case "tower" -> BeaconShapeType.BEACON_TOWER;
+            case "lattice" -> BeaconShapeType.LATTICE_BEACON;
+            case "pile" -> BeaconShapeType.PILE_BEACON;
+            default -> null;
+        };
     }
 
     /**
@@ -354,17 +336,17 @@ public class S125EnumParser {
      * @return the S-125 Buoy Shape enum entry
      */
     public static BuoyShapeType parseBuoyShape(String buoyShape) {
-        switch (buoyShape) {
-            case "conical": return BuoyShapeType.CONICAL_NUN_OGIVAL;
-            case "can": return BuoyShapeType.CAN_CYLINDRICAL;
-            case "spherical": return BuoyShapeType.SPHERICAL;
-            case "super-buoy": return BuoyShapeType.SUPER_BUOY;
-            case "pillar": return BuoyShapeType.PILLAR;
-            case "spar": return BuoyShapeType.SPAR_SPINDLE;
-            case "barrel": return BuoyShapeType.BARREL_TUN;
-            case "ice-buoy": return BuoyShapeType.ICE_BUOY;
-            default: return null;
-        }
+        return switch (buoyShape) {
+            case "conical" -> BuoyShapeType.CONICAL_NUN_OGIVAL;
+            case "can" -> BuoyShapeType.CAN_CYLINDRICAL;
+            case "spherical" -> BuoyShapeType.SPHERICAL;
+            case "super-buoy" -> BuoyShapeType.SUPER_BUOY;
+            case "pillar" -> BuoyShapeType.PILLAR;
+            case "spar" -> BuoyShapeType.SPAR_SPINDLE;
+            case "barrel" -> BuoyShapeType.BARREL_TUN;
+            case "ice-buoy" -> BuoyShapeType.ICE_BUOY;
+            default -> null;
+        };
     }
 
     /**
@@ -375,27 +357,25 @@ public class S125EnumParser {
      * @return the S-125 category of light enum entry
      */
     public static CategoryOfLightType parseLightCategory(String lightCategory) {
-        switch (lightCategory) {
-            case "front": return CategoryOfLightType.FRONT;
-            case "rear": return CategoryOfLightType.REAR;
-            case "lower": return CategoryOfLightType.LOWER;
-            case "upper": return CategoryOfLightType.UPPER;
-            case "horizontal": return CategoryOfLightType.HORIZONTALLY_DISPOSED;
-            case "vertical":  return CategoryOfLightType.VERTICALLY_DISPOSED;
-            case "directional":  return CategoryOfLightType.DIRECTIONAL_FUNCTION;
-            case "leading": return CategoryOfLightType.LEADING_LIGHT;
-            case "aero": return CategoryOfLightType.AERO_LIGHT;
-            case "air_obstruction": return CategoryOfLightType.AIR_OBSTRUCTION_LIGHT;
-            case "fog_detector": return CategoryOfLightType.FOG_DETECTOR_LIGHT;
-            case "floodlight": return CategoryOfLightType.FLOOD_LIGHT;
-            case "strip_light": return CategoryOfLightType.STRIP_LIGHT;
-            case "subsidiary": return CategoryOfLightType.SUBSIDIARY_LIGHT;
-            case "spotlight": return CategoryOfLightType.SPOTLIGHT;
-            case "moire": return CategoryOfLightType.MOIRE_EFFECT;
-            case "emergency": return CategoryOfLightType.EMERGENCY;
-            case "bearing": return CategoryOfLightType.BEARING_LIGHT;
-            default: return null;
-        }
+        return switch (lightCategory) {
+            case "leading" -> CategoryOfLightType.LEADING_LIGHT;
+            case "aero" -> CategoryOfLightType.AERO_LIGHT;
+            case "air_obstruction" -> CategoryOfLightType.AIR_OBSTRUCTION_LIGHT;
+            case "fog_detector" -> CategoryOfLightType.FOG_DETECTOR_LIGHT;
+            case "floodlight" -> CategoryOfLightType.FLOOD_LIGHT;
+            case "strip_light" -> CategoryOfLightType.STRIP_LIGHT;
+            case "subsidiary" -> CategoryOfLightType.SUBSIDIARY_LIGHT;
+            case "spotlight" -> CategoryOfLightType.SPOTLIGHT;
+            case "front" -> CategoryOfLightType.FRONT;
+            case "rear" -> CategoryOfLightType.REAR;
+            case "lower" -> CategoryOfLightType.LOWER;
+            case "upper" -> CategoryOfLightType.UPPER;
+            case "emergency" -> CategoryOfLightType.EMERGENCY;
+            case "horizontal" -> CategoryOfLightType.HORIZONTALLY_DISPOSED;
+            case "vertical" -> CategoryOfLightType.VERTICALLY_DISPOSED;
+            case "bridge_light" -> CategoryOfLightType.BRIDGE_LIGHT;
+            default -> null;
+        };
     }
 
     /**
@@ -406,34 +386,34 @@ public class S125EnumParser {
      * @return the S-125 category of light enum entry
      */
     public static LightCharacteristicType parseLightCharacter(String lightCharacter) {
-        switch (lightCharacter) {
-            case "F": return LightCharacteristicType.FIXED;
-            case "Fl": return LightCharacteristicType.FLASHING;
-            case "LFl": return LightCharacteristicType.LONG_FLASHING;
-            case "Q": return LightCharacteristicType.QUICK_FLASHING;
-            case "VQ": return LightCharacteristicType.VERY_QUICK_FLASHING;
-            case "UQ": return LightCharacteristicType.ULTRA_QUICK_FLASHING;
-            case "Iso": return LightCharacteristicType.ISOPHASED;
-            case "Oc": return LightCharacteristicType.OCCULTING;
-            case "IQ": return LightCharacteristicType.INTERRUPTED_QUICK_FLASHING;
-            case "IVQ": return LightCharacteristicType.INTERRUPTED_VERY_QUICK_FLASHING;
-            case "IUQ": return LightCharacteristicType.INTERRUPTED_ULTRA_QUICK_FLASHING;
-            case "Mo": return LightCharacteristicType.MORSE;
-            case "FFl": return LightCharacteristicType.FIXED_AND_FLASH;
-            case "FlLFl": return LightCharacteristicType.FLASH_AND_LONG_FLASH;
-            case "OcFl": return LightCharacteristicType.OCCULTING_AND_FLASH;
-            case "FLFl": return LightCharacteristicType.FIXED_AND_LONG_FLASH;
-            case "Al.Oc": return LightCharacteristicType.OCCULTING_ALTERNATING;
-            case "Al.LFl": return LightCharacteristicType.LONG_FLASH_ALTERNATING;
-            case "Al.Fl": return LightCharacteristicType.FLASH_ALTERNATING;
-            case "Al.Gr": return LightCharacteristicType.FLASH_ALTERNATING;
-            case "Q+LFl": return LightCharacteristicType.QUICK_FLASH_PLUS_LONG_FLASH;
-            case "VQ+LFl": return LightCharacteristicType.VERY_QUICK_FLASH_PLUS_LONG_FLASH;
-            case "UQ+LFl": return LightCharacteristicType.ULTRA_QUICK_FLASH_PLUS_LONG_FLASH;
-            case "Al": return LightCharacteristicType.ALTERNATING;
-            case "Al.FFl": return LightCharacteristicType.FIXED_AND_ALTERNATING_FLASHING;
-            default: return null;
-        }
+        return switch (lightCharacter) {
+            case "F" -> LightCharacteristicType.FIXED;
+            case "Fl" -> LightCharacteristicType.FLASHING;
+            case "LFl" -> LightCharacteristicType.LONG_FLASHING;
+            case "Q" -> LightCharacteristicType.QUICK_FLASHING;
+            case "VQ" -> LightCharacteristicType.VERY_QUICK_FLASHING;
+            case "UQ" -> LightCharacteristicType.ULTRA_QUICK_FLASHING;
+            case "Iso" -> LightCharacteristicType.ISOPHASED;
+            case "Oc" -> LightCharacteristicType.OCCULTING;
+            case "IQ" -> LightCharacteristicType.INTERRUPTED_QUICK_FLASHING;
+            case "IVQ" -> LightCharacteristicType.INTERRUPTED_VERY_QUICK_FLASHING;
+            case "IUQ" -> LightCharacteristicType.INTERRUPTED_ULTRA_QUICK_FLASHING;
+            case "Mo" -> LightCharacteristicType.MORSE;
+            case "FFl" -> LightCharacteristicType.FIXED_AND_FLASH;
+            case "FlLFl" -> LightCharacteristicType.FLASH_AND_LONG_FLASH;
+            case "OcFl" -> LightCharacteristicType.OCCULTING_AND_FLASH;
+            case "FLFl" -> LightCharacteristicType.FIXED_AND_LONG_FLASH;
+            case "Al.Oc" -> LightCharacteristicType.OCCULTING_ALTERNATING;
+            case "Al.LFl" -> LightCharacteristicType.LONG_FLASH_ALTERNATING;
+            case "Al.Fl" -> LightCharacteristicType.FLASH_ALTERNATING;
+            case "Al.FFl" -> LightCharacteristicType.FLASH_ALTERNATING;
+            case "Al.Gr" -> LightCharacteristicType.FLASH_ALTERNATING;
+            case "Q+LFl" -> LightCharacteristicType.QUICK_FLASH_PLUS_LONG_FLASH;
+            case "VQ+LFl" -> LightCharacteristicType.VERY_QUICK_FLASH_PLUS_LONG_FLASH;
+            case "UQ+LFl" -> LightCharacteristicType.ULTRA_QUICK_FLASH_PLUS_LONG_FLASH;
+            case "Al" -> LightCharacteristicType.ALTERNATING;
+            default -> null;
+        };
     }
 
     /**
@@ -444,16 +424,16 @@ public class S125EnumParser {
      * @return the S-125 Colour Pattern enum
      */
     public static ColourPatternType parseColourPattern(String colourPattern) {
-        switch(colourPattern) {
-            case "horizontal": return ColourPatternType.HORIZONTAL_STRIPES;
-            case "vertical": return ColourPatternType.VERTICAL_STRIPES;
-            case "diagonal": return ColourPatternType.DIAGONAL_STRIPES;
-            case "squared": return ColourPatternType.SQUARED;
-            case "stripes": return ColourPatternType.STRIPES_DIRECTION_UNKNOWN;
-            case "border": return ColourPatternType.BORDER_STRIPE;
-            case "single": return ColourPatternType.SINGLE_COLOUR;
-            default: return null;
-        }
+        return switch (colourPattern) {
+            case "horizontal" -> ColourPatternType.HORIZONTAL_STRIPES;
+            case "vertical" -> ColourPatternType.VERTICAL_STRIPES;
+            case "diagonal" -> ColourPatternType.DIAGONAL_STRIPES;
+            case "squared" -> ColourPatternType.SQUARED;
+            case "stripes" -> ColourPatternType.STRIPES_DIRECTION_UNKNOWN;
+            case "border" -> ColourPatternType.BORDER_STRIPE;
+            case "single" -> ColourPatternType.SINGLE_COLOUR;
+            default -> null;
+        };
     }
 
     /**
@@ -463,22 +443,21 @@ public class S125EnumParser {
      * @return the S-125 Colour Pattern enum
      */
     public static ColourType parseColour(String colour) {
-        switch(colour) {
-            case "white": return ColourType.WHITE;
-            case "black": return ColourType.BLACK;
-            case "red": return ColourType.RED;
-            case "green": return ColourType.GREEN;
-            case "blue": return ColourType.BLUE;
-            case "yellow": return ColourType.YELLOW;
-            case "grey": return ColourType.GREY;
-            case "brown": return ColourType.BROWN;
-            case "amber": return ColourType.AMBER;
-            case "violet": return ColourType.VIOLET;
-            case "orange": return ColourType.ORANGE;
-            case "magenta": return ColourType.MAGENTA;
-            case "pink": return ColourType.PINK;
-            default: return null;
-        }
+        return switch (colour) {
+            case "white" -> ColourType.WHITE;
+            case "black" -> ColourType.BLACK;
+            case "red" -> ColourType.RED;
+            case "green" -> ColourType.GREEN;
+            case "blue" -> ColourType.BLUE;
+            case "yellow" -> ColourType.YELLOW;
+            case "grey" -> ColourType.GREY;
+            case "brown" -> ColourType.BROWN;
+            case "fluorescent_white" -> ColourType.FLUORESCENT_WHITE;
+            case "fluorescent_red" -> ColourType.FLUORESCENT_RED;
+            case "fluorescent_green" -> ColourType.FLUORESCENT_GREEN;
+            case "fluorescent_orange" -> ColourType.FLUORESCENT_ORANGE;
+            default -> null;
+        };
     }
 
     /**
@@ -489,83 +468,26 @@ public class S125EnumParser {
      * @return the S-125 Function enum
      */
     public static FunctionType parseFunction(String function) {
-        switch(function) {
-            case "harbour_master": return FunctionType.HARBOUR_MASTER_S_OFFICE;
-            case "customs": return FunctionType.CUSTOMS_OFFICE;
-            case "health": return FunctionType.HEALTH_OFFICE;
-            case "hospital": return FunctionType.HOSPITAL;
-            case "post_office": return FunctionType.POST_OFFICE;
-            case "hotel": return FunctionType.HOTEL;
-            case "railway_station": return FunctionType.RAILWAY_STATION;
-            case "police_station": return FunctionType.POLICE_STATION;
-            case "water-police_station": return FunctionType.WATER_POLICE_STATION;
-            case "pilot_office": return FunctionType.PILOT_OFFICE;
-            case "pilot_lookout": return FunctionType.PILOT_LOOKOUT;
-            case "bank": return FunctionType.BANK_OFFICE;
-            case "district_control": return FunctionType.HEADQUARTERS_FOR_DISTRICT_CONTROL;
-            case "transit_shed": return FunctionType.TRANSIT_SHED_WAREHOUSE;
-            case "factory": return FunctionType.FACTORY;
-            case "power_station": return FunctionType.POWER_STATION;
-            case "administrative": return FunctionType.ADMINISTRATIVE;
-            case "educational": return FunctionType.EDUCATIONAL_FACILITY;
-            case "church": return FunctionType.CHURCH;
-            case "chapel": return FunctionType.CHAPEL;
-            case "temple": return FunctionType.TEMPLE;
-            case "pagoda": return FunctionType.PAGODA;
-            case "shinto_shrine": return FunctionType.SHINTO_SHRINE;
-            case "buddhist_temple": return FunctionType.BUDDHIST_TEMPLE;
-            case "mosque": return FunctionType.MOSQUE;
-            case "marebout": return FunctionType.MARABOUT;
-            case "lookout": return FunctionType.LOOKOUT;
-            case "communication": return FunctionType.COMMUNICATION;
-            case "television": return FunctionType.TELEVISION;
-            case "radio": return FunctionType.RADIO;
-            case "radar": return FunctionType.RADAR;
-            case "light_support": return FunctionType.LIGHT_SUPPORT;
-            case "microwave": return FunctionType.MICROWAVE;
-            case "cooling": return FunctionType.COOLING;
-            case "observation": return FunctionType.OBSERVATION;
-            case "time_ball": return FunctionType.TIME_BALL;
-            case "clock": return FunctionType.CLOCK;
-            case "control": return FunctionType.CONTROL;
-            case "airship_mooring": return FunctionType.AIRSHIP_MOORING;
-            case "stadium": return FunctionType.STADIUM;
-            case "bus_station": return FunctionType.BUS_STATION;
-            default: return null;
-        }
-    }
-
-    /**
-     * Translates the topmark/daymark shape from the INT-1.preset.xml to the
-     * S-125 topmark/daymark shape.
-     *
-     * @param topmarkDaymarkShape   The INT-1-preset.xml topmark/daymark shape
-     * @return The S-125 topmark/daymark shape enum
-     */
-    public static TopmarkDaymarkShapeType parseTopmarkDaymarkShape(String topmarkDaymarkShape) {
-        switch(topmarkDaymarkShape) {
-            case "cone, point up": return TopmarkDaymarkShapeType.VALUE_1;
-            case "sphere": return TopmarkDaymarkShapeType.VALUE_2;
-            case "2 spheres": return TopmarkDaymarkShapeType.VALUE_3;
-            case "cylinder": return TopmarkDaymarkShapeType.VALUE_4;
-            case "board": return TopmarkDaymarkShapeType.VALUE_5;
-            case "x-shape": return TopmarkDaymarkShapeType.VALUE_6;
-            case "2 cones point together": return TopmarkDaymarkShapeType.VALUE_7;
-            case "2 cones base together": return TopmarkDaymarkShapeType.VALUE_8;
-            case "rhombus": return TopmarkDaymarkShapeType.VALUE_9;
-            case "2 cones uo": return TopmarkDaymarkShapeType.VALUE_10;
-            case "2 cones down": return TopmarkDaymarkShapeType.VALUE_11;
-            case "square": return TopmarkDaymarkShapeType.VALUE_12;
-            case "rectangle, horizontal": return TopmarkDaymarkShapeType.VALUE_13;
-            case "rectangle, vertica": return TopmarkDaymarkShapeType.VALUE_14;
-            case "trapezium, up": return TopmarkDaymarkShapeType.VALUE_15;
-            case "trapezium, down": return TopmarkDaymarkShapeType.VALUE_16;
-            case "triangle, point up": return TopmarkDaymarkShapeType.VALUE_17;
-            case "triangle, point down": return TopmarkDaymarkShapeType.VALUE_18;
-            case "other shape": return TopmarkDaymarkShapeType.VALUE_19;
-            case "tubular": return TopmarkDaymarkShapeType.VALUE_20;
-            default: return null;
-        }
+        return switch (function) {
+            case "customs" -> FunctionType.CUSTOMS_OFFICE;
+            case "hospital" -> FunctionType.HOSPITAL;
+            case "post_office" -> FunctionType.POST_OFFICE;
+            case "hotel" -> FunctionType.HOTEL;
+            case "railway_station" -> FunctionType.RAILWAY_STATION;
+            case "police_station" -> FunctionType.POLICE_STATION;
+            case "water-police_station" -> FunctionType.WATER_POLICE_STATION;
+            case "bank" -> FunctionType.BANK_OFFICE;
+            case "power_station" -> FunctionType.POWER_STATION;
+            case "educational" -> FunctionType.EDUCATIONAL_FACILITY;
+            case "church" -> FunctionType.CHURCH;
+            case "temple" -> FunctionType.TEMPLE;
+            case "television" -> FunctionType.TELEVISION;
+            case "radio" -> FunctionType.RADIO;
+            case "radar" -> FunctionType.RADAR;
+            case "light_support" -> FunctionType.LIGHT_SUPPORT;
+            case "bus_station" -> FunctionType.BUS_STATION;
+            default -> null;
+        };
     }
 
     /**

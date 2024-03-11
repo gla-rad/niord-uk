@@ -63,7 +63,7 @@ public class S125Service {
      * @return the generated GML
      */
     @Transactional
-    public String generateGML(String language, String gmlDatasetId, String... atonUIDs) throws Exception {
+    public String generateGML(String language, String gmlDatasetId, String... atonUIDs) {
         // Try to access the AtoN
         final List<AtonNode> atonNodes = this.atonService.findByAtonUids(atonUIDs);
 
