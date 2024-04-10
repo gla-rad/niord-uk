@@ -1825,7 +1825,7 @@ public class S125DatasetBuilder {
 
     /**
      * Many of the fields in the S125 Dataset features are common, i.e. they
-     * are shared between all structure and equipment types. Therefore this
+     * are shared between all structure and equipment types. Therefore, this
      * helper function can be used to populated them easily for each type.
      *
      * @param member            The S-125 databaset member
