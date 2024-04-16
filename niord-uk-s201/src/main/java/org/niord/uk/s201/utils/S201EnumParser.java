@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 /**
  * The S-201 Enum Parser Utility Class.
- *
+ * <p/>
  * This is a helper class that provides all the parsing utilities to translate
  * the JOSM seachart entries to S-201 enums.
  *
@@ -65,7 +65,7 @@ public class S201EnumParser {
             case "bolt_shackles" -> ShackleTypeType.BOLT_SHACKLES;
             case "screw_pin_shackles" -> ShackleTypeType.SCREW_PIN_SHACKLES;
             case "kenter_shackle" -> ShackleTypeType.KENTER_SHACKLE;
-            case "quick release link" -> ShackleTypeType.QUICK_RELEASE_LINK;
+            case "quick_release_link" -> ShackleTypeType.QUICK_RELEASE_LINK;
             default -> null;
         };
     }
@@ -340,8 +340,8 @@ public class S201EnumParser {
         return switch (lateralMark) {
             case "port" -> CategoryOfLateralMarkType.PORT_HAND_LATERAL_MARK;
             case "starboard" -> CategoryOfLateralMarkType.STARBOARD_HAND_LATERAL_MARK;
-            case "preferred_channel_starboard" ->CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
-            case "preferred_channel_port" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
+            case "preferred_channel_port" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
+            case "preferred_channel_starboard" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
             default -> null;
         };
     }
@@ -550,13 +550,13 @@ public class S201EnumParser {
      * @return The S-201 fog signal type enum
      */
     public static CategoryOfFogSignalType parseFogSignalCategory(String fogSignalCategory) {
-        switch(fogSignalCategory) {
-            case "bell": return CategoryOfFogSignalType.BELL;
-            case "horm": return CategoryOfFogSignalType.HORN;
-            case "siren": return CategoryOfFogSignalType.SIREN;
-            case "whistle": return CategoryOfFogSignalType.WHISTLE;
-            default: return null;
-        }
+        return switch (fogSignalCategory) {
+            case "bell" -> CategoryOfFogSignalType.BELL;
+            case "horm" -> CategoryOfFogSignalType.HORN;
+            case "siren" -> CategoryOfFogSignalType.SIREN;
+            case "whistle" -> CategoryOfFogSignalType.WHISTLE;
+            default -> null;
+        };
     }
 
     /**
@@ -567,11 +567,11 @@ public class S201EnumParser {
      * @return The S-201 radio station category enum
      */
     public static CategoryOfRadioStationType parseRadioStationCategory(String radioStationCategory) {
-        switch(radioStationCategory) {
-            case "ais": return CategoryOfRadioStationType.AIS_BASE_STATION;
-            case "differential": return CategoryOfRadioStationType.DIFFERENTIAL_GNSS;
-            default: return null;
-        }
+        return switch (radioStationCategory) {
+            case "ais" -> CategoryOfRadioStationType.AIS_BASE_STATION;
+            case "differential" -> CategoryOfRadioStationType.DIFFERENTIAL_GNSS;
+            default -> null;
+        };
     }
 
     /**
@@ -582,11 +582,11 @@ public class S201EnumParser {
      * @return The S-201 radio station category enum
      */
     public static CategoryOfRadarTransponderBeaconType parseRadioTransponderBeaconCategory(String radioTransponderBeaconCategory) {
-        switch(radioTransponderBeaconCategory) {
-            case "ramark": return CategoryOfRadarTransponderBeaconType.RAMARK_RADAR_BEACON_TRANSMITTING_CONTINUOUSLY;
-            case "racon": return CategoryOfRadarTransponderBeaconType.RACON_RADAR_TRANSPONDER_BEACON;
-            default: return null;
-        }
+        return switch (radioTransponderBeaconCategory) {
+            case "ramark" -> CategoryOfRadarTransponderBeaconType.RAMARK_RADAR_BEACON_TRANSMITTING_CONTINUOUSLY;
+            case "racon" -> CategoryOfRadarTransponderBeaconType.RACON_RADAR_TRANSPONDER_BEACON;
+            default -> null;
+        };
     }
 
     /**
@@ -597,14 +597,14 @@ public class S201EnumParser {
      * @return The S-201 building shape enum
      */
     public static BuildingShapeType parseBuildingShape(String buildingShape) {
-        switch(buildingShape) {
-            case "cubic": return BuildingShapeType.CUBIC;
-            case "spherical": return BuildingShapeType.SPHERICAL;
-            case "high rise building": return BuildingShapeType.HIGH_RISE_BUILDING;
-            case "cylindrical": return BuildingShapeType.CYLINDRICAL;
-            case "pyramid": return BuildingShapeType.PYRAMID;
-            default: return null;
-        }
+        return switch (buildingShape) {
+            case "cubic" -> BuildingShapeType.CUBIC;
+            case "spherical" -> BuildingShapeType.SPHERICAL;
+            case "high rise building" -> BuildingShapeType.HIGH_RISE_BUILDING;
+            case "cylindrical" -> BuildingShapeType.CYLINDRICAL;
+            case "pyramid" -> BuildingShapeType.PYRAMID;
+            default -> null;
+        };
     }
 
     /**
@@ -615,11 +615,11 @@ public class S201EnumParser {
      * @return The S-201 building shape enum
      */
     public static CategoryOfSiloTankType parseSiloTankCategory(String siloTankCategory) {
-        switch(siloTankCategory) {
-            case "silo": return CategoryOfSiloTankType.SILO_IN_GENERAL;
-            case "tank": return CategoryOfSiloTankType.TANK_IN_GENERAL;
-            default: return null;
-        }
+        return switch (siloTankCategory) {
+            case "silo" -> CategoryOfSiloTankType.SILO_IN_GENERAL;
+            case "tank" -> CategoryOfSiloTankType.TANK_IN_GENERAL;
+            default -> null;
+        };
     }
 
 }

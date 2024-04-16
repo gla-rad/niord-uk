@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 /**
  * The S-125 Enum Parser Utility Class.
- *
+ * <p/>
  * This is a helper class that provides all the parsing utilities to translate
  * the JOSM seachart entries to S-125 enums.
  *
@@ -288,8 +288,8 @@ public class S125EnumParser {
         return switch (lateralMark) {
             case "port" -> CategoryOfLateralMarkType.PORT_HAND_LATERAL_MARK;
             case "starboard" -> CategoryOfLateralMarkType.STARBOARD_HAND_LATERAL_MARK;
-            case "preferred_channel_starboard" ->CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
-            case "preferred_channel_port" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
+            case "preferred_channel_port" ->CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
+            case "preferred_channel_starboard" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
             default -> null;
         };
     }
@@ -498,13 +498,13 @@ public class S125EnumParser {
      * @return The S-125 fog signal type enum
      */
     public static CategoryOfFogSignalType parseFogSignalCategory(String fogSignalCategory) {
-        switch(fogSignalCategory) {
-            case "bell": return CategoryOfFogSignalType.BELL;
-            case "horm": return CategoryOfFogSignalType.HORN;
-            case "siren": return CategoryOfFogSignalType.SIREN;
-            case "whistle": return CategoryOfFogSignalType.WHISTLE;
-            default: return null;
-        }
+        return switch (fogSignalCategory) {
+            case "bell" -> CategoryOfFogSignalType.BELL;
+            case "horm" -> CategoryOfFogSignalType.HORN;
+            case "siren" -> CategoryOfFogSignalType.SIREN;
+            case "whistle" -> CategoryOfFogSignalType.WHISTLE;
+            default -> null;
+        };
     }
 
     /**
@@ -515,11 +515,11 @@ public class S125EnumParser {
      * @return The S-125 radio station category enum
      */
     public static CategoryOfRadioStationType parseRadioStationCategory(String radioStationCategory) {
-        switch(radioStationCategory) {
-            case "ais": return CategoryOfRadioStationType.AIS_BASE_STATION;
-            case "differential": return CategoryOfRadioStationType.DIFFERENTIAL_GNSS;
-            default: return null;
-        }
+        return switch (radioStationCategory) {
+            case "ais" -> CategoryOfRadioStationType.AIS_BASE_STATION;
+            case "differential" -> CategoryOfRadioStationType.DIFFERENTIAL_GNSS;
+            default -> null;
+        };
     }
 
     /**
@@ -530,11 +530,11 @@ public class S125EnumParser {
      * @return The S-125 radio station category enum
      */
     public static CategoryOfRadarTransponderBeaconType parseRadioTransponderBeaconCategory(String radioTransponderBeaconCategory) {
-        switch(radioTransponderBeaconCategory) {
-            case "ramark": return CategoryOfRadarTransponderBeaconType.RAMARK_RADAR_BEACON_TRANSMITTING_CONTINUOUSLY;
-            case "racon": return CategoryOfRadarTransponderBeaconType.RACON_RADAR_TRANSPONDER_BEACON;
-            default: return null;
-        }
+        return switch (radioTransponderBeaconCategory) {
+            case "ramark" -> CategoryOfRadarTransponderBeaconType.RAMARK_RADAR_BEACON_TRANSMITTING_CONTINUOUSLY;
+            case "racon" -> CategoryOfRadarTransponderBeaconType.RACON_RADAR_TRANSPONDER_BEACON;
+            default -> null;
+        };
     }
 
     /**
@@ -545,14 +545,14 @@ public class S125EnumParser {
      * @return The S-125 building shape enum
      */
     public static BuildingShapeType parseBuildingShape(String buildingShape) {
-        switch(buildingShape) {
-            case "cubic": return BuildingShapeType.CUBIC;
-            case "spherical": return BuildingShapeType.SPHERICAL;
-            case "high rise building": return BuildingShapeType.HIGH_RISE_BUILDING;
-            case "cylindrical": return BuildingShapeType.CYLINDRICAL;
-            case "pyramid": return BuildingShapeType.PYRAMID;
-            default: return null;
-        }
+        return switch (buildingShape) {
+            case "cubic" -> BuildingShapeType.CUBIC;
+            case "spherical" -> BuildingShapeType.SPHERICAL;
+            case "high rise building" -> BuildingShapeType.HIGH_RISE_BUILDING;
+            case "cylindrical" -> BuildingShapeType.CYLINDRICAL;
+            case "pyramid" -> BuildingShapeType.PYRAMID;
+            default -> null;
+        };
     }
 
     /**
@@ -563,11 +563,11 @@ public class S125EnumParser {
      * @return The S-125 building shape enum
      */
     public static CategoryOfSiloTankType parseSiloTankCategory(String siloTankCategory) {
-        switch(siloTankCategory) {
-            case "silo": return CategoryOfSiloTankType.SILO_IN_GENERAL;
-            case "tank": return CategoryOfSiloTankType.TANK_IN_GENERAL;
-            default: return null;
-        }
+        return switch (siloTankCategory) {
+            case "silo" -> CategoryOfSiloTankType.SILO_IN_GENERAL;
+            case "tank" -> CategoryOfSiloTankType.TANK_IN_GENERAL;
+            default -> null;
+        };
     }
 
 }

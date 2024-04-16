@@ -35,7 +35,7 @@ import java.io.StringWriter;
 
 /**
  * The S-201 Utilities Class.
- *
+ * <p/>
  * A utility class some static helper methods to be used anywhere the S-201
  * module.
  *
@@ -49,7 +49,7 @@ public class XmlUtils {
      *
      * The original Niord version wasn't working due to existing while spaces
      * inte the DOM. Based on the DOM specification, whitespaces outside the t
-     * ags are perfectly valid and they are properly preserved. To remove them,
+     * ags are perfectly valid, and they are properly preserved. To remove them,
      * we can use XPath’s normalize-space to locate all the whitespace nodes
      * and remove them first.
      *
