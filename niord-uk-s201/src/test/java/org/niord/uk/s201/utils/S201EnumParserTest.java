@@ -32,6 +32,10 @@ import static org.junit.Assert.*;
  */
 public class S201EnumParserTest {
 
+    /**
+     * Test that we can split and parse multiple terms from a single line,
+     * separated by semicolons.
+     */
     @Test
     public void testSplitAndParse() {
         assertTrue(S201EnumParser.splitAndParse(null, Function.identity()).isEmpty());
@@ -51,6 +55,9 @@ public class S201EnumParserTest {
         assertEquals(Integer.valueOf(3), resultList.get(2));
     }
 
+    /**
+     * Test that we can successfully parse the shackle type enum.
+     */
     @Test
     public void testParseShackleType() {
         assertEquals(ShackleTypeType.FORELOCK_SHACKLES, S201EnumParser.parseShackleType("forelock_shackles"));
@@ -62,6 +69,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseShackleType("error"));
     }
 
+    /**
+     * Test that we can successfully parse the power of source enum.
+     */
     @Test
     public void testParseCategoryOfPowerSource() {
         assertEquals(CategoryOfPowerSourceType.BATTERY, S201EnumParser.parseCategoryOfPowerSource("battery"));
@@ -71,6 +81,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseCategoryOfPowerSource("error"));
     }
 
+    /**
+     * Test that we can successfully parse the aid of availability category enum.
+     */
     @Test
     public void testParseAidAvailabilityCategory() {
         assertEquals(AidAvailabilityCategoryType.CATEGORY_1, S201EnumParser.parseAidAvailabilityCategory("category_1"));
@@ -79,6 +92,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseAidAvailabilityCategory("error"));
     }
 
+    /**
+     * Test that we can successfully parse the category of landmark enum.
+     */
     @Test
     public void testParseCategoryOfLandmark() {
         assertEquals(CategoryOfLandmarkType.CHIMNEY, S201EnumParser.parseCategoryOfLandmark("chimney"));
@@ -91,6 +107,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseCategoryOfLandmark("error"));
     }
 
+    /**
+     * Test that we can successfully parse the virtual aid to navigation type enum.
+     */
     @Test
     public void testParseVirtualAisAidToNavigationType() {
         assertEquals(VirtualAISAidToNavigationTypeType.NORTH_CARDINAL, S201EnumParser.parseVirtualAisAidToNavigationType("north_cardinal"));
@@ -108,6 +127,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseVirtualAisAidToNavigationType("error"));
     }
 
+    /**
+     * Test that we can successfully parse the nature of construction enum.
+     */
     @Test
     public void testParseNatureOfConstruction() {
         assertEquals(NatureOfConstructionType.MASONRY, S201EnumParser.parseNatureOfConstruction("masonry"));
@@ -122,6 +144,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseNatureOfConstruction("error"));
     }
 
+    /**
+     * Test that we can successfully parse the status enum.
+     */
     @Test
     public void testParseStatus() {
         assertEquals(StatusType.PERMANENT, S201EnumParser.parseStatus("permanent"));
@@ -144,6 +169,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseStatus("error"));
     }
 
+    /**
+     * Test that we can successfully parse the radar conspicuous enum.
+     */
     @Test
     public void testParseRadarConspicuous() {
         assertEquals(RadarConspicuousType.RADAR_CONSPICUOUS, S201EnumParser.parseRadarConspicuous("conspicuous"));
@@ -151,6 +179,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseRadarConspicuous("error"));
     }
 
+    /**
+     * Test that we can successfully parse the visual prominence enum.
+     */
     @Test
     public void testParseVisualProminence() {
         assertEquals(VisualProminenceType.VISUALLY_CONSPICUOUS, S201EnumParser.parseVisualProminence("conspicuous"));
@@ -158,6 +189,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseVisualProminence("error"));
     }
 
+    /**
+     * Test that we can successfully parse the marks navigational system of enum.
+     */
     @Test
     public void testParseMarksNavigationalSystemOf() {
         assertEquals(MarksNavigationalSystemOfType.IALA_A, S201EnumParser.parseMarksNavigationalSystemOf("iala-a"));
@@ -167,6 +201,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseMarksNavigationalSystemOf("error"));
     }
 
+    /**
+     * Test that we can successfully parse the category of installation buoy enum.
+     */
     @Test
     public void testParseCategoryOfInstallationBuoy() {
         assertEquals(CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING_CALM, S201EnumParser.parseCategoryOfInstallationBuoy("calm"));
@@ -174,6 +211,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseCategoryOfInstallationBuoy("error"));
     }
 
+    /**
+     * Test that we can successfully parse the category of special purpose enum.
+     */
     @Test
     public void testParseCategoryOfSpecialPurposeMark() {
         assertEquals(CategoryOfSpecialPurposeMarkType.FIRING_DANGER_MARK, S201EnumParser.parseCategoryOfSpecialPurposeMark("firing_danger_area"));
@@ -233,6 +273,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseCategoryOfSpecialPurposeMark("error"));
     }
 
+    /**
+     * Test that we can successfully parse the category of lateral mark enum.
+     */
     @Test
     public void testParseCategoryOfLateralMark() {
         assertEquals(CategoryOfLateralMarkType.PORT_HAND_LATERAL_MARK, S201EnumParser.parseCategoryOfLateralMark("port"));
@@ -242,6 +285,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseCategoryOfLateralMark("error"));
     }
 
+    /**
+     * Test that we can successfully parse the category of cardinal enum.
+     */
     @Test
     public void testParseCategoryOfCardinalMark() {
         assertEquals(CategoryOfCardinalMarkType.NORTH_CARDINAL_MARK, S201EnumParser.parseCategoryOfCardinalMark("north"));
@@ -251,6 +297,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseCategoryOfCardinalMark("error"));
     }
 
+    /**
+     * Test that we can successfully parse the beacon shape enum.
+     */
     @Test
     public void testParseBeaconShape() {
         assertEquals(BeaconShapeType.STAKE_POLE_PERCH_POST, S201EnumParser.parseBeaconShape("stake"));
@@ -263,6 +312,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseBeaconShape("error"));
     }
 
+    /**
+     * Test that we can successfully parse the buoy shape enum.
+     */
     @Test
     public void testParseBuoyShape() {
         assertEquals(BuoyShapeType.CONICAL_NUN_OGIVAL, S201EnumParser.parseBuoyShape("conical"));
@@ -276,6 +328,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseBuoyShape("error"));
     }
 
+    /**
+     * Test that we can successfully parse the light category enum.
+     */
     @Test
     public void testParseLightCategory() {
         assertEquals(CategoryOfLightType.LEADING_LIGHT, S201EnumParser.parseLightCategory("leading"));
@@ -297,6 +352,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseLightCategory("error"));
     }
 
+    /**
+     * Test that we can successfully parse the light character enum.
+     */
     @Test
     public void testParseLightCharacter() {
         assertEquals(LightCharacteristicType.FIXED, S201EnumParser.parseLightCharacter("F"));
@@ -327,6 +385,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseLightCharacter("error"));
     }
 
+    /**
+     * Test that we can successfully parse the colour pattern enum.
+     */
     @Test
     public void testParseColourPattern() {
         assertEquals(ColourPatternType.HORIZONTAL_STRIPES, S201EnumParser.parseColourPattern("horizontal"));
@@ -339,6 +400,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseColourPattern("error"));
     }
 
+    /**
+     * Test that we can successfully parse the colour enum.
+     */
     @Test
     public void testParseColour() {
         assertEquals(ColourType.WHITE, S201EnumParser.parseColour("white"));
@@ -356,6 +420,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseColour("error"));
     }
 
+    /**
+     * Test that we can successfully parse the function enum.
+     */
     @Test
     public void testParseFunction() {
         assertEquals(FunctionType.CUSTOMS_OFFICE, S201EnumParser.parseFunction("customs"));
@@ -378,6 +445,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseFunction("error"));
     }
 
+    /**
+     * Test that we can successfully parse the fog signal category enum.
+     */
     @Test
     public void testParseFogSignalCategory() {
         assertEquals(CategoryOfFogSignalType.BELL, S201EnumParser.parseFogSignalCategory("bell"));
@@ -387,6 +457,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseFogSignalCategory("error"));
     }
 
+    /**
+     * Test that we can successfully parse the radio station enum.
+     */
     @Test
     public void testParseRadioStationCategory() {
         assertEquals(CategoryOfRadioStationType.AIS_BASE_STATION, S201EnumParser.parseRadioStationCategory("ais"));
@@ -394,6 +467,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseRadioStationCategory("error"));
     }
 
+    /**
+     * Test that we can successfully parse the radio transponder beacon category enum.
+     */
     @Test
     public void testParseRadioTransponderBeaconCategory() {
         assertEquals(CategoryOfRadarTransponderBeaconType.RAMARK_RADAR_BEACON_TRANSMITTING_CONTINUOUSLY, S201EnumParser.parseRadioTransponderBeaconCategory("ramark"));
@@ -401,6 +477,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseRadioTransponderBeaconCategory("error"));
     }
 
+    /**
+     * Test that we can successfully parse the building shape enum.
+     */
     @Test
     public void testParseBuildingShape() {
         assertEquals(BuildingShapeType.CUBIC, S201EnumParser.parseBuildingShape("cubic"));
@@ -411,6 +490,9 @@ public class S201EnumParserTest {
         assertNull(S201EnumParser.parseBuildingShape("error"));
     }
 
+    /**
+     * Test that we can successfully parse the silo talk category enum.
+     */
     @Test
     public void testParseSiloTankCategory() {
         assertEquals(CategoryOfSiloTankType.SILO_IN_GENERAL, S201EnumParser.parseSiloTankCategory("silo"));

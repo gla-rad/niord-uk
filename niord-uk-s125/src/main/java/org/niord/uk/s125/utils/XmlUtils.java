@@ -19,7 +19,6 @@ package org.niord.uk.s125.utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -35,7 +34,7 @@ import java.io.StringWriter;
 
 /**
  * The S-125 Utilities Class.
- *
+ * <p/>
  * A utility class some static helper methods to be used anywhere the S-125
  * module.
  *
@@ -44,12 +43,12 @@ import java.io.StringWriter;
 public class XmlUtils {
 
     /**
-     * An string processor to try and prettify the input XML into something
+     * A string processor to try and prettify the input XML into something
      * more easily readable.
-     *
+     * <p/>
      * The original Niord version wasn't working due to existing while spaces
-     * inte the DOM. Based on the DOM specification, whitespaces outside the t
-     * ags are perfectly valid and they are properly preserved. To remove them,
+     * in the DOM. Based on the DOM specification, whitespaces outside the t
+     * ags are perfectly valid, and they are properly preserved. To remove them,
      * we can use XPath’s normalize-space to locate all the whitespace nodes
      * and remove them first.
      *
@@ -62,7 +61,7 @@ public class XmlUtils {
             // Turn xml string into a document
             Document document = DocumentBuilderFactory.newInstance()
                     .newDocumentBuilder()
-                    .parse(new InputSource(new ByteArrayInputStream(input.getBytes("utf-8"))));
+                    .parse(new ByteArrayInputStream(input.getBytes()));
 
             // Remove whitespaces outside tags
             document.normalize();
