@@ -60,7 +60,7 @@
     </xsl:template>
 
     <!-- Filter extension chunks by ID -->
-    <xsl:template match="chunk[ @id='categoryOfPhysicalAISAidToNavigation' or @id='categoryOfSyntheticAISAidToNavigation' or @id='marksNavigationalSystemOf' or @id='categoryOfBuildingShape' or @id='atonStatus']">
+    <xsl:template match="chunk[ @id='categoryOfPhysicalAISAidToNavigation' or @id='categoryOfSyntheticAISAidToNavigation' or @id='marksNavigationalSystemOf' or @id='categoryOfBuildingShape' or @id='atonStatus' or @id='shackleType' or @id='categoryOfPowerSource']">
         <tag-values>
             <xsl:attribute name="id">
                 <xsl:value-of select="@id"/>
