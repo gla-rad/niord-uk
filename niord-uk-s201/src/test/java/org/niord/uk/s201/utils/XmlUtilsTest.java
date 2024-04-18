@@ -66,9 +66,16 @@ public class XmlUtilsTest {
      */
     @Test
     public void testXmlPrettyPrint2() {
-        assertEquals("<xml/>\n", XmlUtils.xmlPrettyPrint("<xml></xml>", 2));
-        assertEquals("<xml>\n  <test/>\n</xml>\n", XmlUtils.xmlPrettyPrint("<xml><test></test></xml>", 2));
-        assertEquals("<xml>\n  <test>test</test>\n</xml>\n", XmlUtils.xmlPrettyPrint("<xml><test>test</test></xml>", 2));
+        assertEquals("<xml/>"
+                        +System.lineSeparator(),
+                XmlUtils.xmlPrettyPrint("<xml></xml>", 2)
+        );
+        assertEquals("<xml>" + System.lineSeparator() +
+                "  <test/>" + System.lineSeparator() +
+                "</xml>" + System.lineSeparator(), XmlUtils.xmlPrettyPrint("<xml><test></test></xml>", 2));
+        assertEquals("<xml>" + System.lineSeparator() +
+                "  <test>test</test>" + System.lineSeparator() +
+                "</xml>" + System.lineSeparator(), XmlUtils.xmlPrettyPrint("<xml><test>test</test></xml>", 2));
     }
 
     /**
@@ -76,9 +83,13 @@ public class XmlUtilsTest {
      */
     @Test
     public void testXmlPrettyPrint4() {
-        assertEquals("<xml/>\n", XmlUtils.xmlPrettyPrint("<xml></xml>", 4));
-        assertEquals("<xml>\n    <test/>\n</xml>\n", XmlUtils.xmlPrettyPrint("<xml><test></test></xml>", 4));
-        assertEquals("<xml>\n    <test>test</test>\n</xml>\n", XmlUtils.xmlPrettyPrint("<xml><test>test</test></xml>", 4));
+        assertEquals("<xml/>"+System.lineSeparator(), XmlUtils.xmlPrettyPrint("<xml></xml>", 4));
+        assertEquals("<xml>" + System.lineSeparator() +
+                "    <test/>" + System.lineSeparator() +
+                "</xml>" + System.lineSeparator(), XmlUtils.xmlPrettyPrint("<xml><test></test></xml>", 4));
+        assertEquals("<xml>" + System.lineSeparator() +
+                "    <test>test</test>" + System.lineSeparator() +
+                "</xml>" + System.lineSeparator(), XmlUtils.xmlPrettyPrint("<xml><test>test</test></xml>", 4));
     }
 
 }
