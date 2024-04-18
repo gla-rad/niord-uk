@@ -115,8 +115,9 @@ public class S125DatasetBuilder {
     }
     
     /**
-     * This is the main   the provided list of AtoN nodess into an S125 Dataset as
-     * dictated by the NIPWG S-125 data product specification.
+     * This is the main function, which translates the provided list of AtoN
+     * nodes into an S-125 Dataset as dictated by the NIPWG S-125 data
+     * product specification.
      *
      * @param DatasetInfo   The Dataset information
      * @param atonNodes     The list of S-125 AtoN nodes
