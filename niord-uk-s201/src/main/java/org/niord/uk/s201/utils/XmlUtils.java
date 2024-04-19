@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.niord.uk.s125.utils;
+package org.niord.uk.s201.utils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -33,9 +33,9 @@ import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 
 /**
- * The S-125 Utilities Class.
+ * The S-201 Utilities Class.
  * <p/>
- * A utility class some static helper methods to be used anywhere the S-125
+ * A utility class some static helper methods to be used anywhere the S-201
  * module.
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<presets author="Nikolaos Vastardis" version="0.0.1"
+         description="S-201 field additions to the Seamark INT-1-preset.xml"
+         shortdescription="S-201 field additions">
+
+    <chunk id="shackleType">
+        <list_entry value="forelock_shackles" display_value="forelock shackles"/>
+        <list_entry value="clenching_shackles" diplay_value="clenching shackles"/>
+        <list_entry value="bolt_shackles" diplay_value="bolt shackles"/>
+        <list_entry value="screw_pin_shackles" diplay_value="screw pin shackles"/>
+        <list_entry value="kenter_shackle" diplay_value="kenter shackle"/>
+        <list_entry value="quick_release_link" diplay_value="quick release link"/>
+    </chunk>
+
+    <chunk id="categoryOfPowerSource">
+        <list_entry value="battery" display_value="battery"/>
+        <list_entry value="generator" display_value="generator"/>
+        <list_entry value="solar-panel" display_value="solar-panel"/>
+        <list_entry value="selectrical-service" display_value="electrical-service3"/>
+    </chunk>
+
+    <group name="S: Electronic Position-Fixing Systems">
+
+        <item name="Power Source (S7)">
+            <space/>
+            <key key="seamark:type" value="power_source"/>
+            <combo key="201:aidsToNavigation:power_source:category_of_power_source" text="Category of Power Source">
+                <reference ref="categoryOfPowerSource"/>
+            </combo>
+            <text key="201:aidsToNavigation:power_source:manufacturer" text="Manufacturer" type="text"/>
+            <combo key="seamark:status" text="Status" default="">
+                <reference ref="atonStatus"/>
+            </combo>|
+        </item>
+
+    </group>
+
+</presets>

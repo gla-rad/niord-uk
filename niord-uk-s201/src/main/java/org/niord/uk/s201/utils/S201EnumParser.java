@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.niord.uk.s125.utils;
+package org.niord.uk.s201.utils;
 
-import _int.iho.s125.gml.cs0._1.*;
+import _int.iho.s201.gml.cs0._1.*;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * The S-125 Enum Parser Utility Class.
+ * The S-201 Enum Parser Utility Class.
  * <p/>
  * This is a helper class that provides all the parsing utilities to translate
- * the JOSM seachart entries to S-125 enums.
+ * the JOSM seachart entries to S-201 enums.
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
-public class S125EnumParser {
+public class S201EnumParser {
 
     /**
      * Splits the list string separated by a special character into an actual
@@ -52,11 +52,63 @@ public class S125EnumParser {
     }
 
     /**
+     * Translates the shackle type from the INT-1.preset.xml to the
+     * S-201 ShackleTypeType enum.
+     *
+     * @param shackleType        The INT-1-preset.xml shackle type
+     * @return the S-201 Category of Landmark enum entry
+     */
+    public static ShackleTypeType parseShackleType(String shackleType) {
+        return switch (shackleType) {
+            case "forelock_shackles" -> ShackleTypeType.FORELOCK_SHACKLES;
+            case "clenching_shackles" -> ShackleTypeType.CLENCHING_SHACKLES;
+            case "bolt_shackles" -> ShackleTypeType.BOLT_SHACKLES;
+            case "screw_pin_shackles" -> ShackleTypeType.SCREW_PIN_SHACKLES;
+            case "kenter_shackle" -> ShackleTypeType.KENTER_SHACKLE;
+            case "quick_release_link" -> ShackleTypeType.QUICK_RELEASE_LINK;
+            default -> null;
+        };
+    }
+
+    /**
+     * Translates the category of power source from the INT-1.preset.xml to the
+     * S-201 CategoryOfPowerSource enum.
+     *
+     * @param categoryOfPowerSource        The INT-1-preset.xml category of power source
+     * @return the S-201 Category Of Power Source enum entry
+     */
+    public static CategoryOfPowerSourceType parseCategoryOfPowerSource(String categoryOfPowerSource) {
+        return switch (categoryOfPowerSource) {
+            case "battery" -> CategoryOfPowerSourceType.BATTERY;
+            case "generator" -> CategoryOfPowerSourceType.GENERATOR;
+            case "solar-panel" -> CategoryOfPowerSourceType.SOLAR_PANEL;
+            case "electrical-service" -> CategoryOfPowerSourceType.ELECTRICAL_SERVICE;
+            default -> null;
+        };
+    }
+
+    /**
+     * Translates the aid availability category from the INT-1.preset.xml to the
+     * S-201 AidAvailabilityCategoryType enum.
+     *
+     * @param aidAvailabilityCategory        The INT-1-preset.xml aids availability category
+     * @return the S-201 Aid Availability Category Type enum entry
+     */
+    public static AidAvailabilityCategoryType parseAidAvailabilityCategory(String aidAvailabilityCategory) {
+        return switch (aidAvailabilityCategory) {
+            case "category_1" -> AidAvailabilityCategoryType.CATEGORY_1;
+            case "category_2" -> AidAvailabilityCategoryType.CATEGORY_2;
+            case "category_3" -> AidAvailabilityCategoryType.CATEGORY_3;
+            default -> null;
+        };
+    }
+
+    /**
      * Translates the category of landmark from the INT-1.preset.xml to the
-     * S-125 Category of Landmark enum.
+     * S-201 Category of Landmark enum.
      *
      * @param categoryOfLandmark        The INT-1-preset.xml category of landmark
-     * @return the S-125 Category of Landmark enum entry
+     * @return the S-201 Category of Landmark enum entry
      */
     public static CategoryOfLandmarkType parseCategoryOfLandmark(String categoryOfLandmark) {
         return switch (categoryOfLandmark) {
@@ -73,10 +125,10 @@ public class S125EnumParser {
 
     /**
      * Translates the virtual AtoN category from the INT-1.preset.xml to the 
-     * S-125 Virtual AIS Aid Navigation Purpose Type enum.
+     * S-201 Virtual AIS Aid Navigation Purpose Type enum.
      *
      * @param virtualAisAidsToNavigationType        The INT-1-preset.xml virtual AtoN category
-     * @return the S-125 Virtual AIS Aid Navigation Purpose Type
+     * @return the S-201 Virtual AIS Aid Navigation Purpose Type
      */
     public static VirtualAISAidToNavigationTypeType parseVirtualAisAidToNavigationType(String virtualAisAidsToNavigationType) {
         return switch (virtualAisAidsToNavigationType) {
@@ -97,11 +149,11 @@ public class S125EnumParser {
     }
     
     /**
-     * Translates the construction from the INT-1.preset.xml to the S-125
+     * Translates the construction from the INT-1.preset.xml to the S-201
      * Nature Of Construction enum.
      *
      * @param natureOfConstruction        The INT-1-preset.xml construction
-     * @return the S-125 Nature Of Construction enum entry
+     * @return the S-201 Nature Of Construction enum entry
      */
     public static NatureOfConstructionType parseNatureOfConstruction(String natureOfConstruction) {
         return switch (natureOfConstruction) {
@@ -119,10 +171,10 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the entry from the INT-1.preset.xml to the S-125 Status enum.
+     * Translates the entry from the INT-1.preset.xml to the S-201 Status enum.
      *
      * @param status        The INT-1-preset.xml status
-     * @return the S-125 Status enum entry
+     * @return the S-201 Status enum entry
      */
     public static StatusType parseStatus(String status) {
         return switch (status) {
@@ -149,10 +201,10 @@ public class S125EnumParser {
     
     /**
      * Translates the radar conspicuous from the INT-1.preset.xml to
-     * the S-125 Radar Conspicuous System enum.
+     * the S-201 Radar Conspicuous System enum.
      *
      * @param radarConspicuous     The INT-1-preset.xml radar conspicuous
-     * @return the S-125 Radar Conspicuous System enum entry
+     * @return the S-201 Radar Conspicuous System enum entry
      */
     public static RadarConspicuousType parseRadarConspicuous(String radarConspicuous) {
         return switch (radarConspicuous) {
@@ -164,10 +216,10 @@ public class S125EnumParser {
 
     /**
      * Translates the visually conspicuous from the INT-1.preset.xml to
-     * the S-125 Visually Conspicuous System enum.
+     * the S-201 Visually Conspicuous System enum.
      *
      * @param visuallyConspicuous     The INT-1-preset.xml visually conspicuous
-     * @return the S-125 Visually Conspicuous System enum entry
+     * @return the S-201 Visually Conspicuous System enum entry
      */
     public static VisualProminenceType parseVisualProminence(String visuallyConspicuous) {
         return switch (visuallyConspicuous) {
@@ -179,10 +231,10 @@ public class S125EnumParser {
 
     /**
      * Translates the marks navigational system of from the INT-1.preset.xml to
-     * the S-125 Marks Navigational System Of enum.
+     * the S-201 Marks Navigational System Of enum.
      *
      * @param marksNavigationalSystemOf     The INT-1-preset.xml marks navigational system of
-     * @return the S-125 Marks Navigational System Of enum entry
+     * @return the S-201 Marks Navigational System Of enum entry
      */
     public static MarksNavigationalSystemOfType parseMarksNavigationalSystemOf(String marksNavigationalSystemOf) {
         return switch (marksNavigationalSystemOf) {
@@ -196,10 +248,10 @@ public class S125EnumParser {
 
     /**
      * Translates the category of installation buoy from the INT-1.preset.xml to the
-     * S-125 Category of Installation Buoy enum.
+     * S-201 Category of Installation Buoy enum.
      *
      * @param installationBuoy  The INT-1-preset.xml category of installation buoy
-     * @return the S-125 Category of Installation Buoy enum entry
+     * @return the S-201 Category of Installation Buoy enum entry
      */
     public static CategoryOfInstallationBuoyType parseCategoryOfInstallationBuoy(String installationBuoy) {
         return switch (installationBuoy) {
@@ -211,10 +263,10 @@ public class S125EnumParser {
 
     /**
      * Translates the category of special purpose mark from the INT-1.preset.xml to the
-     * S-125 Category of Special Purpose Mark enum.
+     * S-201 Category of Special Purpose Mark enum.
      *
      * @param specialPurposeMark    The INT-1-preset.xml special purpose mark
-     * @return the S-125 Category of Special Purpose Mark enum entry
+     * @return the S-201 Category of Special Purpose Mark enum entry
      */
     public static CategoryOfSpecialPurposeMarkType parseCategoryOfSpecialPurposeMark(String specialPurposeMark) {
         return switch (specialPurposeMark) {
@@ -279,16 +331,16 @@ public class S125EnumParser {
 
     /**
      * Translates the category of lateral mark from the INT-1.preset.xml to the
-     * S-125 Category of Lateral Mark enum.
+     * S-201 Category of Lateral Mark enum.
      *
      * @param lateralMark   The INT-1-preset.xml lateral mark
-     * @return the S-125 Category of Lateral Mark enum entry
+     * @return the S-201 Category of Lateral Mark enum entry
      */
     public static CategoryOfLateralMarkType parseCategoryOfLateralMark(String lateralMark) {
         return switch (lateralMark) {
             case "port" -> CategoryOfLateralMarkType.PORT_HAND_LATERAL_MARK;
             case "starboard" -> CategoryOfLateralMarkType.STARBOARD_HAND_LATERAL_MARK;
-            case "preferred_channel_port" ->CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
+            case "preferred_channel_port" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_PORT_LATERAL_MARK;
             case "preferred_channel_starboard" -> CategoryOfLateralMarkType.PREFERRED_CHANNEL_TO_STARBOARD_LATERAL_MARK;
             default -> null;
         };
@@ -296,10 +348,10 @@ public class S125EnumParser {
 
     /**
      * Translates the category of cardinal mark from the INT-1.preset.xml to the
-     * S-125 Category of Cardinal Mark enum.
+     * S-201 Category of Cardinal Mark enum.
      *
      * @param cardinalMark  The INT-1-preset.xml cardinal mark
-     * @return the S-125 Category of Cardinal Mark enum entry
+     * @return the S-201 Category of Cardinal Mark enum entry
      */
     public static CategoryOfCardinalMarkType parseCategoryOfCardinalMark(String cardinalMark) {
         return switch (cardinalMark) {
@@ -313,10 +365,10 @@ public class S125EnumParser {
 
     /**
      * Translates the beacon shape from the INT-1.preset.xml to the
-     * S-125 Beacon Shape enum.
+     * S-201 Beacon Shape enum.
      *
      * @param beaconShape    The INT-1-preset.xml beacon shape
-     * @return the S-125 Beacon Shape enum entry
+     * @return the S-201 Beacon Shape enum entry
      */
     public static BeaconShapeType parseBeaconShape(String beaconShape) {
         return switch (beaconShape) {
@@ -330,10 +382,10 @@ public class S125EnumParser {
 
     /**
      * Translates the buoy shape from the INT-1.preset.xml to the
-     * S-125 Buoy Shape enum.
+     * S-201 Buoy Shape enum.
      *
      * @param buoyShape     The INT-1-preset.xml buoy shape
-     * @return the S-125 Buoy Shape enum entry
+     * @return the S-201 Buoy Shape enum entry
      */
     public static BuoyShapeType parseBuoyShape(String buoyShape) {
         return switch (buoyShape) {
@@ -351,10 +403,10 @@ public class S125EnumParser {
 
     /**
      * Translates the category of a light from the INT-1.preset.xml to the
-     * S-125 Category of Light enum.
+     * S-201 Category of Light enum.
      *
      * @param lightCategory     The INT-1-preset.xml light category
-     * @return the S-125 category of light enum entry
+     * @return the S-201 category of light enum entry
      */
     public static CategoryOfLightType parseLightCategory(String lightCategory) {
         return switch (lightCategory) {
@@ -380,10 +432,10 @@ public class S125EnumParser {
 
     /**
      * Translates the character of a light from the INT-1.preset.xml to the
-     * S-125 Light Characteristic enum.
+     * S-201 Light Characteristic enum.
      *
      * @param lightCharacter    The INT-1-preset.xml light character
-     * @return the S-125 category of light enum entry
+     * @return the S-201 category of light enum entry
      */
     public static LightCharacteristicType parseLightCharacter(String lightCharacter) {
         return switch (lightCharacter) {
@@ -418,10 +470,10 @@ public class S125EnumParser {
 
     /**
      * Translates the colour pattern from the INT-1.preset.xml to the
-     * S-125 Colour Pattern enum.
+     * S-201 Colour Pattern enum.
      *
      * @param colourPattern     The INT-1-preset.xml colour pattern
-     * @return the S-125 Colour Pattern enum
+     * @return the S-201 Colour Pattern enum
      */
     public static ColourPatternType parseColourPattern(String colourPattern) {
         return switch (colourPattern) {
@@ -437,10 +489,10 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the colour from the INT-1.preset.xml to the S-125 Colour enum.
+     * Translates the colour from the INT-1.preset.xml to the S-201 Colour enum.
      *
      * @param colour     The INT-1-preset.xml colour
-     * @return the S-125 Colour Pattern enum
+     * @return the S-201 Colour Pattern enum
      */
     public static ColourType parseColour(String colour) {
         return switch (colour) {
@@ -461,11 +513,11 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the function from the INT-1.preset.xml to the S-125 Function
+     * Translates the function from the INT-1.preset.xml to the S-201 Function
      * enum.
      *
      * @param function     The INT-1-preset.xml function
-     * @return the S-125 Function enum
+     * @return the S-201 Function enum
      */
     public static FunctionType parseFunction(String function) {
         return switch (function) {
@@ -492,10 +544,10 @@ public class S125EnumParser {
 
     /**
      * Translates the fog signal type from the INT-1.preset.xml to the
-     * S-125 fog signal type.
+     * S-201 fog signal type.
      *
      * @param fogSignalCategory     The INT-1-preset.xml fog signal type
-     * @return The S-125 fog signal type enum
+     * @return The S-201 fog signal type enum
      */
     public static CategoryOfFogSignalType parseFogSignalCategory(String fogSignalCategory) {
         return switch (fogSignalCategory) {
@@ -509,10 +561,10 @@ public class S125EnumParser {
 
     /**
      * Translates the radio station category from the INT-1.preset.xml to the
-     * S-125 radio station category.
+     * S-201 radio station category.
      *
      * @param radioStationCategory  The INT-1-preset.xml radio station category
-     * @return The S-125 radio station category enum
+     * @return The S-201 radio station category enum
      */
     public static CategoryOfRadioStationType parseRadioStationCategory(String radioStationCategory) {
         return switch (radioStationCategory) {
@@ -524,10 +576,10 @@ public class S125EnumParser {
 
     /**
      * Translates the radio transponder category from the INT-1.preset.xml to
-     * the S-125 radio transponder beacon (RACON) category.
+     * the S-201 radio transponder beacon (RACON) category.
      *
      * @param radioTransponderBeaconCategory  The INT-1-preset.xml radio transponder category
-     * @return The S-125 radio station category enum
+     * @return The S-201 radio station category enum
      */
     public static CategoryOfRadarTransponderBeaconType parseRadioTransponderBeaconCategory(String radioTransponderBeaconCategory) {
         return switch (radioTransponderBeaconCategory) {
@@ -538,11 +590,11 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the building shape from the INT-1.preset.xml to the S-125
+     * Translates the building shape from the INT-1.preset.xml to the S-201
      * building shape.
      *
      * @param buildingShape         The INT-1-preset.xml building shape
-     * @return The S-125 building shape enum
+     * @return The S-201 building shape enum
      */
     public static BuildingShapeType parseBuildingShape(String buildingShape) {
         return switch (buildingShape) {
@@ -556,11 +608,11 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the building shape from the INT-1.preset.xml to the S-125
+     * Translates the building shape from the INT-1.preset.xml to the S-201
      * building shape.
      *
      * @param siloTankCategory      The INT-1-preset.xml building shape
-     * @return The S-125 building shape enum
+     * @return The S-201 building shape enum
      */
     public static CategoryOfSiloTankType parseSiloTankCategory(String siloTankCategory) {
         return switch (siloTankCategory) {
