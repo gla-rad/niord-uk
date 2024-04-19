@@ -40,6 +40,11 @@
         </dependency>
         <dependency>
             <groupId>org.niord</groupId>
+            <artifactId>niord-uk-s201</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.niord</groupId>
             <artifactId>niord-uk-aton-import</artifactId>
             <version>${project.version}</version>
         </dependency>
