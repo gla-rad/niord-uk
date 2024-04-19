@@ -135,7 +135,8 @@ public enum S201AtonTypes {
             "AIS transmitter (S17.1-S17.2)"
     }),
     POWER_SOURCE("power_source", "Power Source", true, new String[] {
-            "Supplementary Information"
+            "Supplementary Information",
+            "Power Source (S7)"
     });
 
     // Enum Variables
