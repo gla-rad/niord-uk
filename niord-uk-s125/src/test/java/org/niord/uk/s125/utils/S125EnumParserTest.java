@@ -26,7 +26,7 @@ import java.util.function.Function;
 import static org.junit.Assert.*;
 
 /**
- * A testing call for the S-125 Enum Parser Utility.
+ * A testing class for the S-125 Enum Parser Utility.
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */

@@ -149,7 +149,7 @@ public class S125DatasetBuilder {
         DatasetIdentificationType.setDatasetFileIdentifier(DatasetInfo.getFileIdentifier());
         DatasetIdentificationType.setDatasetTitle(DatasetInfo.getTitle());
         DatasetIdentificationType.setDatasetReferenceDate(LocalDate.now());
-        DatasetIdentificationType.setDatasetLanguage(Locale.getDefault().getISO3Language());
+        DatasetIdentificationType.setDatasetLanguage(DatasetInfo.getLanguage());
         DatasetIdentificationType.setDatasetAbstract(DatasetInfo.getAbstractText());
         s125Dataset.setDatasetIdentificationInformation(DatasetIdentificationType);
 
