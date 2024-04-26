@@ -20,9 +20,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.niord</groupId>
+        <groupId>org.niord.uk</groupId>
         <artifactId>niord-uk-parent</artifactId>
-        <version>4.0.1-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>niord-uk-s201</artifactId>
@@ -32,8 +32,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.niord</groupId>
-            <artifactId>niord-core</artifactId>
+            <groupId>org.niord.base</groupId>
+            <artifactId>niord-base-core</artifactId>
             <version>${niord.version}</version>
         </dependency>
 
