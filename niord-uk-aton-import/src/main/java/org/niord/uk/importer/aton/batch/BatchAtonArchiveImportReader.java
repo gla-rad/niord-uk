@@ -18,6 +18,7 @@ package org.niord.uk.importer.aton.batch;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import org.apache.commons.io.IOUtils;
 import org.niord.core.aton.vo.AtonNodeVo;
 import org.niord.core.batch.AbstractItemHandler;
@@ -89,6 +90,7 @@ public class BatchAtonArchiveImportReader extends AbstractItemHandler {
 
     /** {@inheritDoc} **/
     @Override
+    @ActivateRequestContext
     public void open(Serializable prevCheckpointInfo) throws Exception {
 
         try {

@@ -15,6 +15,7 @@
  */
 package org.niord.uk.importer.aton;
 
+import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -55,6 +56,7 @@ import java.util.Map;
  */
 @Path("/import/atons")
 @RequestScoped
+@Transactional
 @PermitAll
 @SuppressWarnings("unused")
 public class AtonImportRestService {
