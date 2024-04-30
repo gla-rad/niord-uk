@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package org.niord.uk.s125.services;
-
-import org.grad.eNav.s125.utils.S125Utils;
-import org.niord.core.NiordApp;
-import org.niord.core.aton.AtonLink;
-import org.niord.core.aton.AtonNode;
-import org.niord.core.aton.AtonService;
-import org.niord.uk.s125.models.S125DatasetInfo;
-import org.niord.uk.s125.utils.S125DatasetBuilder;
+package org.niord.uk.s201.services;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.xml.bind.JAXBException;
+import org.grad.eNav.s201.utils.S201Utils;
+import org.niord.core.NiordApp;
+import org.niord.core.aton.AtonLink;
+import org.niord.core.aton.AtonNode;
+import org.niord.core.aton.AtonService;
+import org.niord.uk.s201.models.S201DatasetInfo;
+import org.niord.uk.s201.utils.S201DatasetBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,16 +37,16 @@ import java.util.stream.Collectors;
 import static java.util.function.Predicate.not;
 
 /**
- * The S-125 Service
+ * The S-201 Service
  * <p/>
- * This is the basic implementation of the S-125 (GRAD Version of course)
+ * This is the basic implementation of the S-201 (GRAD Version of course)
  * service. It basically just calls the associated ftl freemarker scripts
  * from the module's resources and returns the populated output.
- * <p/>
+ *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @RequestScoped
-public class S125Service {
+public class S201Service {
 
     @Inject
     AtonService atonService;
@@ -56,7 +55,7 @@ public class S125Service {
     NiordApp app;
 
     /**
-     * Generates S-125 compliant GML for the message
+     * Generates S-201 compliant GML for the message
      * @param gmlDatasetId the GML dataset identifier string
      * @param language the language
      * @param atonUIDs the aton UID
@@ -77,8 +76,9 @@ public class S125Service {
 
         // Use the utilities to translate the AtoN node to an S-125 dataset
         return Optional.of(atonNodes)
-                .map(l -> new S125DatasetBuilder().packageToDataset(new S125DatasetInfo(gmlDatasetId, app.getOrganisation(), l), l))
-                .map(d -> {try {return S125Utils.marshalS125(d);} catch (JAXBException e) {return null;}} )
+                .map(l -> new S201DatasetBuilder().packageToDataset(new S201DatasetInfo(gmlDatasetId, app.getOrganisation(), l), l))
+                .map(d -> {try {return S201Utils.marshalS201(d);} catch (
+                        JAXBException e) {return null;}} )
                 .orElse(null);
     }
 

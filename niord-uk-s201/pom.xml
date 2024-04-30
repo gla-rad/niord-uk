@@ -37,11 +37,11 @@
             <version>${niord.version}</version>
         </dependency>
 
-        <!-- S-125 -->
+        <!-- S-201 -->
         <dependency>
             <groupId>org.grad.eNav</groupId>
             <artifactId>S201</artifactId>
-            <version>0.5.3</version>
+            <version>0.5.4</version>
         </dependency>
 
     </dependencies>

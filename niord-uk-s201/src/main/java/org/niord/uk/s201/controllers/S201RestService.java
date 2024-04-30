@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.niord.uk.s125.controllers;
+package org.niord.uk.s201.controllers;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -27,41 +27,41 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.grad.eNav.s100.utils.SpecificJarClassLoader;
-import org.grad.eNav.s125.utils.S125Utils;
-import org.niord.uk.s125.services.S125Service;
-import org.niord.uk.s125.utils.XmlUtils;
+import org.grad.eNav.s201.utils.S201Utils;
+import org.niord.uk.s201.services.S201Service;
+import org.niord.uk.s201.utils.XmlUtils;
 import org.slf4j.Logger;
 
 import java.net.URLClassLoader;
 import java.util.List;
 
 /**
- * A public REST API for accessing messages as S-125 GML.
+ * A public REST API for accessing messages as S-201 GML.
  * <p>
  * You can test that the produced GML is valid according to the schema, using something along the lines of:
  * <pre>
- *     xmllint --noout --schema http://localhost:8080/rest/S-125/S125.xsd http://localhost:8080/rest/S-125/aton-001.gml
+ *     xmllint --noout --schema http://localhost:8080/rest/S-201/S201.xsd http://localhost:8080/rest/S-201/aton-001.gml
  * </pre>
  *
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 @RequestScoped
-@Path("/S-125")
-public class S125RestService {
+@Path("/S-201")
+public class S201RestService {
 
     @Inject
     Logger log;
 
     @Inject
-    S125Service s125Service;
+    S201Service s201Service;
 
     /**
-     * Returns the S-125 GML representation for multiple AtoN.
+     * Returns the S-S201 GML representation for multiple AtoN.
      */
     @POST
     @Path("/atons")
     @Operation(
-            description = "Returns S-125 GML representation for a list of AtoN UIDs." +
+            description = "Returns S-201 GML representation for a list of AtoN UIDs." +
                     "NB: Only use this service for test purposes, not for production."
     )
     @APIResponse(
@@ -72,7 +72,7 @@ public class S125RestService {
             )
     )
     @Produces({"application/gml+xml;charset=UTF-8"})
-    public Response s125AtonDetails(
+    public Response s201AtonDetails(
             @Parameter(name="indent", description = "Indentation of the XML output", example = "4")
             @QueryParam("indent") @DefaultValue("4") Integer indent,
             @Parameter(name="language", description = "Two-letter ISO 639-1 language code", example = "en")
@@ -84,7 +84,7 @@ public class S125RestService {
         long t0 = System.currentTimeMillis();
 
         try {
-            String result = s125Service.generateGML(language, String.format("aton-dataset-export-%d", t0), atonUIDs.toArray(String[]::new));
+            String result = s201Service.generateGML(language, String.format("aton-dataset-export-%d", t0), atonUIDs.toArray(String[]::new));
 
             // Pretty print the result
             result = XmlUtils.xmlPrettyPrint(result, indent);
@@ -110,9 +110,9 @@ public class S125RestService {
     }
 
     /**
-     * Allows users to have access to the S-125 product XSD definition files.
+     * Allows users to have access to the S-201 product XSD definition files.
      * These include the S-100 product definition, as well as the GRAD version
-     * of S-125.
+     * of S-201.
      *
      * @param file          The name of the file to be retrieved
      * @return The requested XSD file
@@ -124,7 +124,7 @@ public class S125RestService {
             @PathParam("file") String file
     ) {
         final String xsdFile = file + ".xsd";
-        try (URLClassLoader classLoader = new SpecificJarClassLoader(S125Utils.class)) {
+        try (URLClassLoader classLoader = new SpecificJarClassLoader(S201Utils.class)) {
             final String xsd = new String(classLoader
                     .getResourceAsStream("xsd/" + xsdFile)
                     .readAllBytes());
