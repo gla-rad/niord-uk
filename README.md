@@ -1,5 +1,10 @@
 # Niord-UK [![Build Status](https://travis-ci.com/NiordOrg/niord-dk.svg?branch=master)](https://travis-ci.com/NiordOrg/niord-dk)
 
+# Important Notice
+The following concerns Niord 2.0 which is under development.
+The latest stable release is tagged with 1.0.1 in this repository
+
+# Overview
 The niord-uk project contains the GRAD UK-specific extensions for the   
 [niord](https://github.com/NiordOrg) system, i.e. a system for producing and
 promulgating NW + NM T&P messages.
