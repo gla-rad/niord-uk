@@ -21,6 +21,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -32,6 +33,7 @@ import org.niord.uk.s125.services.S125Service;
 import org.niord.uk.s125.utils.XmlUtils;
 import org.slf4j.Logger;
 
+import java.io.InputStream;
 import java.net.URLClassLoader;
 import java.util.List;
 
@@ -49,9 +51,15 @@ import java.util.List;
 @Path("/S-125")
 public class S125RestService {
 
+    /**
+     * The System Logger.
+     */
     @Inject
     Logger log;
 
+    /**
+     * The S-125 Service.
+     */
     @Inject
     S125Service s125Service;
 
@@ -114,7 +122,7 @@ public class S125RestService {
      * These include the S-100 product definition, as well as the GRAD version
      * of S-125.
      *
-     * @param file          The name of the file to be retrieved
+     * @param file The name of the file to be retrieved
      * @return The requested XSD file
      */
     @GET
@@ -123,17 +131,18 @@ public class S125RestService {
     public Response xsdFile(
             @PathParam("file") String file
     ) {
-        final String xsdFile = file + ".xsd";
+        final String xsdFile = FilenameUtils.removeExtension(file) + ".xsd";
         try (URLClassLoader classLoader = new SpecificJarClassLoader(S125Utils.class)) {
-            final String xsd = new String(classLoader
-                    .getResourceAsStream("xsd/" + xsdFile)
-                    .readAllBytes());
-
-            log.info("Returning XSD " + xsdFile);
-            return Response.ok(xsd)
-                    .type("application/gml+xml;charset=UTF-8")
-                    .build();
-
+            try(InputStream is = classLoader.getResourceAsStream("xsd/" + xsdFile)) {
+                // Sanity check if the resource was found
+                if(is == null) { throw new NotFoundException(); }
+                // Otherwise return the resource and a GML/XML
+                log.info("Returning XSD " + xsdFile);
+                final String xsd = new String(is.readAllBytes());
+                return Response.ok(xsd)
+                        .type("application/gml+xml;charset=UTF-8")
+                        .build();
+            }
         } catch (Exception ex) {
             log.error("XSD does not exist: " + xsdFile);
             return Response
