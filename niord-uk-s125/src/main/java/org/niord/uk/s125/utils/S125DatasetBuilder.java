@@ -16,16 +16,16 @@
 
 package org.niord.uk.s125.utils;
 
-import _int.iho.s100.gml.base._5_0.CurveType;
-import _int.iho.s100.gml.base._5_0.PointType;
-import _int.iho.s100.gml.base._5_0.SurfaceType;
-import _int.iho.s100.gml.base._5_0.*;
-import _int.iho.s100.gml.base._5_0.impl.CurveTypeImpl;
-import _int.iho.s100.gml.base._5_0.impl.PointTypeImpl;
-import _int.iho.s100.gml.base._5_0.impl.SurfaceTypeImpl;
-import _int.iho.s100.gml.base._5_0.impl.*;
-import _int.iho.s100.gml.profiles._5_0.*;
-import _int.iho.s100.gml.profiles._5_0.impl.*;
+import _int.iho.s125.s100.gml.base._5_0.CurveType;
+import _int.iho.s125.s100.gml.base._5_0.PointType;
+import _int.iho.s125.s100.gml.base._5_0.SurfaceType;
+import _int.iho.s125.s100.gml.base._5_0.*;
+import _int.iho.s125.s100.gml.base._5_0.impl.CurveTypeImpl;
+import _int.iho.s125.s100.gml.base._5_0.impl.PointTypeImpl;
+import _int.iho.s125.s100.gml.base._5_0.impl.SurfaceTypeImpl;
+import _int.iho.s125.s100.gml.base._5_0.impl.*;
+import _int.iho.s125.s100.gml.profiles._5_0.*;
+import _int.iho.s125.s100.gml.profiles._5_0.impl.*;
 import _int.iho.s125.gml.cs0._1.S100TruncatedDate;
 import _int.iho.s125.gml.cs0._1.*;
 import _int.iho.s125.gml.cs0._1.impl.*;
@@ -101,7 +101,7 @@ public class S125DatasetBuilder {
     private AtomicInteger idIndex;
     private Map<Integer, String> idMap;
     private HashSet<Integer> linksSet;
-    private _int.iho.s100.gml.profiles._5_0.ObjectFactory opengisGMLFactory;
+    private _int.iho.s125.s100.gml.profiles._5_0.ObjectFactory opengisGMLFactory;
 
     /**
      * Class Constructor.
@@ -111,7 +111,7 @@ public class S125DatasetBuilder {
         this.idIndex = new AtomicInteger(1);
         this.idMap = new HashMap<>();
         this.linksSet = new HashSet<>();
-        this.opengisGMLFactory = new _int.iho.s100.gml.profiles._5_0.ObjectFactory();
+        this.opengisGMLFactory = new _int.iho.s125.s100.gml.profiles._5_0.ObjectFactory();
     }
     
     /**
@@ -141,17 +141,17 @@ public class S125DatasetBuilder {
         //====================================================================//
         //                  Dataset IDENTIFICATION SECTION                    //
         //====================================================================//
-        DataSetIdentificationType DatasetIdentificationType = new DataSetIdentificationTypeImpl();
-        DatasetIdentificationType.setEncodingSpecification(DatasetInfo.getEncodingSpecification());
-        DatasetIdentificationType.setEncodingSpecificationEdition(DatasetInfo.getEncodingSpecificationEdition());
-        DatasetIdentificationType.setProductIdentifier(DatasetInfo.getProductionIdentifier());
-        DatasetIdentificationType.setProductEdition(DatasetInfo.getProductionEdition());
-        DatasetIdentificationType.setDatasetFileIdentifier(DatasetInfo.getFileIdentifier());
-        DatasetIdentificationType.setDatasetTitle(DatasetInfo.getTitle());
-        DatasetIdentificationType.setDatasetReferenceDate(LocalDate.now());
-        DatasetIdentificationType.setDatasetLanguage(DatasetInfo.getLanguage());
-        DatasetIdentificationType.setDatasetAbstract(DatasetInfo.getAbstractText());
-        s125Dataset.setDatasetIdentificationInformation(DatasetIdentificationType);
+        DataSetIdentificationType datasetIdentificationType = new DataSetIdentificationTypeImpl();
+        datasetIdentificationType.setEncodingSpecification(DatasetInfo.getEncodingSpecification());
+        datasetIdentificationType.setEncodingSpecificationEdition(DatasetInfo.getEncodingSpecificationEdition());
+        datasetIdentificationType.setProductIdentifier(DatasetInfo.getProductionIdentifier());
+        datasetIdentificationType.setProductEdition(DatasetInfo.getProductionEdition());
+        datasetIdentificationType.setDatasetFileIdentifier(DatasetInfo.getFileIdentifier());
+        datasetIdentificationType.setDatasetTitle(DatasetInfo.getTitle());
+        datasetIdentificationType.setDatasetReferenceDate(LocalDate.now());
+        datasetIdentificationType.setDatasetLanguage(DatasetInfo.getLanguage());
+        datasetIdentificationType.setDatasetAbstract(DatasetInfo.getAbstractText());
+        s125Dataset.setDatasetIdentificationInformation(datasetIdentificationType);
 
         //====================================================================//
         //                      Dataset MEMBERS SECTION                       //

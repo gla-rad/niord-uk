@@ -16,6 +16,7 @@
 
 package org.niord.uk.s125.models;
 
+import org.grad.eNav.s125.utils.GIRegistryInfo;
 import org.niord.core.aton.AtonNode;
 
 import java.util.Collections;
@@ -56,8 +57,8 @@ public class S125DatasetInfo {
         this.agency = agency;
         this.encodingSpecification = "S100 Part 10b";
         this.encodingSpecificationEdition = "1.0";
-        this.productionIdentifier = "S-125";
-        this.productionEdition = "0.0.1";
+        this.productionIdentifier = GIRegistryInfo.getProductSpecification().getProductIdentifier();
+        this.productionEdition = GIRegistryInfo.getProductSpecification().getVersion();
         this.fileIdentifier = String.format("S-125_%s_%s", this.agency, this.datasetId);
         this.title = "Niord S-125 Dataset";
         this.language = "en";
