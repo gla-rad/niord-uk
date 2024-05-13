@@ -71,11 +71,11 @@ public class S201DatasetBuilderTest {
                 new AtonTag("seamark:beacon_cardinal:shape", "stake"),
                 new AtonTag("seamark:beacon_cardinal:colour", "red"),
                 new AtonTag("seamark:beacon_cardinal:colour_pattern", "horizontal"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:height", "3.0"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:height", "3.0"),
                 new AtonTag("seamark:beacon_cardinal:system", "iala-a"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:nature_of_construction", "concreted"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:radar_conspicuous", "conspicuous"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:visually_conspicuous", "conspicuous"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:nature_of_construction", "concreted"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:radar_conspicuous", "conspicuous"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:visually_conspicuous", "conspicuous"),
                 new AtonTag("seamark:status", "permanent")
                 ));
 
@@ -89,8 +89,8 @@ public class S201DatasetBuilderTest {
         this.equipmentNode.setTimestamp(Date.from(Instant.now()));
         this.equipmentNode.setTags(List.of(
                 new AtonTag(TAG_ATON_TYPE, "power_source"),
-                new AtonTag("s125:aidsToNavigation:power_source:category_of_power_source", "battery"),
-                new AtonTag("s125:aidsToNavigation:power_source:manufacturer", "test"),
+                new AtonTag("s100:aidsToNavigation:power_source:category_of_power_source", "battery"),
+                new AtonTag("s100:aidsToNavigation:power_source:manufacturer", "test"),
                 new AtonTag("seamark:status", "permanent")
                 ));
         this.atonNode.setChildren(Collections.singleton(this.equipmentNode));

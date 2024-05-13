@@ -16,7 +16,7 @@
         <list_entry value="battery" display_value="battery"/>
         <list_entry value="generator" display_value="generator"/>
         <list_entry value="solar-panel" display_value="solar-panel"/>
-        <list_entry value="selectrical-service" display_value="electrical-service3"/>
+        <list_entry value="electrical-service" display_value="electrical-service3"/>
     </chunk>
 
     <group name="S: Electronic Position-Fixing Systems">
@@ -24,10 +24,10 @@
         <item name="Power Source (S7)">
             <space/>
             <key key="seamark:type" value="power_source"/>
-            <combo key="201:aidsToNavigation:power_source:category_of_power_source" text="Category of Power Source">
+            <combo key="s100:aidsToNavigation:power_source:category_of_power_source" text="Category of Power Source">
                 <reference ref="categoryOfPowerSource"/>
             </combo>
-            <text key="201:aidsToNavigation:power_source:manufacturer" text="Manufacturer" type="text"/>
+            <text key="s100:aidsToNavigation:power_source:manufacturer" text="Manufacturer" type="text"/>
             <combo key="seamark:status" text="Status" default="">
                 <reference ref="atonStatus"/>
             </combo>|

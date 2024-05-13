@@ -72,11 +72,11 @@ public class S125DatasetBuilderTest {
                 new AtonTag("seamark:beacon_cardinal:shape", "stake"),
                 new AtonTag("seamark:beacon_cardinal:colour", "red"),
                 new AtonTag("seamark:beacon_cardinal:colour_pattern", "horizontal"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:height", "3.0"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:height", "3.0"),
                 new AtonTag("seamark:beacon_cardinal:system", "iala-a"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:nature_of_construction", "concreted"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:radar_conspicuous", "conspicuous"),
-                new AtonTag("s125:aidsToNavigation:generic_beacon:visually_conspicuous", "conspicuous"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:nature_of_construction", "concreted"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:radar_conspicuous", "conspicuous"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:visually_conspicuous", "conspicuous"),
                 new AtonTag("seamark:status", "permanent")
         ));
 
@@ -91,7 +91,7 @@ public class S125DatasetBuilderTest {
         this.equipmentNode.setTags(List.of(
                 new AtonTag(TAG_ATON_TYPE, "ais_station"),
                 new AtonTag("seamark:radio_station:mmsi", "123123123"),
-                new AtonTag("s125:aidsToNavigation:ais_aid_to_navigation:estimated_range_of_transmission", "3"),
+                new AtonTag("s100:aidsToNavigation:ais_aid_to_navigation:estimated_range_of_transmission", "3"),
                 new AtonTag("seamark:status", "permanent")
         ));
         this.atonNode.setChildren(Collections.singleton(this.equipmentNode));
