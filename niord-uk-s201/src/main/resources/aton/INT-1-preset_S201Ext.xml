@@ -35,4 +35,24 @@
 
     </group>
 
+    <item name="Supplementary Information" type="node,way,closedway,relation">
+        <text key="s100:aidsToNavigation:id_code" text="ID Code" type="text"/>
+        <text key="s100:aidsToNavigation:date_end" text="Date End" type="date"/>
+        <text key="s100:aidsToNavigation:date_start" text="Date Start" type="date"/>
+        <text key="s100:aidsToNavigation:period_end" text="Period End" type="date"/>
+        <text key="s100:aidsToNavigation:period_start" text="Period Start" type="date"/>
+        <text key="s100:aidsToNavigation:source_date" text="Date End" type="date"/>
+        <text key="s100:aidsToNavigation:scale_minimum" text="Scale Minimum" type="int"/>
+        <text key="s100:aidsToNavigation:source_indication" text="Info" type="text"/>
+        <text key="s100:aidsToNavigation:pictorial_representation" text="Pictorial Repr" type="text"/>
+        <text key="s100:aidsToNavigation:inspection_frequency" text="Inspection Freq" type="text"/>
+        <text key="s100:aidsToNavigation:inspection_requirements" text="Inspection Reqs" type="text"/>
+        <text key="s100:aidsToNavigation:aton_maintenance_record" text="Maintenance Rec" type="text"/>
+        <text key="s100:aidsToNavigation:installation_date" text="Installation Date" type="date"/>
+        <text key="s100:aidsToNavigation:seasonal_action_required" text="Seasonal Action" type="text"/>
+        <combo key="seamark:status" text="Status" default="">
+            <reference ref="atonStatus"/>
+        </combo>|
+    </item>
+
 </presets>

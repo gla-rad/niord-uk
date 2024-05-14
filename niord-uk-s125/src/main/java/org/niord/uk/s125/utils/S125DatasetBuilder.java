@@ -1864,6 +1864,11 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(this::getS100TruncatedDate)
                 .orElse(null));
+        member.setPictorialRepresentation(Optional.of(s100TagKeyPrefix+"pictorial_representation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .orElse(null));
         member.setScaleMinimum(Optional.of(s100TagKeyPrefix+"scale_minimum")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1885,7 +1890,7 @@ public class S125DatasetBuilder {
                 .orElse(null));
 
         // Add the information
-        member.getInformations().add(Optional.of(s100TagKeyPrefix+"information")
+        member.getInformations().add(Optional.of("seamark:information")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(value -> {

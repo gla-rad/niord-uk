@@ -1907,11 +1907,41 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(this::getS100TruncatedDate)
                 .orElse(null));
+        member.setPictorialRepresentation(Optional.of(s100TagKeyPrefix+"pictorial_representation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .orElse(null));
         member.setScaleMinimum(Optional.of(s100TagKeyPrefix+"scale_minimum")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .filter(StringUtils::isNotBlank)
                 .map(BigInteger::new)
+                .orElse(null));
+        member.setSourceIndication(Optional.of(s100TagKeyPrefix+"source_indication" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setInspectionFrequency(Optional.of(s100TagKeyPrefix+"inspection_frequency" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setInspectionRequirements(Optional.of(s100TagKeyPrefix+"inspection_requirements" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setAtoNMaintenanceRecord(Optional.of(s100TagKeyPrefix+"aton_maintenance_record" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .orElse(null));
+        member.setInstallationDate(Optional.of(s100TagKeyPrefix+"installation_date" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(this::getS100TruncatedDate)
+                .orElse(null));
+        member.getSeasonalActionRequireds().add(Optional.of(s100TagKeyPrefix+"seasonal_action_required" )
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
                 .orElse(null));
 
         // Add the feature names
@@ -1928,7 +1958,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Add the information
-        member.getInformations().add(Optional.of(s100TagKeyPrefix+"information")
+        member.getInformations().add(Optional.of("seamark:information")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(value -> {
