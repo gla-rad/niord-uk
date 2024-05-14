@@ -273,8 +273,8 @@
     </group>
 
     <item name="Supplementary Information" type="node,way,closedway,relation">
-        <text key="s100:aidsToNavigation:source_date" text="Date End" type="date"/>
-        <text key="s100:aidsToNavigation:source_indication" text="Info" type="text"/>
+        <text key="s100:aidsToNavigation:source_date" text="Source End" type="date"/>
+        <text key="s100:aidsToNavigation:source_indication" text="Source Indication" type="text"/>
         <text key="s100:aidsToNavigation:inspection_frequency" text="Inspection Frequency" type="text"/>
         <text key="s100:aidsToNavigation:inspection_requirements" text="Inspection Requirements" type="text"/>
         <text key="s100:aidsToNavigation:aton_maintenance_record" text="Maintenance Record" type="text"/>
