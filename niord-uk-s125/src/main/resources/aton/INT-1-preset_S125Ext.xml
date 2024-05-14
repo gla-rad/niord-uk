@@ -376,7 +376,7 @@
         <text key="s100:aidsToNavigation:id_code" text="ID Code" type="text"/>
         <text key="s100:aidsToNavigation:period_start" text="Period Start" type="date"/>
         <text key="s100:aidsToNavigation:period_end" text="Period End" type="date"/>
-        <text key="s100:aidsToNavigation:pictorial_representation" text="Pictorial Repr" type="text"/>
+        <text key="s100:aidsToNavigation:pictorial_representation" text="Pictorial Representation" type="text"/>
         <text key="s100:aidsToNavigation:scale_minimum" text="Scale Minimum" type="int"/>
         <combo key="seamark:status" text="Status" default="">
             <reference ref="atonStatus"/>

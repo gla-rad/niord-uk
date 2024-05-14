@@ -346,8 +346,7 @@ public class BatchUkAtonImportProcessor extends AbstractUkAtonImportProcessor {
         // Finally add the standard supplementary fields
         /********** Standard S-125 fields ********/
         updateAtonTags(aton,
-                "s125:aidsToNavigation:information", stringValue(BatchUkAtonImportReader.COMMENT),
-                "s125:aidsToNavigation:information_in_national_language", stringValue(BatchUkAtonImportReader.COMMENT),
+                "seamark:information", stringValue(BatchUkAtonImportReader.COMMENT),
                 "s125:aidsToNavigation:date_start", "",
                 "s125:aidsToNavigation:date_end", "",
                 "s125:aidsToNavigation:period_start", "",

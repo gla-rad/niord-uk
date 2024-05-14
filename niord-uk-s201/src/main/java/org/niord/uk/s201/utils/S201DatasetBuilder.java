@@ -306,6 +306,11 @@ public class S201DatasetBuilder {
         final String tagKeyPrefix = "seamark:beacon_cardinal:";
         final String s100TagKeyPrefix = "s100:aidsToNavigation:generic_beacon:";
         this.populateS201AidsToNavigationFields(member, atonNode);
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
         member.setBeaconShape(Optional.of(tagKeyPrefix+"shape")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)

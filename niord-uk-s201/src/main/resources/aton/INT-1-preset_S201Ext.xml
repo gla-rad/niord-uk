@@ -19,6 +19,42 @@
         <list_entry value="electrical-service" display_value="electrical-service3"/>
     </chunk>
 
+    <chunk id="aidAvailabilityCategory">
+        <list_entry value="category_1" display_value="Category 1"/>
+        <list_entry value="category_2" diplay_value="Category 2"/>
+        <list_entry value="category_3" diplay_value="Category 3"/>
+    </chunk>
+
+    <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
+
+        <item name="Landmarks in General" type="node,closedway">
+            <combo key="s100:aidsToNavigation:landmark:aid_availability_category" text="Aid Availability Category">
+                <reference ref="aidAvailabilityCategory"/>
+            </combo>
+        </item>
+
+    </group>
+
+    <group name="Q: Buoys, Beacons, Notices" de.name="Q: Bojen, Schilder, Hinweise">
+
+        <group name="Beacons (Q80-Q125)">
+            <group name="Beacons in General">
+                <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
+                    <reference ref="aidAvailabilityCategory"/>
+                </combo>
+            </group>
+        </group>
+
+    <group name="Buoys and Floats (Q20-Q71)">
+
+    <group name="Buoys in General">
+        </group>
+            <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                <reference ref="aidAvailabilityCategory"/>
+            </combo>
+        </group>
+    </group>
+
     <group name="S: Electronic Position-Fixing Systems">
 
         <item name="Power Source (S7)">
@@ -36,23 +72,13 @@
     </group>
 
     <item name="Supplementary Information" type="node,way,closedway,relation">
-        <text key="s100:aidsToNavigation:id_code" text="ID Code" type="text"/>
-        <text key="s100:aidsToNavigation:date_end" text="Date End" type="date"/>
-        <text key="s100:aidsToNavigation:date_start" text="Date Start" type="date"/>
-        <text key="s100:aidsToNavigation:period_end" text="Period End" type="date"/>
-        <text key="s100:aidsToNavigation:period_start" text="Period Start" type="date"/>
         <text key="s100:aidsToNavigation:source_date" text="Date End" type="date"/>
-        <text key="s100:aidsToNavigation:scale_minimum" text="Scale Minimum" type="int"/>
         <text key="s100:aidsToNavigation:source_indication" text="Info" type="text"/>
-        <text key="s100:aidsToNavigation:pictorial_representation" text="Pictorial Repr" type="text"/>
-        <text key="s100:aidsToNavigation:inspection_frequency" text="Inspection Freq" type="text"/>
-        <text key="s100:aidsToNavigation:inspection_requirements" text="Inspection Reqs" type="text"/>
-        <text key="s100:aidsToNavigation:aton_maintenance_record" text="Maintenance Rec" type="text"/>
+        <text key="s100:aidsToNavigation:inspection_frequency" text="Inspection Frequency" type="text"/>
+        <text key="s100:aidsToNavigation:inspection_requirements" text="Inspection Requirements" type="text"/>
+        <text key="s100:aidsToNavigation:aton_maintenance_record" text="Maintenance Record" type="text"/>
         <text key="s100:aidsToNavigation:installation_date" text="Installation Date" type="date"/>
         <text key="s100:aidsToNavigation:seasonal_action_required" text="Seasonal Action" type="text"/>
-        <combo key="seamark:status" text="Status" default="">
-            <reference ref="atonStatus"/>
-        </combo>|
     </item>
 
 </presets>
