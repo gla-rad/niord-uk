@@ -363,6 +363,36 @@ public class S201DatasetBuilder {
                 .map(S201EnumParser::parseCategoryOfCardinalMark)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setCondition(Optional.of(s100TagKeyPrefix+"condition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseCondition)
+                .orElse(null));
+        member.setElevation(Optional.of(s100TagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -440,6 +470,36 @@ public class S201DatasetBuilder {
                 .map(S201EnumParser::parseCategoryOfLateralMark)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setCondition(Optional.of(s100TagKeyPrefix+"condition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseCondition)
+                .orElse(null));
+        member.setElevation(Optional.of(s100TagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -513,6 +573,36 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setCondition(Optional.of(s100TagKeyPrefix+"condition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseCondition)
+                .orElse(null));
+        member.setElevation(Optional.of(s100TagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -584,6 +674,36 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
+
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setCondition(Optional.of(s100TagKeyPrefix+"condition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseCondition)
+                .orElse(null));
+        member.setElevation(Optional.of(s100TagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
 
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
@@ -663,6 +783,36 @@ public class S201DatasetBuilder {
                 .map(S201EnumParser::parseCategoryOfSpecialPurposeMark)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setCondition(Optional.of(s100TagKeyPrefix+"condition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseCondition)
+                .orElse(null));
+        member.setElevation(Optional.of(s100TagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -727,6 +877,25 @@ public class S201DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S201EnumParser::parseCategoryOfCardinalMark)
+                .orElse(null));
+
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
                 .orElse(null));
 
         // Now fix the geometry...
@@ -795,6 +964,25 @@ public class S201DatasetBuilder {
                 .map(S201EnumParser::parseCategoryOfLateralMark)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -861,6 +1049,25 @@ public class S201DatasetBuilder {
                 .map(S201EnumParser::parseCategoryOfInstallationBuoy)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -922,6 +1129,25 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -982,6 +1208,25 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
+
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
 
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
@@ -1047,6 +1292,25 @@ public class S201DatasetBuilder {
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(S201EnumParser::parseCategoryOfSpecialPurposeMark)
+                .orElse(null));
+
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
                 .orElse(null));
 
         // Now fix the geometry...
@@ -1121,6 +1385,36 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+        member.setCondition(Optional.of(s100TagKeyPrefix+"condition")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseCondition)
+                .orElse(null));
+        member.setElevation(Optional.of(s100TagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalAccuracy(Optional.of(s100TagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1193,6 +1487,13 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1244,6 +1545,13 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1292,6 +1600,13 @@ public class S201DatasetBuilder {
                 .map(v -> v.replace(" ", "_"))
                 .map(S201EnumParser::parseVirtualAisAidToNavigationType)
                 .orElse(VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE));
+
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
@@ -1354,6 +1669,43 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+        member.setElevation(Optional.of(tagKeyPrefix+"elevation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(0.0));
+        member.setVerticalAccuracy(Optional.of(tagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setOrientation(Optional.of(tagKeyPrefix+"orientation")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setIsSlatted(Optional.of(tagKeyPrefix+"isSlatted")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Boolean::parseBoolean)
+                .orElse(false));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1392,6 +1744,19 @@ public class S201DatasetBuilder {
         member.setSignalSequence(Optional.of(s100TagKeyPrefix+"signal_sequence")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
+                .orElse(null));
+
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+        member.setSignalOutput(Optional.of(tagKeyPrefix+"signal_output")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
                 .orElse(null));
 
         // Now fix the geometry...
@@ -1477,6 +1842,37 @@ public class S201DatasetBuilder {
                 .map(Double::parseDouble)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+        member.setVerticalAccuracy(Optional.of(tagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setCandela(Optional.of(tagKeyPrefix+"candela")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(0.0));
+        member.setValueOfGeographicalRange(Optional.of(tagKeyPrefix+"valueOfGeographicRange")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setValueOfLuminousRange(Optional.of(tagKeyPrefix+"valueOfLuminousRange")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1508,6 +1904,19 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
         member.setHeight(Optional.of(tagKeyPrefix+"height")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+        member.setVerticalAccuracy(Optional.of(tagKeyPrefix+"vertical_accuracy")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .filter(StringUtils::isNotBlank)
@@ -1559,6 +1968,19 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
+
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+        member.setVerticalAccuracy(Optional.of(tagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
 
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
@@ -1627,6 +2049,13 @@ public class S201DatasetBuilder {
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseStatus))
                 .orElse(Collections.emptyList()));
 
+        // Add the S-201 only fields
+        member.setAidAvailabilityCategory(Optional.of(s100TagKeyPrefix+"aid_availability_category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseAidAvailabilityCategory)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1672,6 +2101,25 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+        member.setVerticalAccuracy(Optional.of(tagKeyPrefix+"vertical_accuracy")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+        member.setVerticalLength(Optional.of(tagKeyPrefix+"vertical_length")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .map(Double::parseDouble)
+                .orElse(null));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1707,6 +2155,13 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S201EnumParser::parseStatus)
                 .orElse(null));
+
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
@@ -1774,6 +2229,13 @@ public class S201DatasetBuilder {
                 .map(Double::parseDouble)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1817,6 +2279,13 @@ public class S201DatasetBuilder {
                 .map(S201EnumParser::parseStatus)
                 .orElse(null));
 
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
+
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(
                         member.getClass(),
@@ -1857,6 +2326,13 @@ public class S201DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S201EnumParser::parseStatus)
                 .orElse(null));
+
+        // Add the S-201 only fields
+        member.getRemoteMonitoringSystems().addAll(Optional.of(s100TagKeyPrefix+"remoteMonitoringSystem")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(t -> S201EnumParser.splitAndParse(t, v -> v))
+                .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
         S201Utils.generateS201AidsToNavigationTypeGeometriesList(

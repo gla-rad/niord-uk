@@ -25,10 +25,69 @@
         <list_entry value="category_3" diplay_value="Category 3"/>
     </chunk>
 
+    <chunk id="condition">
+        <list_entry value="under_construction" display_value="under construction"/>
+        <list_entry value="ruined" diplay_value="ruined"/>
+        <list_entry value="under_reclamation" diplay_value="under reclamation"/>
+        <list_entry value="planned_construction" display_value="planned construction"/>
+    </chunk>
+
     <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
 
         <item name="Landmarks in General" type="node,closedway">
             <combo key="s100:aidsToNavigation:landmark:aid_availability_category" text="Aid Availability Category">
+                <reference ref="aidAvailabilityCategory"/>
+            </combo>
+            <combo key="s100:aidsToNavigation:landmark:condition" text="Condition">
+                <reference ref="condition"/>
+            </combo>
+            <text key="s100:aidsToNavigation:landmark:elevation" text="Elevation" type="real"/>
+            <text key="s100:aidsToNavigation:landmark:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+            <text key="s100:aidsToNavigation:landmark:vertical_length" text="Vertical Length" type="real"/>
+        </item>
+
+        <item name="Tanks (E32)" type="node,closedway">
+            <combo key="s100:aidsToNavigation:silo_tank:aid_availability_category" text="Aid Availability Category">
+                <reference ref="aidAvailabilityCategory"/>
+            </combo>
+        </item>
+
+        <item name="Silos (E33)" type="node,closedway">
+            <combo key="s100:aidsToNavigation:silo_tank:aid_availability_category" text="Aid Availability Category">
+                <reference ref="aidAvailabilityCategory"/>
+            </combo>
+        </item>
+
+    </group>
+
+    <group name="L: Offshore Installations">
+        <item name="Observation Platform(L13)" type="node,closedway">
+            <space/>
+        </item>
+    </group>
+
+    <group name="P: Lights">
+
+        <group name="Single non-directional Lights (P1-P16)" type="node,closedway">
+
+            <item name="Lights in General" type="node,closedway">
+                <text key="s100:aidsToNavigation:light:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+                <text key="s100:aidsToNavigation:light:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                <text key="s100:aidsToNavigation:light:candela" text="Candela" type="real"/>
+                <text key="s100:aidsToNavigation:light:value_of_geographic_range" text="Value of Geographic Range" type="real"/>
+                <text key="s100:aidsToNavigation:light:value_of_luminous_range" text="Value of Luminous Range" type="real"/>
+            </item>
+
+            <item name="Major and Minor Lights (P1)" type="node,closedway">
+                <combo key="s100:aidsToNavigation:landmark:aid_availability_category" text="Aid Availability Category">
+                    <reference ref="aidAvailabilityCategory"/>
+                </combo>
+            </item>
+
+        </group>
+
+        <item name="Major Floating Light (P6)" type="node,closedway">
+            <combo key="s100:aidsToNavigation:light_vessel:aid_availability_category" text="Aid Availability Category">
                 <reference ref="aidAvailabilityCategory"/>
             </combo>
         </item>
@@ -37,36 +96,178 @@
 
     <group name="Q: Buoys, Beacons, Notices" de.name="Q: Bojen, Schilder, Hinweise">
 
+        <group name="Daymarks (Q8)">
+            <item name="Daymarks in General" type="node">
+                <text key="s100:aidsToNavigation:daymark:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+                <text key="s100:aidsToNavigation:daymark:elevation" text="Elevation" type="real"/>
+                <text key="s100:aidsToNavigation:daymark:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                <text key="s100:aidsToNavigation:daymark:vertical_length" text="Vertical Length" type="real"/>
+                <text key="s100:aidsToNavigation:daymark:orientation" text="Orientation" type="real"/>
+                <text key="s100:aidsToNavigation:daymark:isSlatted" text="Is Slatted" type="boolean"/>
+            </item>
+        </group>
+
+        <group name="Topmarks (Q9)">
+            <item name="Topmarks in General" type="node">
+                <text key="s100:aidsToNavigation:topmark:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+                <text key="s100:aidsToNavigation:topmark:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                <text key="s100:aidsToNavigation:topmark:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+        </group>
+
         <group name="Beacons (Q80-Q125)">
             <group name="Beacons in General">
-                <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
-                    <reference ref="aidAvailabilityCategory"/>
-                </combo>
+
+                <item name="Cardinal Beacon">
+                    <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <combo key="s100:aidsToNavigation:generic_beacon:condition" text="Condition">
+                        <reference ref="condition"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_beacon:elevation" text="Elevation" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Lateral Beacon">
+                    <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <combo key="s100:aidsToNavigation:generic_beacon:condition" text="Condition">
+                        <reference ref="condition"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_beacon:elevation" text="Elevation" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Isolated Danger Beacon">
+                    <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <combo key="s100:aidsToNavigation:generic_beacon:condition" text="Condition">
+                        <reference ref="condition"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_beacon:elevation" text="Elevation" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Safe Water Beacon">
+                    <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <combo key="s100:aidsToNavigation:generic_beacon:condition" text="Condition">
+                        <reference ref="condition"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_beacon:elevation" text="Elevation" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Special Purpose Beacon">
+                    <combo key="s100:aidsToNavigation:generic_beacon:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <combo key="s100:aidsToNavigation:generic_beacon:condition" text="Condition">
+                        <reference ref="condition"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_beacon:elevation" text="Elevation" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
             </group>
         </group>
 
-    <group name="Buoys and Floats (Q20-Q71)">
+        <group name="Buoys and Floats (Q20-Q71)">
 
-    <group name="Buoys in General">
+            <group name="Buoys in General">
+
+                <item name="Lateral Buoy">
+                    <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Cardinal Buoy">
+                    <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Safe Water Buoy">
+                    <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Isolated Danger Buoy">
+                    <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+                <item name="Special Purpose Buoy">
+                    <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                        <reference ref="aidAvailabilityCategory"/>
+                    </combo>
+                    <text key="s100:aidsToNavigation:generic_beacon:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                    <text key="s100:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+                </item>
+
+            </group>
+
+            <item name="Installation Buoy">
+                <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
+                    <reference ref="aidAvailabilityCategory"/>
+                </combo>
+                <text key="s100:aidsToNavigation:generic_buoy:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+                <text key="s100:aidsToNavigation:generic_buoy:vertical_length" text="Vertical Length" type="real"/>
+            </item>
+
         </group>
-            <combo key="s100:aidsToNavigation:generic_buoy:aid_availability_category" text="Aid Availability Category">
-                <reference ref="aidAvailabilityCategory"/>
-            </combo>
-        </group>
+    </group>
+
+    <group name="R: Fog Signals" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/R/R1.svg">
+
+        <item name="Fog Signal (R1-R22)">
+            <text key="s100:aidsToNavigation:fog_signal:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+            <text key="s100:aidsToNavigation:fog_signal:signal_output" text="Signal Output" type="real"/>
+        </item>
     </group>
 
     <group name="S: Electronic Position-Fixing Systems">
 
-        <item name="Power Source (S7)">
-            <space/>
-            <key key="seamark:type" value="power_source"/>
-            <combo key="s100:aidsToNavigation:power_source:category_of_power_source" text="Category of Power Source">
-                <reference ref="categoryOfPowerSource"/>
-            </combo>
-            <text key="s100:aidsToNavigation:power_source:manufacturer" text="Manufacturer" type="text"/>
-            <combo key="seamark:status" text="Status" default="">
-                <reference ref="atonStatus"/>
-            </combo>|
+        <item name="Racon (S3.1-S3.6)" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/S/S1.svg" type="node">
+            <text key="s100:aidsToNavigation:radar_transponder:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+        </item>
+
+        <item name="Radar Reflector (S4)">
+            <text key="s100:aidsToNavigation:radar_reflector:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+            <text key="s100:aidsToNavigation:radar_reflector:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+        </item>
+
+        <item name="Retro Reflector (S6)">
+            <text key="s100:aidsToNavigation:retro_reflector:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+            <text key="s100:aidsToNavigation:retro_reflector:vertical_accuracy" text="Vertical Accuracy" type="real"/>
+        </item>
+
+        <item name="AIS transmitter (S17.1-S17.2)" type="node,closedway">
+            <text key="s100:aidsToNavigation:ais_aid_to_navigation:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+        </item>
+
+        <item name="Virtual AIS transmitter (S18.1-S18.7)" type="node,closedway">
+            <text key="s100:aidsToNavigation:virtual_ais_aid_to_navigation:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
         </item>
 
     </group>

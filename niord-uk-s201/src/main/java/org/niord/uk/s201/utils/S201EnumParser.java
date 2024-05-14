@@ -622,4 +622,21 @@ public class S201EnumParser {
         };
     }
 
+    /**
+     * Translates the aid availability condition from the INT-1.preset.xml to
+     * the S-201 AidAvailabilityCategoryType enum.
+     *
+     * @param conditionType         The INT-1-preset.xml aids availability condition
+     * @return the S-201 Aid Availability Condition Type enum entry
+     */
+    public static ConditionType parseCondition(String conditionType) {
+        return switch (conditionType) {
+            case "under_construction" -> ConditionType.UNDER_CONSTRUCTION;
+            case "ruined" -> ConditionType.RUINED;
+            case "under reclamation" -> ConditionType.UNDER_RECLAMATION;
+            case "planned construction" -> ConditionType.PLANNED_CONSTRUCTION;
+            default -> null;
+        };
+    }
+
 }

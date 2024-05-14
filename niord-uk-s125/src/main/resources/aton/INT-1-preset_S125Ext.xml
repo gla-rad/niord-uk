@@ -71,9 +71,9 @@
                 <list_entry value="squared"/>
                 <list_entry value="border"/>
             </combo>
-            <check key="s100:aidsToNavigation:tank:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            <check key="s100:aidsToNavigation:tank:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
-            <text key="s100:aidsToNavigation:tank:height" text="Height" type="real"/>
+            <check key="s100:aidsToNavigation:silo_tank:radar_conspicuous" text="Radar Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <check key="s100:aidsToNavigation:silo_tank:visually_conspicuous" text="Visually Conspicuous" value_on="conspicuous" value_off="not_conspicuous" default="on"/>
+            <text key="s100:aidsToNavigation:silo_tank:height" text="Height" type="real"/>
         </item>
 
         <item name="Silos (E33)" type="node,closedway">
