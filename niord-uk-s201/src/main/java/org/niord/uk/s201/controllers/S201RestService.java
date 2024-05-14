@@ -92,7 +92,7 @@ public class S201RestService {
         long t0 = System.currentTimeMillis();
 
         try {
-            String result = s201Service.generateGML(language, String.format("aton-dataset-export-%d", t0), atonUIDs.toArray(String[]::new));
+            String result = s201Service.generateGML(language, String.format("admin-aton-dataset-export-%d", t0), atonUIDs.toArray(String[]::new));
 
             // Pretty print the result
             result = XmlUtils.xmlPrettyPrint(result, indent);
