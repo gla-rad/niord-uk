@@ -18,7 +18,7 @@ package org.niord.uk.importer.aton;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.jboss.resteasy.reactive.server.multipart.MultipartFormDataInput;
 import org.niord.core.aton.vo.AtonOsmVo;
 import org.niord.core.batch.AbstractBatchableRestService;
 import org.niord.core.domain.DomainService;

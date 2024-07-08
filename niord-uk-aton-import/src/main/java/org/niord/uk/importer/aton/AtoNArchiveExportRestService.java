@@ -16,18 +16,7 @@
 
 package org.niord.uk.importer.aton;
 
-import org.jboss.resteasy.annotations.GZIP;
-import org.jboss.resteasy.annotations.cache.NoCache;
-import org.niord.core.aton.AtonExportService;
-import org.niord.core.aton.AtonNode;
-import org.niord.core.aton.AtonSearchParams;
-import org.niord.core.aton.AtonService;
-import org.niord.core.aton.vo.AtonNodeVo;
-import org.niord.core.batch.AbstractBatchableRestService;
-import org.niord.core.domain.DomainService;
-import org.niord.model.search.PagedSearchResultVo;
-import org.slf4j.Logger;
-
+import io.quarkus.vertx.http.Compressed;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -38,7 +27,16 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
-import java.util.stream.Collectors;
+import org.jboss.resteasy.reactive.NoCache;
+import org.niord.core.aton.AtonExportService;
+import org.niord.core.aton.AtonNode;
+import org.niord.core.aton.AtonSearchParams;
+import org.niord.core.aton.AtonService;
+import org.niord.core.aton.vo.AtonNodeVo;
+import org.niord.core.batch.AbstractBatchableRestService;
+import org.niord.core.domain.DomainService;
+import org.niord.model.search.PagedSearchResultVo;
+import org.slf4j.Logger;
 
 /**
  * Exports AtoN in JSON format into archive files.
@@ -67,7 +65,7 @@ public class AtoNArchiveExportRestService extends AbstractBatchableRestService {
      */
     @GET
     @Path("/export.zip")
-    @GZIP
+    @Compressed
     @NoCache
     public Response generateZipArchiveForSearch(@Context HttpServletRequest request) throws Exception {
 

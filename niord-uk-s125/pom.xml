@@ -23,7 +23,7 @@
     <parent>
         <artifactId>niord-uk-parent</artifactId>
         <groupId>org.niord.uk</groupId>
-        <version>3.0-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
