@@ -1211,7 +1211,7 @@ public class S125DatasetBuilder {
         final String tagKeyPrefix = "seamark:light_vessel:";
         final String s100TagKeyPrefix = "s100:aidsToNavigation:light_vessel:";
         this.populateS125AidsToNavigationFields(member, atonNode);
-        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colour")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(t -> S125EnumParser.splitAndParse(t, S125EnumParser::parseColour))

@@ -1519,7 +1519,7 @@ public class S201DatasetBuilder {
         final String tagKeyPrefix = "seamark:light_vessel:";
         final String s100TagKeyPrefix = "s100:aidsToNavigation:light_vessel:";
         this.populateS201AidsToNavigationFields(member, atonNode);
-        member.getColours().addAll(Optional.of(tagKeyPrefix+"colours")
+        member.getColours().addAll(Optional.of(tagKeyPrefix+"colour")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(t -> S201EnumParser.splitAndParse(t, S201EnumParser::parseColour))
