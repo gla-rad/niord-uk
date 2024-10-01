@@ -2136,9 +2136,9 @@ public class S125DatasetBuilder {
                 .forEach(g -> this.enclosingEnvelopFromGeometry(envelope, g));
 
         Pos lowerCorner = new PosImpl();
-        lowerCorner.setValue(new Double[]{envelope.getMinX(), envelope.getMaxY()});
+        lowerCorner.setValue(new Double[]{envelope.getMinY(), envelope.getMaxX()});
         Pos upperCorner = new PosImpl();
-        upperCorner.setValue(new Double[]{envelope.getMaxX(), envelope.getMaxY()});
+        upperCorner.setValue(new Double[]{envelope.getMaxY(), envelope.getMaxX()});
 
         // And create the bounding by envelope
         BoundingShapeType boundingShapeType = new BoundingShapeTypeImpl();
