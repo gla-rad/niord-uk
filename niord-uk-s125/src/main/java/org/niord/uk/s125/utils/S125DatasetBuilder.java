@@ -359,7 +359,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BeaconCardinalImpl.Geometry.class::isInstance)
@@ -436,7 +436,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BeaconLateralImpl.Geometry.class::isInstance)
@@ -509,7 +509,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BeaconIsolatedDangerImpl.Geometry.class::isInstance)
@@ -581,7 +581,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BeaconSafeWaterImpl.Geometry.class::isInstance)
@@ -659,7 +659,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BeaconSpecialPurposeGeneralImpl.Geometry.class::isInstance)
@@ -725,7 +725,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BuoyCardinalImpl.Geometry.class::isInstance)
@@ -791,7 +791,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BuoyLateralImpl.Geometry.class::isInstance)
@@ -857,7 +857,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BuoyInstallationImpl.Geometry.class::isInstance)
@@ -918,7 +918,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BuoyIsolatedDangerImpl.Geometry.class::isInstance)
@@ -979,7 +979,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BuoySafeWaterImpl.Geometry.class::isInstance)
@@ -1045,7 +1045,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(BuoySpecialPurposeGeneralImpl.Geometry.class::isInstance)
@@ -1117,7 +1117,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(LandmarkType.Geometry.class::isInstance)
@@ -1189,7 +1189,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(LighthouseImpl.Geometry.class::isInstance)
@@ -1240,7 +1240,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(LightVesselImpl.Geometry.class::isInstance)
@@ -1289,7 +1289,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(VirtualAISAidToNavigationImpl.Geometry.class::isInstance)
@@ -1350,7 +1350,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(DaymarkImpl.Geometry.class::isInstance)
@@ -1390,7 +1390,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(FogSignalImpl.Geometry.class::isInstance)
@@ -1473,7 +1473,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(LightImpl.Geometry.class::isInstance)
@@ -1510,7 +1510,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(RadarReflectorImpl.Geometry.class::isInstance)
@@ -1556,7 +1556,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(RetroReflectorImpl.Geometry.class::isInstance)
@@ -1623,7 +1623,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(SiloTankImpl.Geometry.class::isInstance)
@@ -1668,7 +1668,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(TopmarkImpl.Geometry.class::isInstance)
@@ -1704,7 +1704,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(RadioStationImpl.Geometry.class::isInstance)
@@ -1770,7 +1770,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(RadarTransponderBeaconImpl.Geometry.class::isInstance)
@@ -1813,7 +1813,7 @@ public class S125DatasetBuilder {
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
                         member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLon(), atonNode.getLat())))
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
                 .stream()
                 .filter(PhysicalAISAidToNavigationImpl.Geometry.class::isInstance)
