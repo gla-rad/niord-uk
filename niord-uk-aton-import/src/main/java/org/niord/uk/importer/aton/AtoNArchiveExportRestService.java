@@ -17,10 +17,10 @@
 package org.niord.uk.importer.aton;
 
 import io.quarkus.vertx.http.Compressed;
+import io.vertx.core.http.HttpServerRequest;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -67,7 +67,7 @@ public class AtoNArchiveExportRestService extends AbstractBatchableRestService {
     @Path("/export.zip")
     @Compressed
     @NoCache
-    public Response generateZipArchiveForSearch(@Context HttpServletRequest request) throws Exception {
+    public Response generateZipArchiveForSearch(@Context HttpServerRequest request) throws Exception {
 
         // Perform a search for at most 1000 AtoNs
         AtonSearchParams params = AtonSearchParams.instantiate(domainService.currentDomain(), request);

@@ -16,9 +16,16 @@
   {
     "key"         : "authServerUrl",
     "description" : "The Keycloak URL",
-    "value"       : "http://palatia.grad-rrnav.pub:8090",
+    "value"       : "https://rnavlab.gla-rad.org/auth",
     "web"         : false,
     "editable"    : true
+  },
+  {
+    "key"         : "authServerRealmKey",
+    "description" : "The Keycloak Realm Key",
+    "value"       : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwkAXaeYAqfv7DU9Rxuq5hG1p2TJuV96b1ja41n0gVcj0D4xBr5aXl2wtd4wjEtwRgCnKvxSrmJcazCBbI83bq+UPrQ99Uq6Lg2SEJSWhobKJS9oZY9UuQmWtDrn4VcsYgknDvM7zXlRqy21rs84xWsPuTYyu9yK6XgOd67xjluQK3W0wE42VEmnRqDYZry6e+mAFtSiHaen8twQuzgVebxSHQfyk88Ym7ZZE/DEKTtbOIk1GKV4YEu55dhcX/KUynSF9NMgCnrAHd8BxK1Mg8zmKkAfVpjqd2aMQivKD15aohuUvahDHU2cYaYa7vZNTY428kG7/sRIVH0PyxXC9iwIDAQAB",
+    "web"         : false,
+    "editable"    : false
   },
   {
     "key"         : "documentationUrl",
