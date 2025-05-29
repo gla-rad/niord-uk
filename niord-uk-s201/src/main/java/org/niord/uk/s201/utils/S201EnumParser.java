@@ -15,7 +15,7 @@
  */
 package org.niord.uk.s201.utils;
 
-import _int.iho.s201.gml.cs0._1.*;
+import _int.iho.s_201.gml.cs0._2.*;
 
 import java.util.*;
 import java.util.function.Function;
@@ -158,7 +158,7 @@ public class S201EnumParser {
     public static NatureOfConstructionType parseNatureOfConstruction(String natureOfConstruction) {
         return switch (natureOfConstruction) {
             case "masonry" -> NatureOfConstructionType.MASONRY;
-            case "hard-surfaced" -> NatureOfConstructionType.HARD_SURFACE;
+            case "hard-surfaced" -> NatureOfConstructionType.HARD_SURFACED;
             case "concreted" -> NatureOfConstructionType.CONCRETED;
             case "loose_boulders" -> NatureOfConstructionType.LOOSE_BOULDERS;
             case "wooden" -> NatureOfConstructionType.WOODEN;
@@ -185,7 +185,7 @@ public class S201EnumParser {
             case "private" -> StatusType.PRIVATE;
             case "public" -> StatusType.PUBLIC;
             case "watched" -> StatusType.WATCHED;
-            case "unwatched" -> StatusType.UN_WATCHED;
+            case "unwatched" -> StatusType.UNWATCHED;
             case "confirmed" -> StatusType.CONFIRMED;
             case "candidate" -> StatusType.CANDIDATE;
             case "under_modification" -> StatusType.UNDER_MODIFICATION;
@@ -193,23 +193,7 @@ public class S201EnumParser {
             case "under_removal/deletion" -> StatusType.UNDER_REMOVAL_DELETION;
             case "removed/deleted" -> StatusType.REMOVED_DELETED;
             case "experimental" -> StatusType.EXPERIMENTAL;
-            case "temporarily discontinued" -> StatusType.TEMPORARILY_DISCONTINUED;
-            case "temporarily relocated" -> StatusType.TEMPORARILY_RELOCATED;
-            default -> null;
-        };
-    }
-    
-    /**
-     * Translates the radar conspicuous from the INT-1.preset.xml to
-     * the S-201 Radar Conspicuous System enum.
-     *
-     * @param radarConspicuous     The INT-1-preset.xml radar conspicuous
-     * @return the S-201 Radar Conspicuous System enum entry
-     */
-    public static RadarConspicuousType parseRadarConspicuous(String radarConspicuous) {
-        return switch (radarConspicuous) {
-            case "conspicuous" -> RadarConspicuousType.RADAR_CONSPICUOUS;
-            case "not_conspicuous" -> RadarConspicuousType.NOT_RADAR_CONSPICUOUS;
+            case "discontinued" -> StatusType.DISCONTINUED;
             default -> null;
         };
     }
@@ -255,8 +239,8 @@ public class S201EnumParser {
      */
     public static CategoryOfInstallationBuoyType parseCategoryOfInstallationBuoy(String installationBuoy) {
         return switch (installationBuoy) {
-            case "calm" ->  CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING_CALM;
-            case "sbm" -> CategoryOfInstallationBuoyType.SINGLE_BUOY_MOORING_SBM_OR_SPM;
+            case "calm" ->  CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING;
+            case "sbm" -> CategoryOfInstallationBuoyType.SINGLE_BUOY_MOORING;
             default -> null;
         };
     }
@@ -278,17 +262,17 @@ public class S201EnumParser {
             case ("cable") -> CategoryOfSpecialPurposeMarkType.CABLE_MARK;
             case ("spoil_ground") -> CategoryOfSpecialPurposeMarkType.SPOIL_GROUND_MARK;
             case ("outfall") -> CategoryOfSpecialPurposeMarkType.OUTFALL_MARK;
-            case ("odas") -> CategoryOfSpecialPurposeMarkType.ODAS_OCEAN_DATA_ACQUISITION_SYSTEM;
+            case ("odas") -> CategoryOfSpecialPurposeMarkType.ODAS;
             case ("recording") -> CategoryOfSpecialPurposeMarkType.RECORDING_MARK;
             case ("seaplane_anchorage") -> CategoryOfSpecialPurposeMarkType.SEAPLANE_ANCHORAGE_MARK;
             case ("recreation_zone") -> CategoryOfSpecialPurposeMarkType.RECREATION_ZONE_MARK;
             case ("private") -> CategoryOfSpecialPurposeMarkType.PRIVATE_MARK;
             case ("mooring") -> CategoryOfSpecialPurposeMarkType.MOORING_MARK;
-            case ("lanby") -> CategoryOfSpecialPurposeMarkType.LANBY_LARGE_AUTOMATIC_NAVIGATIONAL_BUOY;
+            case ("lanby") -> CategoryOfSpecialPurposeMarkType.LANBY;
             case ("leading") -> CategoryOfSpecialPurposeMarkType.LEADING_MARK;
             case ("measured_distance") -> CategoryOfSpecialPurposeMarkType.MEASURED_DISTANCE_MARK;
             case ("notice") -> CategoryOfSpecialPurposeMarkType.NOTICE_MARK;
-            case ("tss") -> CategoryOfSpecialPurposeMarkType.TSS_MARK_TRAFFIC_SEPARATION_SCHEME;
+            case ("tss") -> CategoryOfSpecialPurposeMarkType.TSS_MARK;
             case ("no_anchoring") -> CategoryOfSpecialPurposeMarkType.ANCHORING_PROHIBITED_MARK;
             case ("no_berthing") -> CategoryOfSpecialPurposeMarkType.BERTHING_PROHIBITED_MARK;
             case ("no_overtaking") -> CategoryOfSpecialPurposeMarkType.OVERTAKING_PROHIBITED_MARK;
@@ -389,13 +373,13 @@ public class S201EnumParser {
      */
     public static BuoyShapeType parseBuoyShape(String buoyShape) {
         return switch (buoyShape) {
-            case "conical" -> BuoyShapeType.CONICAL_NUN_OGIVAL;
-            case "can" -> BuoyShapeType.CAN_CYLINDRICAL;
+            case "conical" -> BuoyShapeType.CONICAL;
+            case "can" -> BuoyShapeType.CAN;
             case "spherical" -> BuoyShapeType.SPHERICAL;
-            case "super-buoy" -> BuoyShapeType.SUPER_BUOY;
             case "pillar" -> BuoyShapeType.PILLAR;
-            case "spar" -> BuoyShapeType.SPAR_SPINDLE;
-            case "barrel" -> BuoyShapeType.BARREL_TUN;
+            case "spar" -> BuoyShapeType.SPAR;
+            case "barrel" -> BuoyShapeType.BARREL;
+            case "super-buoy" -> BuoyShapeType.SUPERBUOY;
             case "ice-buoy" -> BuoyShapeType.ICE_BUOY;
             default -> null;
         };
@@ -410,10 +394,10 @@ public class S201EnumParser {
      */
     public static CategoryOfLightType parseLightCategory(String lightCategory) {
         return switch (lightCategory) {
+            case "directional function" -> CategoryOfLightType.DIRECTIONAL_FUNCTION;
             case "leading" -> CategoryOfLightType.LEADING_LIGHT;
             case "aero" -> CategoryOfLightType.AERO_LIGHT;
             case "air_obstruction" -> CategoryOfLightType.AIR_OBSTRUCTION_LIGHT;
-            case "fog_detector" -> CategoryOfLightType.FOG_DETECTOR_LIGHT;
             case "floodlight" -> CategoryOfLightType.FLOOD_LIGHT;
             case "strip_light" -> CategoryOfLightType.STRIP_LIGHT;
             case "subsidiary" -> CategoryOfLightType.SUBSIDIARY_LIGHT;
@@ -423,9 +407,30 @@ public class S201EnumParser {
             case "lower" -> CategoryOfLightType.LOWER;
             case "upper" -> CategoryOfLightType.UPPER;
             case "emergency" -> CategoryOfLightType.EMERGENCY;
+            case "bearing" -> CategoryOfLightType.BEARING_LIGHT;
             case "horizontal" -> CategoryOfLightType.HORIZONTALLY_DISPOSED;
             case "vertical" -> CategoryOfLightType.VERTICALLY_DISPOSED;
-            case "bridge_light" -> CategoryOfLightType.BRIDGE_LIGHT;
+            default -> null;
+        };
+    }
+
+    /**
+     * Translates the visibility of a light from the INT-1.preset.xml to the
+     * S-201 Light Visibility enum.
+     *
+     * @param lightVisibility     The INT-1-preset.xml light visibility
+     * @return the S-201 category of light enum entry
+     */
+    public static LightVisibilityType parseLightVisibility(String lightVisibility) {
+        return switch (lightVisibility) {
+            case "high" -> LightVisibilityType.HIGH_INTENSITY;
+            case "low" -> LightVisibilityType.LOW_INTENSITY;
+            case "faint" -> LightVisibilityType.FAINT;
+            case "intensified" -> LightVisibilityType.INTENSIFIED;
+            case "unintensified" -> LightVisibilityType.UNINTENSIFIED;
+            case "restricted" -> LightVisibilityType.VISIBILITY_DELIBERATELY_RESTRICTED;
+            case "obscured" -> LightVisibilityType.OBSCURED;
+            case "part_obscured" -> LightVisibilityType.PARTIALLY_OBSCURED;
             default -> null;
         };
     }
@@ -444,12 +449,9 @@ public class S201EnumParser {
             case "LFl" -> LightCharacteristicType.LONG_FLASHING;
             case "Q" -> LightCharacteristicType.QUICK_FLASHING;
             case "VQ" -> LightCharacteristicType.VERY_QUICK_FLASHING;
-            case "UQ" -> LightCharacteristicType.ULTRA_QUICK_FLASHING;
+            case "UQ" -> LightCharacteristicType.CONTINUOUS_ULTRA_QUICK_FLASHING;
             case "Iso" -> LightCharacteristicType.ISOPHASED;
             case "Oc" -> LightCharacteristicType.OCCULTING;
-            case "IQ" -> LightCharacteristicType.INTERRUPTED_QUICK_FLASHING;
-            case "IVQ" -> LightCharacteristicType.INTERRUPTED_VERY_QUICK_FLASHING;
-            case "IUQ" -> LightCharacteristicType.INTERRUPTED_ULTRA_QUICK_FLASHING;
             case "Mo" -> LightCharacteristicType.MORSE;
             case "FFl" -> LightCharacteristicType.FIXED_AND_FLASH;
             case "FlLFl" -> LightCharacteristicType.FLASH_AND_LONG_FLASH;
@@ -458,12 +460,63 @@ public class S201EnumParser {
             case "Al.Oc" -> LightCharacteristicType.OCCULTING_ALTERNATING;
             case "Al.LFl" -> LightCharacteristicType.LONG_FLASH_ALTERNATING;
             case "Al.Fl" -> LightCharacteristicType.FLASH_ALTERNATING;
-            case "Al.FFl" -> LightCharacteristicType.FLASH_ALTERNATING;
-            case "Al.Gr" -> LightCharacteristicType.FLASH_ALTERNATING;
+            case "Al.FFl" -> LightCharacteristicType.FIXED_AND_ALTERNATING_FLASHING;
+            case "Al.Gr" -> LightCharacteristicType.GROUP_ALTERNATING;
             case "Q+LFl" -> LightCharacteristicType.QUICK_FLASH_PLUS_LONG_FLASH;
             case "VQ+LFl" -> LightCharacteristicType.VERY_QUICK_FLASH_PLUS_LONG_FLASH;
             case "UQ+LFl" -> LightCharacteristicType.ULTRA_QUICK_FLASH_PLUS_LONG_FLASH;
             case "Al" -> LightCharacteristicType.ALTERNATING;
+            default -> {
+                if (lightCharacter.matches("Oc\\w?([0-9]*)")) {
+                    yield LightCharacteristicType.GROUP_OCCULTING_LIGHT;
+                } else if (lightCharacter.matches("Oc\\w?([0-9]*\\+[0-1]*)")) {
+                    yield LightCharacteristicType.COMPOSITE_GROUP_OCCULTING_LIGHT;
+                } else if (lightCharacter.matches("Fl\\w?([0-9]*)")) {
+                    yield LightCharacteristicType.GROUP_FLASHING_LIGHT;
+                } else if (lightCharacter.matches("Fl\\w?([0-9]*\\+[0-1]*)")) {
+                    yield LightCharacteristicType.COMPOSITE_GROUP_FLASHING_LIGHT;
+                } else if (lightCharacter.matches("Q\\w?([0-9]*)")) {
+                    yield LightCharacteristicType.GROUP_QUICK_LIGHT;
+                } else if (lightCharacter.matches("VQ\\w?([0-9]*\\+[0-1]*)")) {
+                    yield LightCharacteristicType.GROUP_VERY_QUICK_LIGHT;
+                } else {
+                    yield null;
+                }
+            }
+
+        };
+    }
+
+    /**
+     * Translates the Signal Generation from the INT-1.preset.xml to the
+     * S-201 Signal Generation enum.
+     *
+     * @param signalGeneration     The INT-1-preset.xml Signal Generation
+     * @return the S-201 Signal Generation enum
+     */
+    public static SignalGenerationType parseSignalGeneration(String signalGeneration) {
+        return switch (signalGeneration) {
+            case "Automatically" -> SignalGenerationType.AUTOMATICALLY;
+            case "By Wave Action" -> SignalGenerationType.BY_WAVE_ACTION;
+            case "By Hand" -> SignalGenerationType.BY_HAND;
+            case "By Wind" -> SignalGenerationType.BY_WIND;
+            case "Radio Activated" -> SignalGenerationType.RADIO_ACTIVATED;
+            case "Call Activated" -> SignalGenerationType.CALL_ACTIVATED;
+            default -> null;
+        };
+    }
+
+    /**
+     * Translates the Signal Status from the INT-1.preset.xml to the
+     * S-201 Signal Status enum.
+     *
+     * @param signalStatus     The INT-1-preset.xml Signal Status
+     * @return the S-201 Signal Status enum
+     */
+    public static SignalStatusType parseSignalStatus(String signalStatus) {
+        return switch (signalStatus) {
+            case "lit/sound" -> SignalStatusType.LIT_SOUND;
+            case "eclipsed/silent" -> SignalStatusType.ECLIPSED_SILENT;
             default -> null;
         };
     }
@@ -504,10 +557,18 @@ public class S201EnumParser {
             case "yellow" -> ColourType.YELLOW;
             case "grey" -> ColourType.GREY;
             case "brown" -> ColourType.BROWN;
-            case "fluorescent_white" -> ColourType.FLUORESCENT_WHITE;
-            case "fluorescent_red" -> ColourType.FLUORESCENT_RED;
-            case "fluorescent_green" -> ColourType.FLUORESCENT_GREEN;
-            case "fluorescent_orange" -> ColourType.FLUORESCENT_ORANGE;
+            case "amber" -> ColourType.AMBER;
+            case "violet" -> ColourType.VIOLET;
+            case "orange" -> ColourType.ORANGE;
+            case "magenta" -> ColourType.MAGENTA;
+            case "pink" -> ColourType.PINK;
+            case "green A" -> ColourType.GREEN_A;
+            case "green B" -> ColourType.GREEN_B;
+            case "white temporary" -> ColourType.WHITE_TEMPORARY;
+            case "red temporary" -> ColourType.RED_TEMPORARY;
+            case "yellow temporary" -> ColourType.YELLOW_TEMPORARY;
+            case "green preferred" -> ColourType.GREEN_PREFERRED;
+            case "green temporary" -> ColourType.GREEN_TEMPORARY;
             default -> null;
         };
     }
@@ -633,8 +694,70 @@ public class S201EnumParser {
         return switch (conditionType) {
             case "under_construction" -> ConditionType.UNDER_CONSTRUCTION;
             case "ruined" -> ConditionType.RUINED;
-            case "under reclamation" -> ConditionType.UNDER_RECLAMATION;
-            case "planned construction" -> ConditionType.PLANNED_CONSTRUCTION;
+            case "under_reclamation" -> ConditionType.UNDER_RECLAMATION;
+            case "wingless" -> ConditionType.WINGLESS;
+            case "planned_construction" -> ConditionType.PLANNED_CONSTRUCTION;
+            default -> null;
+        };
+    }
+
+    /**
+     * Translates the vertical datum value from the INT-1.preset.xml to
+     * the S-201 VerticalDatumType enum.
+     *
+     * @param verticalDatumType         The INT-1-preset.xml vertical datum
+     * @return the S-201 Vertical Datum Type enum entry
+     */
+    public static VerticalDatumType parseVerticalDatum(String verticalDatumType) {
+        return switch (verticalDatumType) {
+            case "Mean Low Water Springs" -> VerticalDatumType.MEAN_LOW_WATER_SPRINGS;
+            case "Mean Lower Low Water Springs" -> VerticalDatumType.MEAN_LOWER_LOW_WATER;
+            case "Mean Sea Level" -> VerticalDatumType.MEAN_SEA_LEVEL;
+            case "Lowest Low Water" -> VerticalDatumType.LOWEST_LOW_WATER;
+            case "Mean Low Water" -> VerticalDatumType.MEAN_LOW_WATER;
+            case "Lowest Low Water Springs" -> VerticalDatumType.LOWEST_LOW_WATER_SPRINGS;
+            case "Approximate Mean Low Water Springs" -> VerticalDatumType.APPROXIMATE_MEAN_LOW_WATER;
+            case "Indian Spring Low Water" -> VerticalDatumType.INDIAN_SPRING_LOW_WATER;
+            case "Low Water Springs" -> VerticalDatumType.LOW_WATER_SPRINGS;
+            case "Approximate Lowest Astronomical Tide" -> VerticalDatumType.APPROXIMATE_LOWEST_ASTRONOMICAL_TIDE;
+            case "Nearly Lowest Low Water" -> VerticalDatumType.NEARLY_LOWEST_LOW_WATER;
+            case "Mean Lower Low Water" -> VerticalDatumType.MEAN_LOWER_LOW_WATER;
+            case "Low Water" -> VerticalDatumType.LOW_WATER;
+            case "Approximate Mean Low Water" -> VerticalDatumType.APPROXIMATE_MEAN_LOW_WATER;
+            case "Approximate Mean Lower Low Water" -> VerticalDatumType.APPROXIMATE_MEAN_LOWER_LOW_WATER;
+            case "Mean High Water" -> VerticalDatumType.MEAN_HIGH_WATER;
+            case "Mean High Water Springs" -> VerticalDatumType.MEAN_HIGH_WATER_SPRINGS;
+            case "High Water" -> VerticalDatumType.HIGH_WATER;
+            case "Approximate Mean Sea Level" -> VerticalDatumType.APPROXIMATE_MEAN_SEA_LEVEL;
+            case "High Water Springs" -> VerticalDatumType.HIGH_WATER_SPRINGS;
+            case "Mean Higher High Water" -> VerticalDatumType.MEAN_HIGHER_HIGH_WATER;
+            case "Equinoctial Spring Low Water" -> VerticalDatumType.EQUINOCTIAL_SPRING_LOW_WATER;
+            case "Lowest Astronomical Tide" -> VerticalDatumType.LOWEST_ASTRONOMICAL_TIDE;
+            case "Local Datum" -> VerticalDatumType.LOCAL_DATUM;
+            case "International Great Lakes Datum 1985" -> VerticalDatumType.INTERNATIONAL_GREAT_LAKES_DATUM_1985;
+            case "Mean Water Level" -> VerticalDatumType.MEAN_WATER_LEVEL;
+            case "Lower Low Water Large Tide" -> VerticalDatumType.LOWER_LOW_WATER_LARGE_TIDE;
+            case "Higher High Water Large Tide" -> VerticalDatumType.HIGHER_HIGH_WATER_LARGE_TIDE;
+            case "Nearly Highest High Water" -> VerticalDatumType.NEARLY_HIGHEST_HIGH_WATER;
+            case "Highest Astronomical Tide" -> VerticalDatumType.HIGHEST_ASTRONOMICAL_TIDE;
+            case "Local Low Water Reference Level" -> VerticalDatumType.LOCAL_LOW_WATER_REFERENCE_LEVEL;
+            case "Local High Water Reference Level" -> VerticalDatumType.LOCAL_HIGH_WATER_REFERENCE_LEVEL;
+            case "Local Mean Water Reference Level" -> VerticalDatumType.LOCAL_MEAN_WATER_REFERENCE_LEVEL;
+            case "Equivalent Height of Water (German GlW)" -> VerticalDatumType.EQUIVALENT_HEIGHT_OF_WATER_GERMAN_GL_W;
+            case "Highest Shipping Height of Water (German HSW)" -> VerticalDatumType.HIGHEST_SHIPPING_HEIGHT_OF_WATER_GERMAN_HSW;
+            case "Reference Low Water Level According to Danube Commission" -> VerticalDatumType.REFERENCE_LOW_WATER_LEVEL_ACCORDING_TO_DANUBE_COMMISSION;
+            case "Highest Shipping Height of Water According to Danube Commission" -> VerticalDatumType.HIGHEST_SHIPPING_HEIGHT_OF_WATER_ACCORDING_TO_DANUBE_COMMISSION;
+            case "Dutch River Low Water Reference Level (OLR)" -> VerticalDatumType.DUTCH_RIVER_LOW_WATER_REFERENCE_LEVEL_OLR;
+            case "Russian Project Water Level" -> VerticalDatumType.RUSSIAN_PROJECT_WATER_LEVEL;
+            case "Russian Normal Backwater Level" -> VerticalDatumType.RUSSIAN_NORMAL_BACKWATER_LEVEL;
+            case "Ohio River Datum" -> VerticalDatumType.OHIO_RIVER_DATUM;
+            case "Dutch High Water Reference Level" -> VerticalDatumType.DUTCH_HIGH_WATER_REFERENCE_LEVEL;
+            case "Baltic Sea Chart Datum 2000" -> VerticalDatumType.BALTIC_SEA_CHART_DATUM_2000;
+            case "Dutch Estuary Low Water Reference Level (OLW)" -> VerticalDatumType.DUTCH_ESTUARY_LOW_WATER_REFERENCE_LEVEL_OLW;
+            case "International Great Lakes Datum 2020" -> VerticalDatumType.INTERNATIONAL_GREAT_LAKES_DATUM_2020;
+            case "Sea Floor" -> VerticalDatumType.SEA_FLOOR;
+            case "Sea Surface" -> VerticalDatumType.SEA_SURFACE;
+            case "Hydrographic Zero" -> VerticalDatumType.HYDROGRAPHIC_ZERO;
             default -> null;
         };
     }

@@ -16,16 +16,16 @@
 
 package org.niord.uk.s125.utils;
 
-import _int.iho.s125.s100.gml.base._5_0.CurveType;
-import _int.iho.s125.s100.gml.base._5_0.PointType;
-import _int.iho.s125.s100.gml.base._5_0.SurfaceType;
-import _int.iho.s125.s100.gml.base._5_0.*;
-import _int.iho.s125.s100.gml.base._5_0.impl.CurveTypeImpl;
-import _int.iho.s125.s100.gml.base._5_0.impl.PointTypeImpl;
-import _int.iho.s125.s100.gml.base._5_0.impl.SurfaceTypeImpl;
-import _int.iho.s125.s100.gml.base._5_0.impl.*;
-import _int.iho.s125.s100.gml.profiles._5_0.*;
-import _int.iho.s125.s100.gml.profiles._5_0.impl.*;
+import _int.iho.s125.s100.gml.base._5_2.CurveType;
+import _int.iho.s125.s100.gml.base._5_2.PointType;
+import _int.iho.s125.s100.gml.base._5_2.SurfaceType;
+import _int.iho.s125.s100.gml.base._5_2.*;
+import _int.iho.s125.s100.gml.base._5_2.impl.CurveTypeImpl;
+import _int.iho.s125.s100.gml.base._5_2.impl.PointTypeImpl;
+import _int.iho.s125.s100.gml.base._5_2.impl.SurfaceTypeImpl;
+import _int.iho.s125.s100.gml.base._5_2.impl.*;
+import _int.iho.s125.s100.gml.profiles._5_2.*;
+import _int.iho.s125.s100.gml.profiles._5_2.impl.*;
 import _int.iho.s125.gml.cs0._1.S100TruncatedDate;
 import _int.iho.s125.gml.cs0._1.*;
 import _int.iho.s125.gml.cs0._1.impl.*;
@@ -101,7 +101,7 @@ public class S125DatasetBuilder {
     private AtomicInteger idIndex;
     private Map<Integer, String> idMap;
     private HashSet<Integer> linksSet;
-    private _int.iho.s125.s100.gml.profiles._5_0.ObjectFactory opengisGMLFactory;
+    private _int.iho.s125.s100.gml.profiles._5_2.ObjectFactory opengisGMLFactory;
 
     /**
      * Class Constructor.
@@ -111,7 +111,7 @@ public class S125DatasetBuilder {
         this.idIndex = new AtomicInteger(1);
         this.idMap = new HashMap<>();
         this.linksSet = new HashSet<>();
-        this.opengisGMLFactory = new _int.iho.s125.s100.gml.profiles._5_0.ObjectFactory();
+        this.opengisGMLFactory = new _int.iho.s125.s100.gml.profiles._5_2.ObjectFactory();
     }
     
     /**
@@ -230,7 +230,7 @@ public class S125DatasetBuilder {
                     this.generateDaymark(atonNode);
             case FOG_SIGNAL ->
                     this.generateFogSignal(atonNode);
-            case LIGHT ->
+            case LIGHT_ALL_AROUND ->
                     this.generateLight(atonNode);
             case RADAR_REFLECTOR ->
                     this.generateRadarReflector(atonNode);

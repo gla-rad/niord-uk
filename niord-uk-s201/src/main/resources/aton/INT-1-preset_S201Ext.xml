@@ -29,7 +29,64 @@
         <list_entry value="under_construction" display_value="under construction"/>
         <list_entry value="ruined" diplay_value="ruined"/>
         <list_entry value="under_reclamation" diplay_value="under reclamation"/>
+        <list_entry value="wingless" diplay_value="wingless"/>
         <list_entry value="planned_construction" display_value="planned construction"/>
+    </chunk>
+
+    <chunk id="signalStatus">
+        <list_entry value="lit/sound" display_value="Lit/Sound"/>
+        <list_entry value="eclipsed/silent" diplay_value="Eclipsed/Silent"/>
+    </chunk>
+
+    <chunk id="vertical_datum">
+        <list_entry value="mean_low_water_springs" diplay_value="Mean Low Water Springs"/>
+        <list_entry value="mean_lower_Low_water_springs" diplay_value="Mean Lower Low Water Springs"/>
+        <list_entry value="mean_sea_level" diplay_value="Mean Sea Level"/>
+        <list_entry value="lowest_low_water" diplay_value="Lowest Low Water"/>
+        <list_entry value="mean_low_water" diplay_value="Mean Low Water"/>
+        <list_entry value="lowest_low_water_springs" diplay_value="Lowest Low Water Springs"/>
+        <list_entry value="approximate_mean_low_water_springs" diplay_value="Approximate Mean Low Water Springs"/>
+        <list_entry value="indian_spring_low_water" diplay_value="Indian Spring Low Water"/>
+        <list_entry value="low_water_springs" diplay_value="Low Water Springs"/>
+        <list_entry value="approximate_lowest_astronomical_tide" diplay_value="Approximate Lowest Astronomical Tide"/>
+        <list_entry value="nearly_lowest_low_water" diplay_value="Nearly Lowest Low Water"/>
+        <list_entry value="mean lower low water" diplay_value="Mean Lower Low Water"/>
+        <list_entry value="low_water" diplay_value="Low Water"/>
+        <list_entry value="approximate_mean_low_water" diplay_value="Approximate Mean Low Water"/>
+        <list_entry value="approximate_mean_lower_low_water" diplay_value="Approximate Mean Lower Low Water"/>
+        <list_entry value="mean_high_water" diplay_value="Mean High Water"/>
+        <list_entry value="mean_high_water_springs" diplay_value="Mean High Water Springs"/>
+        <list_entry value="high_water" diplay_value="High Water"/>
+        <list_entry value="approximate_mean_sea_level" diplay_value="Approximate Mean Sea Level"/>
+        <list_entry value="high_water_springs" diplay_value="High Water Springs"/>
+        <list_entry value="mean_higher_high_water" diplay_value="Mean Higher High Water"/>
+        <list_entry value="equinoctial_spring_low_water" diplay_value="Equinoctial Spring Low Water"/>
+        <list_entry value="lowest astronomical tide" diplay_value="Lowest Astronomical Tide"/>
+        <list_entry value="local_datum" diplay_value="Local Datum"/>
+        <list_entry value="international_great_lakes_datum_1985" diplay_value="International Great Lakes Datum 1985"/>
+        <list_entry value="mean_water_level" diplay_value="Mean Water Level"/>
+        <list_entry value="lower_low_water_large_tide" diplay_value="Lower Low Water Large Tide"/>
+        <list_entry value="higher_high_water_large_tide" diplay_value="Higher High Water Large Tide"/>
+        <list_entry value="nearly_highest_high_water" diplay_value="Nearly Highest High Water"/>
+        <list_entry value="highest_astronomical_tide" diplay_value="Highest Astronomical Tide"/>
+        <list_entry value="local_low_water_reference_level" diplay_value="Local Low Water Reference Level"/>
+        <list_entry value="local_high_water_reference_level" diplay_value="Local High Water Reference Level"/>
+        <list_entry value="local_man_water_reference_level" diplay_value="Local Mean Water Reference Level"/>
+        <list_entry value="equivalent_height_of_water_(german_glw)" diplay_value="Equivalent Height of Water (German GlW)"/>
+        <list_entry value="highest_shipping_height_of_water_(german_hsw)" diplay_value="Highest Shipping Height of Water (German HSW)"/>
+        <list_entry value="reference_low_water_level_according_to_danube_commission" diplay_value="Reference Low Water Level According to Danube Commission"/>
+        <list_entry value="highest_shipping_height_of_water_according_to_danube_commission" diplay_value="Highest Shipping Height of Water According to Danube Commission"/>
+        <list_entry value="dutch_river_low_water_reference_level_(olr)" diplay_value="Dutch River Low Water Reference Level (OLR)"/>
+        <list_entry value="russian_project_water_level" diplay_value="Russian Project Water Level"/>
+        <list_entry value="russian_normal_backwater_level" diplay_value="Russian Normal Backwater Level"/>
+        <list_entry value="ohio_river_datum" diplay_value="Ohio River Datum"/>
+        <list_entry value="dutch_high_water_reference_level" diplay_value="Dutch High Water Reference Level"/>
+        <list_entry value="baltic_sea_chart_datum_2000" diplay_value="Baltic Sea Chart Datum 2000"/>
+        <list_entry value="dutch_estuary_low_water_reference_level_(olw)" diplay_value="Dutch Estuary Low Water Reference Level (OLW)"/>
+        <list_entry value="international_great_lakes_datum_2020" diplay_value="International Great Lakes Datum 2020"/>
+        <list_entry value="sea_floor" diplay_value="Sea Floor"/>
+        <list_entry value="sea_surface" diplay_value="Sea Surface"/>
+        <list_entry value="hydrographic_zero" diplay_value="Hydrographic Zero"/>
     </chunk>
 
     <group name="E: Landmarks" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/E/E10.svg">
@@ -44,6 +101,9 @@
             <text key="s100:aidsToNavigation:landmark:elevation" text="Elevation" type="real"/>
             <text key="s100:aidsToNavigation:landmark:vertical_accuracy" text="Vertical Accuracy" type="real"/>
             <text key="s100:aidsToNavigation:landmark:vertical_length" text="Vertical Length" type="real"/>
+            <combo key="s100:aidsToNavigation:landmark:vertical_datum" text="Vertical Datum">
+                <reference ref="verticalDatum"/>
+            </combo>
         </item>
 
         <item name="Tanks (E32)" type="node,closedway">
@@ -72,10 +132,13 @@
 
             <item name="Lights in General" type="node,closedway">
                 <text key="s100:aidsToNavigation:light:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
-                <text key="s100:aidsToNavigation:light:vertical_accuracy" text="Vertical Accuracy" type="real"/>
-                <text key="s100:aidsToNavigation:light:candela" text="Candela" type="real"/>
-                <text key="s100:aidsToNavigation:light:value_of_geographic_range" text="Value of Geographic Range" type="real"/>
-                <text key="s100:aidsToNavigation:light:value_of_luminous_range" text="Value of Luminous Range" type="real"/>
+                <combo key="s100:aidsToNavigation:light:vertical_datum" text="Vertical Datum">
+                    <reference ref="verticalDatum"/>
+                </combo>
+                <text key="s100:aidsToNavigation:light:peak_intensity" text="Peak Intensity" type="real"/>
+                <text key="s100:aidsToNavigation:light:effective_intensity" text="Effective Intensity" type="real"/>
+                <text key="s100:aidsToNavigation:light:vertical_length" text="Vertical Length" type="real"/>
+                <text key="s100:aidsToNavigation:light:value_of_nominal_range" text="Value of Luminous Range" type="real"/>
             </item>
 
             <item name="Major and Minor Lights (P1)" type="node,closedway">
@@ -242,7 +305,10 @@
 
         <item name="Fog Signal (R1-R22)">
             <text key="s100:aidsToNavigation:fog_signal:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
-            <text key="s100:aidsToNavigation:fog_signal:signal_output" text="Signal Output" type="real"/>
+            <text key="s100:aidsToNavigation:fog_signal:signal_duration" text="Signal Duration" type="real"/>
+            <combo key="s100:aidsToNavigation:radar_transponder:signal_status" text="Signal Status">
+                <reference ref="signalStatus"/>
+            </combo>
         </item>
     </group>
 
@@ -250,6 +316,10 @@
 
         <item name="Racon (S3.1-S3.6)" icon="https://raw.githubusercontent.com/OpenNauticalChart/josm/master/icons/svg/S/S1.svg" type="node">
             <text key="s100:aidsToNavigation:radar_transponder:remote_monitoring_system" text="Remote Monitoring System" type="text"/>
+            <text key="s100:aidsToNavigation:radar_transponder:signal_duration" text="Signal Duration" type="real"/>
+            <combo key="s100:aidsToNavigation:radar_transponder:signal_status" text="Signal Status">
+                <reference ref="signalStatus"/>
+            </combo>
         </item>
 
         <item name="Radar Reflector (S4)">

@@ -101,9 +101,19 @@ public enum S201AtonTypes {
             "Supplementary Information",
             "Fog Signal (R1-R22)"
     }),
-    LIGHT("light", "Light", true, new String[] {
+    LIGHT_ALL_AROUND("light", "Light All Around", true, new String[] {
             "Supplementary Information",
             "Lights in General"
+    }),
+    LIGHT_SECTORED("light_sectored", "Light Sectored", true, new String[] {
+            "Supplementary Information",
+            "Lights in General",
+            "Sector 1",
+            "Sector 2",
+            "Sector 3",
+            "Sector 4",
+            "Sector 5",
+            "Sector 6"
     }),
     RADAR_REFLECTOR("radar_reflector", "Radar Reflector", true, new String[] {
             "Supplementary Information",

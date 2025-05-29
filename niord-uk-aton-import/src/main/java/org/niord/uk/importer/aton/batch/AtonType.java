@@ -38,8 +38,8 @@ import java.util.Optional;
  * @author Nikolaos Vastardis (email: Nikolaos.Vastardis@gla-rad.org)
  */
 public enum AtonType {
-    LIGHT("LIGHT", new S125AtonTypes[]{S125AtonTypes.LIGHT}),                           // 0: Light
-    SECTOR_LIGHT("SECTOR LIGHT", new S125AtonTypes[]{S125AtonTypes.LIGHT}),             // 1: Sector Light (Basically a Light)
+    LIGHT("LIGHT", new S125AtonTypes[]{S125AtonTypes.LIGHT_ALL_AROUND}),                // 0: Light All Around
+    SECTOR_LIGHT("LIGHT SECTORED", new S125AtonTypes[]{S125AtonTypes.LIGHT_SECTORED}),  // 1: Sector Light (Basically a Light)
     LIGHTHOUSE("LIGHTHOUSE", new S125AtonTypes[]{S125AtonTypes.LIGHTHOUSE}),            // 2: Lighthouse
     LIGHT_VESSEL("LIGHT VESSEL", new S125AtonTypes[]{S125AtonTypes.LIGHT_VESSEL}),      // 3: Light Vessel
     LIGHT_FLOAT("LIGHT FLOAT", new S125AtonTypes[]{S125AtonTypes.LIGHT_VESSEL}),        // 4: Light Float (Basically a Light Vessel)

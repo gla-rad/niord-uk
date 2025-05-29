@@ -16,7 +16,7 @@
 
 package org.niord.uk.s201.utils;
 
-import _int.iho.s201.gml.cs0._1.*;
+import _int.iho.s_201.gml.cs0._2.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -74,7 +74,7 @@ public class S201DatasetBuilderTest {
                 new AtonTag("s100:aidsToNavigation:generic_beacon:height", "3.0"),
                 new AtonTag("seamark:beacon_cardinal:system", "iala-a"),
                 new AtonTag("s100:aidsToNavigation:generic_beacon:nature_of_construction", "concreted"),
-                new AtonTag("s100:aidsToNavigation:generic_beacon:radar_conspicuous", "conspicuous"),
+                new AtonTag("s100:aidsToNavigation:generic_beacon:radar_conspicuous", "true"),
                 new AtonTag("s100:aidsToNavigation:generic_beacon:visually_conspicuous", "conspicuous"),
                 new AtonTag("seamark:status", "permanent")
                 ));
@@ -122,14 +122,14 @@ public class S201DatasetBuilderTest {
 
         // Finally look into the dataset members
         assertNotNull(dataset.getMembers());
-        assertNotNull(dataset.getMembers().getBeaconCardinal());
-        assertFalse(dataset.getMembers().getBeaconCardinal().isEmpty());
-        assertEquals(1, dataset.getMembers().getBeaconCardinal().size());
+        assertNotNull(dataset.getMembers().getCardinalBeacon());
+        assertFalse(dataset.getMembers().getCardinalBeacon().isEmpty());
+        assertEquals(1, dataset.getMembers().getCardinalBeacon().size());
         assertFalse(dataset.getMembers().getPowerSource().isEmpty());
         assertEquals(1, dataset.getMembers().getPowerSource().size());
 
         // We expect to have a single beacon cardinal
-        final BeaconCardinal result = (BeaconCardinal) dataset.getMembers().getBeaconCardinal().getFirst();
+        final CardinalBeacon result = (CardinalBeacon) dataset.getMembers().getCardinalBeacon().getFirst();
         assertEquals("ID001", result.getId());
         assertEquals(CategoryOfCardinalMarkType.NORTH_CARDINAL_MARK, result.getCategoryOfCardinalMark());
         assertEquals(BeaconShapeType.STAKE_POLE_PERCH_POST, result.getBeaconShape());
@@ -144,7 +144,7 @@ public class S201DatasetBuilderTest {
         assertNotNull(result.getNatureOfConstructions());
         assertFalse(result.getNatureOfConstructions().isEmpty());
         assertEquals(NatureOfConstructionType.CONCRETED, result.getNatureOfConstructions().getFirst());
-        assertEquals(RadarConspicuousType.RADAR_CONSPICUOUS, result.getRadarConspicuous());
+        assertTrue(result.isRadarConspicuous());
         assertEquals(VisualProminenceType.VISUALLY_CONSPICUOUS, result.getVisualProminence());
         assertNotNull(result.getStatuses());
         assertFalse(result.getStatuses().isEmpty());
@@ -155,7 +155,7 @@ public class S201DatasetBuilderTest {
         assertEquals("ID002", resultEquipment.getId());
         assertEquals(CategoryOfPowerSourceType.BATTERY, resultEquipment.getCategoryOfPowerSource());
         assertEquals("test", resultEquipment.getManufacturer());
-        assertEquals(StatusType.PERMANENT, resultEquipment.getStatus());
+        assertEquals(StatusType.PERMANENT, resultEquipment.getStatuses().getFirst());
     }
 
 }

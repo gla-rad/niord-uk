@@ -26,9 +26,12 @@
     <!-- Discard all other groups -->
     <xsl:template match="group" />
 
-    <xsl:template match="item[descendant::node()[contains(@key, ':2:') or contains(@key, ':3:') or contains(@key, ':4:') or contains(@key, ':5:') or contains(@key, ':6:')]]">
-        <!-- skip if sub-node has indexed keys > 1 -->
+    <xsl:template match="group[@name='Seamarks' and ancestor-or-self::group[@name='Directional Lights (P30)']]">
+        <!-- skip if directional light sectors > -->
     </xsl:template>
+    <!--<xsl:template match="item[descendant::node()[contains(@key, ':2:') or contains(@key, ':3:') or contains(@key, ':4:') or contains(@key, ':5:') or contains(@key, ':6:')]]">-->
+        <!-- skip if sub-node has indexed keys > 1 -->
+    <!--</xsl:template>-->
 
     <xsl:template match="item">
         <node-type>

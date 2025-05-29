@@ -26,9 +26,12 @@
     <!-- Discard all other groups -->
     <xsl:template match="group" />
 
-    <xsl:template match="item[descendant::node()[contains(@key, ':2:') or contains(@key, ':3:') or contains(@key, ':4:') or contains(@key, ':5:') or contains(@key, ':6:')]]">
-        <!-- skip if sub-node has indexed keys > 1 -->
+    <xsl:template match="group[@name='Seamarks' and ancestor-or-self::group[@name='Directional Lights (P30)']]">
+        <!-- skip if directional light sectors > -->
     </xsl:template>
+    <!--<xsl:template match="item[descendant::node()[contains(@key, ':2:') or contains(@key, ':3:') or contains(@key, ':4:') or contains(@key, ':5:') or contains(@key, ':6:')]]">-->
+        <!-- skip if sub-node has indexed keys > -->
+    <!--</xsl:template>-->
 
     <xsl:template match="item">
         <node-type>
@@ -40,7 +43,7 @@
     </xsl:template>
 
     <!-- Filter chunks by ID -->
-    <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns' or @id='colour_pattern' or @id='construction']">
+    <xsl:template match="chunk[@id='lightcolours' or @id='othercolours' or @id='rightlateralcolours' or @id='leftlateralcolours' or @id='cardinalcolours' or @id='lightchars' or @id='lightcats' or @id='lightexhibs' or @id='lightvisis' or @id='patterns' or @id='colour_pattern' or @id='construction' or @id='signalStatus' or @id='verticalDatum']">
         <tag-values>
             <xsl:attribute name="id">
                 <xsl:value-of select="@id"/>
