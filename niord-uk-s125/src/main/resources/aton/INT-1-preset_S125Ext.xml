@@ -386,7 +386,7 @@
         </item>
 
         <item name="AIS transmitter (S17.1-S17.2)" type="node,closedway">
-            <key key="seamark:type" value="radio_station"/>
+            <key key="seamark:type" value="ais_station"/>
             <key key="seamark:radio_station:category" value="ais"/>
             <combo key="s100:aidsToNavigation:ais_aid_to_navigation:category_ais_aid_to_navigation" text="AIS AtoN Type">
                 <list_entry value="physical_ais_aton"/>

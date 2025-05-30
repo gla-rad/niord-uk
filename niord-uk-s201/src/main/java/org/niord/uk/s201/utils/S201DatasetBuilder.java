@@ -227,6 +227,14 @@ public class S201DatasetBuilder {
                     this.generateLighthouse(atonNode);
             case LIGHT_VESSEL ->
                     this.generateLightVessel(atonNode);
+            case PHYSICAL_AIS_ATON ->
+                    Optional.of("s100:aidsToNavigation:ais_aid_to_navigation:category_ais_aid_to_navigation")
+                            .map(atonNode::getTag)
+                            .map(AtonTag::getV)
+                            .filter("synthetic_ais_aton"::equals)
+                            .isPresent()?
+                            this.generateSyntheticAISAtoN(atonNode):
+                            this.generatePhysicalAISAtoN(atonNode);
             case VIRTUAL_ATON ->
                     this.generateVirtualAtoN(atonNode);
             //=========================//
@@ -252,8 +260,6 @@ public class S201DatasetBuilder {
                     this.generateRadioStation(atonNode);
             case RADAR_TRANSPONDER ->
                     this.generateRadarTransponderBeacon(atonNode);
-            case PHYSICAL_AIS_ATON ->
-                    this.generatePhysicalAISAtoN(atonNode);
             case POWER_SOURCE ->
                     this.generatePowerSource(atonNode);
             default -> null;
@@ -1611,6 +1617,84 @@ public class S201DatasetBuilder {
     }
 
     /**
+     * Generate the S-201 Dataset member section for physical AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-201 Dataset member section generated
+     */
+    protected PhysicalAISAidToNavigation generatePhysicalAISAtoN(AtonNode atonNode) {
+        final PhysicalAISAidToNavigation member = new PhysicalAISAidToNavigationImpl();
+        final String tagKeyPrefix = "seamark:radio_station:";
+        final String s100TagKeyPrefix = "s100:aidsToNavigation:ais_aid_to_navigation:";
+        this.populateS201AidsToNavigationFields(member, atonNode);
+        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseStatus)
+                .orElse(null));
+
+        // Now fix the geometry...
+        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
+                )
+                .stream()
+                .filter(PhysicalAISAidToNavigationImpl.Geometry.class::isInstance)
+                .map(PhysicalAISAidToNavigationImpl.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
+     * Generate the S-201 Dataset member section for physical AtoNs.
+     *
+     * @param atonNode      The AtoN node to be used for the member
+     * @return The S-201 Dataset member section generated
+     */
+    protected SyntheticAISAidToNavigation generateSyntheticAISAtoN(AtonNode atonNode) {
+        final SyntheticAISAidToNavigation member = new SyntheticAISAidToNavigationImpl();
+        final String tagKeyPrefix = "seamark:radio_station:";
+        final String s100TagKeyPrefix = "s100:aidsToNavigation:ais_aid_to_navigation:";
+        this.populateS201AidsToNavigationFields(member, atonNode);
+        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .filter(StringUtils::isNotBlank)
+                .orElse(null));
+        member.getStatuses().add(Optional.of("seamark:status")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(S201EnumParser::parseStatus)
+                .orElse(null));
+        member.setVirtualAISAidToNavigationType(Optional.of("seamark:virtual_aton:category")
+                .map(atonNode::getTag)
+                .map(AtonTag::getV)
+                .map(v -> v.replace(" ", "_"))
+                .map(S201EnumParser::parseVirtualAisAidToNavigationType)
+                .orElse(VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE));
+
+        // Now fix the geometry...
+        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+                        member.getClass(),
+                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
+                )
+                .stream()
+                .filter(SyntheticAISAidToNavigationImpl.Geometry.class::isInstance)
+                .map(SyntheticAISAidToNavigationImpl.Geometry.class::cast)
+                .forEach(member.getGeometries()::add);
+
+        // And return the populated member
+        return member;
+    }
+
+    /**
      * Generate the S-201 Dataset member section for Virtual AtoNs.
      *
      * @param atonNode      The AtoN node to be used for the member
@@ -2566,42 +2650,6 @@ public class S201DatasetBuilder {
                 .stream()
                 .filter(RadarTransponderBeaconImpl.Geometry.class::isInstance)
                 .map(RadarTransponderBeaconImpl.Geometry.class::cast)
-                .forEach(member.getGeometries()::add);
-
-        // And return the populated member
-        return member;
-    }
-
-    /**
-     * Generate the S-201 Dataset member section for physical AtoNs.
-     *
-     * @param atonNode      The AtoN node to be used for the member
-     * @return The S-201 Dataset member section generated
-     */
-    protected PhysicalAISAidToNavigation generatePhysicalAISAtoN(AtonNode atonNode) {
-        final PhysicalAISAidToNavigation member = new PhysicalAISAidToNavigationImpl();
-        final String tagKeyPrefix = "seamark:radio_station:";
-        final String s100TagKeyPrefix = "s100:aidsToNavigation:ais_aid_to_navigation:";
-        this.populateS201AidsToNavigationFields(member, atonNode);
-        member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .orElse(null));
-        member.getStatuses().add(Optional.of("seamark:status")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .map(S201EnumParser::parseStatus)
-                .orElse(null));
-
-        // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
-                        member.getClass(),
-                        Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
-                )
-                .stream()
-                .filter(PhysicalAISAidToNavigationImpl.Geometry.class::isInstance)
-                .map(PhysicalAISAidToNavigationImpl.Geometry.class::cast)
                 .forEach(member.getGeometries()::add);
 
         // And return the populated member

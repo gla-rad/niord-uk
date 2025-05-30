@@ -483,7 +483,6 @@ public class S201EnumParser {
                     yield null;
                 }
             }
-
         };
     }
 

@@ -16,7 +16,7 @@
 
 package org.niord.uk.s125.utils;
 
-import _int.iho.s125.gml.cs0._1.*;
+import _int.iho.s_125.gml.cs0._1.*;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -96,7 +96,7 @@ public class S125EnumParserTest {
     @Test
     public void testParseNatureOfConstruction() {
         assertEquals(NatureOfConstructionType.MASONRY, S125EnumParser.parseNatureOfConstruction("masonry"));
-        assertEquals(NatureOfConstructionType.HARD_SURFACE, S125EnumParser.parseNatureOfConstruction("hard-surfaced"));
+        assertEquals(NatureOfConstructionType.HARD_SURFACED, S125EnumParser.parseNatureOfConstruction("hard-surfaced"));
         assertEquals(NatureOfConstructionType.CONCRETED, S125EnumParser.parseNatureOfConstruction("concreted"));
         assertEquals(NatureOfConstructionType.LOOSE_BOULDERS, S125EnumParser.parseNatureOfConstruction("loose_boulders"));
         assertEquals(NatureOfConstructionType.WOODEN, S125EnumParser.parseNatureOfConstruction("wooden"));
@@ -119,7 +119,7 @@ public class S125EnumParserTest {
         assertEquals(StatusType.PRIVATE, S125EnumParser.parseStatus("private"));
         assertEquals(StatusType.PUBLIC, S125EnumParser.parseStatus("public"));
         assertEquals(StatusType.WATCHED, S125EnumParser.parseStatus("watched"));
-        assertEquals(StatusType.UN_WATCHED, S125EnumParser.parseStatus("unwatched"));
+        assertEquals(StatusType.UNWATCHED, S125EnumParser.parseStatus("unwatched"));
         assertEquals(StatusType.CONFIRMED, S125EnumParser.parseStatus("confirmed"));
         assertEquals(StatusType.CANDIDATE, S125EnumParser.parseStatus("candidate"));
         assertEquals(StatusType.UNDER_MODIFICATION, S125EnumParser.parseStatus("under_modification"));
@@ -127,19 +127,7 @@ public class S125EnumParserTest {
         assertEquals(StatusType.UNDER_REMOVAL_DELETION, S125EnumParser.parseStatus("under_removal/deletion"));
         assertEquals(StatusType.REMOVED_DELETED, S125EnumParser.parseStatus("removed/deleted"));
         assertEquals(StatusType.EXPERIMENTAL, S125EnumParser.parseStatus("experimental"));
-        assertEquals(StatusType.TEMPORARILY_DISCONTINUED, S125EnumParser.parseStatus("temporarily discontinued"));
-        assertEquals(StatusType.TEMPORARILY_RELOCATED, S125EnumParser.parseStatus("temporarily relocated"));
         assertNull(S125EnumParser.parseStatus("error"));
-    }
-
-    /**
-     * Test that we can successfully parse the radar conspicuous enum.
-     */
-    @Test
-    public void testParseRadarConspicuous() {
-        assertEquals(RadarConspicuousType.RADAR_CONSPICUOUS, S125EnumParser.parseRadarConspicuous("conspicuous"));
-        assertEquals(RadarConspicuousType.NOT_RADAR_CONSPICUOUS, S125EnumParser.parseRadarConspicuous("not_conspicuous"));
-        assertNull(S125EnumParser.parseRadarConspicuous("error"));
     }
 
     /**
@@ -169,8 +157,8 @@ public class S125EnumParserTest {
      */
     @Test
     public void testParseCategoryOfInstallationBuoy() {
-        assertEquals(CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING_CALM, S125EnumParser.parseCategoryOfInstallationBuoy("calm"));
-        assertEquals(CategoryOfInstallationBuoyType.SINGLE_BUOY_MOORING_SBM_OR_SPM, S125EnumParser.parseCategoryOfInstallationBuoy("sbm"));
+        assertEquals(CategoryOfInstallationBuoyType.CATENARY_ANCHOR_LEG_MOORING, S125EnumParser.parseCategoryOfInstallationBuoy("calm"));
+        assertEquals(CategoryOfInstallationBuoyType.SINGLE_BUOY_MOORING, S125EnumParser.parseCategoryOfInstallationBuoy("sbm"));
         assertNull(S125EnumParser.parseCategoryOfInstallationBuoy("error"));
     }
 
@@ -187,17 +175,17 @@ public class S125EnumParserTest {
         assertEquals(CategoryOfSpecialPurposeMarkType.CABLE_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("cable"));
         assertEquals(CategoryOfSpecialPurposeMarkType.SPOIL_GROUND_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("spoil_ground"));
         assertEquals(CategoryOfSpecialPurposeMarkType.OUTFALL_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("outfall"));
-        assertEquals(CategoryOfSpecialPurposeMarkType.ODAS_OCEAN_DATA_ACQUISITION_SYSTEM, S125EnumParser.parseCategoryOfSpecialPurposeMark("odas"));
+        assertEquals(CategoryOfSpecialPurposeMarkType.ODAS, S125EnumParser.parseCategoryOfSpecialPurposeMark("odas"));
         assertEquals(CategoryOfSpecialPurposeMarkType.RECORDING_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("recording"));
         assertEquals(CategoryOfSpecialPurposeMarkType.SEAPLANE_ANCHORAGE_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("seaplane_anchorage"));
         assertEquals(CategoryOfSpecialPurposeMarkType.RECREATION_ZONE_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("recreation_zone"));
         assertEquals(CategoryOfSpecialPurposeMarkType.PRIVATE_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("private"));
         assertEquals(CategoryOfSpecialPurposeMarkType.MOORING_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("mooring"));
-        assertEquals(CategoryOfSpecialPurposeMarkType.LANBY_LARGE_AUTOMATIC_NAVIGATIONAL_BUOY, S125EnumParser.parseCategoryOfSpecialPurposeMark("lanby"));
+        assertEquals(CategoryOfSpecialPurposeMarkType.LANBY, S125EnumParser.parseCategoryOfSpecialPurposeMark("lanby"));
         assertEquals(CategoryOfSpecialPurposeMarkType.LEADING_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("leading"));
         assertEquals(CategoryOfSpecialPurposeMarkType.MEASURED_DISTANCE_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("measured_distance"));
         assertEquals(CategoryOfSpecialPurposeMarkType.NOTICE_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("notice"));
-        assertEquals(CategoryOfSpecialPurposeMarkType.TSS_MARK_TRAFFIC_SEPARATION_SCHEME, S125EnumParser.parseCategoryOfSpecialPurposeMark("tss"));
+        assertEquals(CategoryOfSpecialPurposeMarkType.TSS_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("tss"));
         assertEquals(CategoryOfSpecialPurposeMarkType.ANCHORING_PROHIBITED_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("no_anchoring"));
         assertEquals(CategoryOfSpecialPurposeMarkType.BERTHING_PROHIBITED_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("no_berthing"));
         assertEquals(CategoryOfSpecialPurposeMarkType.OVERTAKING_PROHIBITED_MARK, S125EnumParser.parseCategoryOfSpecialPurposeMark("no_overtaking"));
@@ -280,13 +268,13 @@ public class S125EnumParserTest {
      */
     @Test
     public void testParseBuoyShape() {
-        assertEquals(BuoyShapeType.CONICAL_NUN_OGIVAL, S125EnumParser.parseBuoyShape("conical"));
-        assertEquals(BuoyShapeType.CAN_CYLINDRICAL, S125EnumParser.parseBuoyShape("can"));
+        assertEquals(BuoyShapeType.CONICAL, S125EnumParser.parseBuoyShape("conical"));
+        assertEquals(BuoyShapeType.CAN, S125EnumParser.parseBuoyShape("can"));
         assertEquals(BuoyShapeType.SPHERICAL, S125EnumParser.parseBuoyShape("spherical"));
-        assertEquals(BuoyShapeType.SUPER_BUOY, S125EnumParser.parseBuoyShape("super-buoy"));
+        assertEquals(BuoyShapeType.SUPERBUOY, S125EnumParser.parseBuoyShape("super-buoy"));
         assertEquals(BuoyShapeType.PILLAR, S125EnumParser.parseBuoyShape("pillar"));
-        assertEquals(BuoyShapeType.SPAR_SPINDLE, S125EnumParser.parseBuoyShape("spar"));
-        assertEquals(BuoyShapeType.BARREL_TUN, S125EnumParser.parseBuoyShape("barrel"));
+        assertEquals(BuoyShapeType.SPAR, S125EnumParser.parseBuoyShape("spar"));
+        assertEquals(BuoyShapeType.BARREL, S125EnumParser.parseBuoyShape("barrel"));
         assertEquals(BuoyShapeType.ICE_BUOY, S125EnumParser.parseBuoyShape("ice-buoy"));
         assertNull(S125EnumParser.parseBuoyShape("error"));
     }
@@ -299,7 +287,6 @@ public class S125EnumParserTest {
         assertEquals(CategoryOfLightType.LEADING_LIGHT, S125EnumParser.parseLightCategory("leading"));
         assertEquals(CategoryOfLightType.AERO_LIGHT, S125EnumParser.parseLightCategory("aero"));
         assertEquals(CategoryOfLightType.AIR_OBSTRUCTION_LIGHT, S125EnumParser.parseLightCategory("air_obstruction"));
-        assertEquals(CategoryOfLightType.FOG_DETECTOR_LIGHT, S125EnumParser.parseLightCategory("fog_detector"));
         assertEquals(CategoryOfLightType.FLOOD_LIGHT, S125EnumParser.parseLightCategory("floodlight"));
         assertEquals(CategoryOfLightType.STRIP_LIGHT, S125EnumParser.parseLightCategory("strip_light"));
         assertEquals(CategoryOfLightType.SUBSIDIARY_LIGHT, S125EnumParser.parseLightCategory("subsidiary"));
@@ -311,7 +298,6 @@ public class S125EnumParserTest {
         assertEquals(CategoryOfLightType.EMERGENCY, S125EnumParser.parseLightCategory("emergency"));
         assertEquals(CategoryOfLightType.HORIZONTALLY_DISPOSED, S125EnumParser.parseLightCategory("horizontal"));
         assertEquals(CategoryOfLightType.VERTICALLY_DISPOSED, S125EnumParser.parseLightCategory("vertical"));
-        assertEquals(CategoryOfLightType.BRIDGE_LIGHT, S125EnumParser.parseLightCategory("bridge_light"));
         assertNull(S125EnumParser.parseLightCategory("error"));
     }
 
@@ -325,12 +311,8 @@ public class S125EnumParserTest {
         assertEquals(LightCharacteristicType.LONG_FLASHING, S125EnumParser.parseLightCharacter("LFl"));
         assertEquals(LightCharacteristicType.QUICK_FLASHING, S125EnumParser.parseLightCharacter("Q"));
         assertEquals(LightCharacteristicType.VERY_QUICK_FLASHING, S125EnumParser.parseLightCharacter("VQ"));
-        assertEquals(LightCharacteristicType.ULTRA_QUICK_FLASHING, S125EnumParser.parseLightCharacter("UQ"));
         assertEquals(LightCharacteristicType.ISOPHASED, S125EnumParser.parseLightCharacter("Iso"));
         assertEquals(LightCharacteristicType.OCCULTING, S125EnumParser.parseLightCharacter("Oc"));
-        assertEquals(LightCharacteristicType.INTERRUPTED_QUICK_FLASHING, S125EnumParser.parseLightCharacter("IQ"));
-        assertEquals(LightCharacteristicType.INTERRUPTED_VERY_QUICK_FLASHING, S125EnumParser.parseLightCharacter("IVQ"));
-        assertEquals(LightCharacteristicType.INTERRUPTED_ULTRA_QUICK_FLASHING, S125EnumParser.parseLightCharacter("IUQ"));
         assertEquals(LightCharacteristicType.MORSE, S125EnumParser.parseLightCharacter("Mo"));
         assertEquals(LightCharacteristicType.FIXED_AND_FLASH, S125EnumParser.parseLightCharacter("FFl"));
         assertEquals(LightCharacteristicType.FLASH_AND_LONG_FLASH, S125EnumParser.parseLightCharacter("FlLFl"));
@@ -339,8 +321,8 @@ public class S125EnumParserTest {
         assertEquals(LightCharacteristicType.OCCULTING_ALTERNATING, S125EnumParser.parseLightCharacter("Al.Oc"));
         assertEquals(LightCharacteristicType.LONG_FLASH_ALTERNATING, S125EnumParser.parseLightCharacter("Al.LFl"));
         assertEquals(LightCharacteristicType.FLASH_ALTERNATING, S125EnumParser.parseLightCharacter("Al.Fl"));
-        assertEquals(LightCharacteristicType.FLASH_ALTERNATING, S125EnumParser.parseLightCharacter("Al.FFl"));
-        assertEquals(LightCharacteristicType.FLASH_ALTERNATING, S125EnumParser.parseLightCharacter("Al.Gr"));
+        assertEquals(LightCharacteristicType.FIXED_AND_ALTERNATING_FLASHING, S125EnumParser.parseLightCharacter("Al.FFl"));
+        assertEquals(LightCharacteristicType.GROUP_ALTERNATING, S125EnumParser.parseLightCharacter("Al.Gr"));
         assertEquals(LightCharacteristicType.QUICK_FLASH_PLUS_LONG_FLASH, S125EnumParser.parseLightCharacter("Q+LFl"));
         assertEquals(LightCharacteristicType.VERY_QUICK_FLASH_PLUS_LONG_FLASH, S125EnumParser.parseLightCharacter("VQ+LFl"));
         assertEquals(LightCharacteristicType.ULTRA_QUICK_FLASH_PLUS_LONG_FLASH, S125EnumParser.parseLightCharacter("UQ+LFl"));
@@ -376,10 +358,18 @@ public class S125EnumParserTest {
         assertEquals(ColourType.YELLOW, S125EnumParser.parseColour("yellow"));
         assertEquals(ColourType.GREY, S125EnumParser.parseColour("grey"));
         assertEquals(ColourType.BROWN, S125EnumParser.parseColour("brown"));
-        assertEquals(ColourType.FLUORESCENT_WHITE, S125EnumParser.parseColour("fluorescent_white"));
-        assertEquals(ColourType.FLUORESCENT_RED, S125EnumParser.parseColour("fluorescent_red"));
-        assertEquals(ColourType.FLUORESCENT_GREEN, S125EnumParser.parseColour("fluorescent_green"));
-        assertEquals(ColourType.FLUORESCENT_ORANGE, S125EnumParser.parseColour("fluorescent_orange"));
+        assertEquals(ColourType.AMBER, S125EnumParser.parseColour("amber"));
+        assertEquals(ColourType.VIOLET, S125EnumParser.parseColour("violet"));
+        assertEquals(ColourType.ORANGE, S125EnumParser.parseColour("orange"));
+        assertEquals(ColourType.MAGENTA, S125EnumParser.parseColour("magenta"));
+        assertEquals(ColourType.PINK, S125EnumParser.parseColour("pink"));
+        assertEquals(ColourType.GREEN_A, S125EnumParser.parseColour("green A"));
+        assertEquals(ColourType.GREEN_B, S125EnumParser.parseColour("green B"));
+        assertEquals(ColourType.WHITE_TEMPORARY, S125EnumParser.parseColour("white temporary"));
+        assertEquals(ColourType.RED_TEMPORARY, S125EnumParser.parseColour("red temporary"));
+        assertEquals(ColourType.YELLOW_TEMPORARY, S125EnumParser.parseColour("yellow temporary"));
+        assertEquals(ColourType.GREEN_PREFERRED, S125EnumParser.parseColour("green preferred"));
+        assertEquals(ColourType.GREEN_TEMPORARY, S125EnumParser.parseColour("green temporary"));
         assertNull(S125EnumParser.parseColour("error"));
     }
 

@@ -85,6 +85,10 @@ public enum S125AtonTypes {
             "Supplementary Information",
             "Major Floating Light (P6)"
     }),
+    PHYSICAL_AIS_ATON("ais_station", "Physical AIS AtoN", false, new String[] {
+            "Supplementary Information",
+            "AIS transmitter (S17.1-S17.2)"
+    }),
     VIRTUAL_ATON("virtual_aton", "Virtual AtoN", false, new String[] {
             "Supplementary Information",
             "Virtual AIS transmitter (S18.1-S18.7)"
@@ -139,10 +143,6 @@ public enum S125AtonTypes {
     RADAR_TRANSPONDER("radar_transponder", "RACON", true, new String[] {
             "Supplementary Information",
             "Racon (S3.1-S3.6)"
-    }),
-    PHYSICAL_AIS_ATON("ais_station", "Physical AIS AtoN", true, new String[] {
-            "Supplementary Information",
-            "AIS transmitter (S17.1-S17.2)"
     });
 
     // Enum Variables

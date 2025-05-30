@@ -395,6 +395,18 @@ public class S201EnumParserTest {
         assertEquals(ColourType.YELLOW, S201EnumParser.parseColour("yellow"));
         assertEquals(ColourType.GREY, S201EnumParser.parseColour("grey"));
         assertEquals(ColourType.BROWN, S201EnumParser.parseColour("brown"));
+        assertEquals(ColourType.AMBER, S201EnumParser.parseColour("amber"));
+        assertEquals(ColourType.VIOLET, S201EnumParser.parseColour("violet"));
+        assertEquals(ColourType.ORANGE, S201EnumParser.parseColour("orange"));
+        assertEquals(ColourType.MAGENTA, S201EnumParser.parseColour("magenta"));
+        assertEquals(ColourType.PINK, S201EnumParser.parseColour("pink"));
+        assertEquals(ColourType.GREEN_A, S201EnumParser.parseColour("green A"));
+        assertEquals(ColourType.GREEN_B, S201EnumParser.parseColour("green B"));
+        assertEquals(ColourType.WHITE_TEMPORARY, S201EnumParser.parseColour("white temporary"));
+        assertEquals(ColourType.RED_TEMPORARY, S201EnumParser.parseColour("red temporary"));
+        assertEquals(ColourType.YELLOW_TEMPORARY, S201EnumParser.parseColour("yellow temporary"));
+        assertEquals(ColourType.GREEN_PREFERRED, S201EnumParser.parseColour("green preferred"));
+        assertEquals(ColourType.GREEN_TEMPORARY, S201EnumParser.parseColour("green temporary"));
         assertNull(S201EnumParser.parseColour("error"));
     }
 
