@@ -1271,12 +1271,6 @@ public class S125DatasetBuilder {
         final String tagKeyPrefix = "seamark:radio_station:";
         final String s100TagKeyPrefix = "s100:aidsToNavigation:ais_aid_to_navigation:";
         this.populateS125AidsToNavigationFields(member, atonNode);
-        member.setEstimatedRangeOfTransmission(Optional.of(s100TagKeyPrefix+"estimated_range_of_transmission")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .map(Double::parseDouble)
-                .orElse(null));
         member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1319,12 +1313,6 @@ public class S125DatasetBuilder {
         final String tagKeyPrefix = "seamark:radio_station:";
         final String s100TagKeyPrefix = "s100:aidsToNavigation:ais_aid_to_navigation:";
         this.populateS125AidsToNavigationFields(member, atonNode);
-        member.setEstimatedRangeOfTransmission(Optional.of(s100TagKeyPrefix+"estimated_range_of_transmission")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .map(Double::parseDouble)
-                .orElse(null));
         member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1361,12 +1349,6 @@ public class S125DatasetBuilder {
         final String tagKeyPrefix = "seamark:radio_station:";
         final String s100TagKeyPrefix = "s100:aidsToNavigation:virtual_ais_aid_to_navigation:";
         this.populateS125AidsToNavigationFields(member, atonNode);
-        member.setEstimatedRangeOfTransmission(Optional.of(s100TagKeyPrefix+"estimated_range_of_transmission")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .map(Double::parseDouble)
-                .orElse(null));
         member.setMMSICode(Optional.of(tagKeyPrefix+"mmsi")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)

@@ -155,7 +155,6 @@ public class S125DatasetBuilderTest {
         final PhysicalAISAidToNavigation resultEquipment = (PhysicalAISAidToNavigation) dataset.getMembers().getPhysicalAISAidToNavigation().getFirst();
         assertEquals("ID002", resultEquipment.getId());
         assertEquals("123123123", resultEquipment.getMMSICode());
-        assertEquals(Double.valueOf(3), resultEquipment.getEstimatedRangeOfTransmission());
         assertNotNull(resultEquipment.getStatuses());
         assertFalse(resultEquipment.getStatuses().isEmpty());
         assertEquals(StatusType.PERMANENT, resultEquipment.getStatuses().getFirst());
