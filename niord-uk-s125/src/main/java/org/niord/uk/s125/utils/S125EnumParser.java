@@ -72,7 +72,23 @@ public class S125EnumParser {
     }
 
     /**
-     * Translates the virtual AtoN category from the INT-1.preset.xml to the 
+     * Translates the physical AtoN category from the INT-1.preset.xml to the
+     * S-125 Physical AIS Aid Navigation Purpose Type enum.
+     *
+     * @param physicalAisAidsToNavigationType        The INT-1-preset.xml virtual AtoN category
+     * @return the S-201 Physical AIS Aid Navigation Purpose Type
+     */
+    public static CategoryOfPhysicalAISAidToNavigationType parsePhysicalAisAidToNavigationType(String physicalAisAidsToNavigationType) {
+        return switch (physicalAisAidsToNavigationType) {
+            case "ais_type_1" -> CategoryOfPhysicalAISAidToNavigationType.PHYSICAL_AIS_TYPE_1;
+            case "ais_type_2" -> CategoryOfPhysicalAISAidToNavigationType.PHYSICAL_AIS_TYPE_2;
+            case "ais_type_3" -> CategoryOfPhysicalAISAidToNavigationType.PHYSICAL_AIS_TYPE_3;
+            default -> null;
+        };
+    }
+
+    /**
+     * Translates the virtual AtoN category from the INT-1.preset.xml to the
      * S-125 Virtual AIS Aid Navigation Purpose Type enum.
      *
      * @param virtualAisAidsToNavigationType        The INT-1-preset.xml virtual AtoN category
@@ -95,7 +111,7 @@ public class S125EnumParser {
             default -> null;
         };
     }
-    
+
     /**
      * Translates the construction from the INT-1.preset.xml to the S-125
      * Nature Of Construction enum.

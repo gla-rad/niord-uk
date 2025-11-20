@@ -1281,12 +1281,12 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .map(S125EnumParser::parseStatus)
                 .orElse(null));
-        member.setVirtualAISAidToNavigationType(Optional.of("seamark:virtual_aton:category")
+        member.setCategoryOfPhysicalAISAidToNavigation(Optional.of("seamark:virtual_aton:category")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .map(v -> v.replace(" ", "_"))
-                .map(S125EnumParser::parseVirtualAisAidToNavigationType)
-                .orElse(VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE));
+                .map(S125EnumParser::parsePhysicalAisAidToNavigationType)
+                .orElse(null));
 
         // Now fix the geometry...
         S125Utils.generateS125AidsToNavigationTypeGeometriesList(
@@ -1566,13 +1566,6 @@ public class S125DatasetBuilder {
                 .filter(StringUtils::isNotBlank)
                 .map(S125EnumParser::parseVerticalDatum)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .filter(NumberUtils::isCreatable)
-                .map(Double::parseDouble)
-                .orElse(null));
         member.setSignalGeneration(Optional.of(s100TagKeyPrefix+"signal_generation")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -1643,13 +1636,6 @@ public class S125DatasetBuilder {
                 .map(AtonTag::getV)
                 .filter(StringUtils::isNotBlank)
                 .map(S125EnumParser::parseVerticalDatum)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .filter(NumberUtils::isCreatable)
-                .map(Double::parseDouble)
                 .orElse(null));
         member.setSignalGeneration(Optional.of(s100TagKeyPrefix+"signal_generation")
                 .map(atonNode::getTag)

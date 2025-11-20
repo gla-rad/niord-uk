@@ -412,7 +412,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -523,7 +523,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -630,7 +630,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -736,7 +736,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -848,7 +848,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -935,7 +935,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1021,7 +1021,7 @@ public class S201DatasetBuilder {
                 .map(Double::parseDouble)
                 .orElse(null));
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1108,7 +1108,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1190,7 +1190,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1272,7 +1272,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1359,7 +1359,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1465,7 +1465,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1545,7 +1545,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1603,7 +1603,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1639,7 +1639,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1681,7 +1681,7 @@ public class S201DatasetBuilder {
                 .orElse(VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1723,7 +1723,7 @@ public class S201DatasetBuilder {
                 .orElse(VirtualAISAidToNavigationTypeType.SPECIAL_PURPOSE));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1825,7 +1825,7 @@ public class S201DatasetBuilder {
                 .orElse(false));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1888,7 +1888,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -1991,13 +1991,6 @@ public class S201DatasetBuilder {
                 .filter(NumberUtils::isCreatable)
                 .map(Double::parseDouble)
                 .orElse(null));
-        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .filter(NumberUtils::isCreatable)
-                .map(Double::parseDouble)
-                .orElse(null));
         member.setSignalGeneration(Optional.of(s100TagKeyPrefix+"signal_generation")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
@@ -2044,7 +2037,7 @@ public class S201DatasetBuilder {
         member.setRhythmOfLight(rhythmOfLightType);
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2129,13 +2122,6 @@ public class S201DatasetBuilder {
                 .map(Double::parseDouble)
                 .orElse(null));
         member.setPeakIntensity(Optional.of(s100TagKeyPrefix+"peak_intensity")
-                .map(atonNode::getTag)
-                .map(AtonTag::getV)
-                .filter(StringUtils::isNotBlank)
-                .filter(NumberUtils::isCreatable)
-                .map(Double::parseDouble)
-                .orElse(null));
-        member.setVerticalLength(Optional.of(s100TagKeyPrefix+"vertical_length")
                 .map(atonNode::getTag)
                 .map(AtonTag::getV)
                 .filter(StringUtils::isNotBlank)
@@ -2243,7 +2229,7 @@ public class S201DatasetBuilder {
 
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2295,7 +2281,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2355,7 +2341,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2430,7 +2416,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2484,7 +2470,7 @@ public class S201DatasetBuilder {
                 .orElse(null));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2527,7 +2513,7 @@ public class S201DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2643,7 +2629,7 @@ public class S201DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
@@ -2691,7 +2677,7 @@ public class S201DatasetBuilder {
                 .orElse(Collections.emptyList()));
 
         // Now fix the geometry...
-        S201Utils.generateS201AidsToNavigationTypeGeometriesList(
+        S201Utils.generateS201AbstractFeatureGeometriesList(
                         member.getClass(),
                         Collections.singletonList(this.generatePointProperty(Arrays.asList(atonNode.getLat(), atonNode.getLon())))
                 )
