@@ -26,11 +26,11 @@ and Ireland.
 
 ## Prerequisites
 
-* Java 21
+* Java 25
 * Maven 3.8.8
 * MySQL 8.0.30+ (NB: proper spatial support is a requirement)
 * Quarkus 2.7+
-* JBoss Keycloak 21+
+* JBoss Keycloak 25+
 * Apache ActiveMQ (preferably Artemis - Optional)
 
 ## Development Set-Up
